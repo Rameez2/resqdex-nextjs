@@ -1,10 +1,10 @@
 import Image from "next/image"
 import Link from "next/link"
-import { ChevronDown, Heart, ArrowRight } from "lucide-react"
+import { Heart, ArrowRight } from "lucide-react"
 
 const PetCard = () => {
     return (
-        <div className="bg-white rounded-lg overflow-hidden border border-gray-100 relative">
+        <div className="bg-white rounded-lg overflow-hidden border border-gray-100 relative min-w-[16rem] max-w-[20rem] flex-shrink-0">
         <button className="absolute top-4 right-4 text-gray-500 hover:text-red-500 transition-colors">
           <Heart className="h-6 w-6" />
         </button>
