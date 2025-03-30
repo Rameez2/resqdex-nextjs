@@ -1,6 +1,7 @@
 import Image from "next/image"
 import Link from "next/link"
-import { Heart, ArrowRight } from "lucide-react"
+import { Heart } from "lucide-react"
+import ArrowButton from "../atoms/ArrowButton";
 
 const PetCard = () => {
     return (
@@ -16,9 +17,7 @@ const PetCard = () => {
             <h3 className="text-xl font-semibold">Max</h3>
             <p className="text-gray-600">Persian</p>
           </div>
-          <button className="h-10 w-10 rounded-full border border-[#e17716] flex items-center justify-center text-[#e17716]">
-            <ArrowRight className="h-5 w-5" />
-          </button>
+        <ArrowButton/>
         </div>
       </div>
     );
