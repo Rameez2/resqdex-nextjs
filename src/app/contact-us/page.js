@@ -10,7 +10,7 @@ export default function ContactPage() {
           <h1 className="text-5xl font-bold text-white">Contact Us</h1>
         </div>
         <Image
-          src="/placeholder.svg?height=300&width=1200"
+          src="/contact-banner.jpeg"
           alt="Banner image with child and dog"
           fill
           className="object-cover brightness-[0.85]"
