@@ -2,6 +2,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Nav from "@/components/other/Nav";
 import Footer from "@/components/other/Footer";
+import {UserProvider} from '@/context/userContext';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -27,9 +28,11 @@ export default function RootLayout({ children }) {
       </head>
       {/* Hydration Error is Suppressed in the body */}
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`} suppressHydrationWarning={true}>
-        <Nav />
-        {children}
-        <Footer/>
+        <UserProvider>
+          <Nav />
+          {children}
+          <Footer/>
+        </UserProvider>
       </body>
     </html>
   );

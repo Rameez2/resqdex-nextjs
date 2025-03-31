@@ -6,10 +6,11 @@ import ArrowButton from '@/components/atoms/ArrowButton';
 const PetsAvailable = () => {
     return (
         <div>
-            <h1 className="text-orange-500 mt-5 mb-5 text-3xl font-bold text-center">Pets Available For Adoption</h1>
+            <h2 className="text-center text-[#e17716] text-3xl font-bold mb-10">Pets Available For Adoption</h2>
 
-            <div className="flex justify-end gap-2 pr-5">
-            <ArrowButton/>
+
+            <div className="flex justify-end gap-2 pr-5 mb-3">
+            <ArrowButton right={false}/>
             <ArrowButton/>
             </div>
             <div className="flex gap-4 overflow-x-auto pb-4 px-4 scrollbar-hide">

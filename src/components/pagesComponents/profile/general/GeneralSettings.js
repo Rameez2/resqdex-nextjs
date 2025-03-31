@@ -5,6 +5,7 @@ import { ChevronDown, Mail, Trash2 } from "lucide-react"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import ProfileSection from "../ProfileSection"
 
 export default function GeneralSettings() {
   const [email, setEmail] = useState("alexarawles@gmail.com")
@@ -17,24 +18,7 @@ export default function GeneralSettings() {
 
         {/* Profile section */}
         <div className="px-8 py-6">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
-              <div className="relative">
-                <Image
-                  src="/profile.png"
-                  alt="Profile picture"
-                  width={80}
-                  height={80}
-                  className="rounded-full border-2 border-white shadow-sm object-cover"
-                />
-              </div>
-              <div>
-                <h2 className="text-xl font-medium text-[#292d32]">Alexa Rawles</h2>
-                <p className="text-gray-500 text-sm">{email}</p>
-              </div>
-            </div>
-            <Button className="bg-[#4182f9] hover:bg-[#3a75e0] text-white">Edit</Button>
-          </div>
+            <ProfileSection/>
 
           {/* Form */}
           <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
