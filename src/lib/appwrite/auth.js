@@ -75,9 +75,9 @@ export const registerUser = async (name, email, password, role) => {
         ID.unique(), // Unique Document ID
         userData     // Document data
       );
-  
+      await loginWithEmailAndPass(email,password);
       console.log("User data added to the users collection:", newUser);
-      return { user, newUser }; // Return both objects for further use
+      return newUser; // Return both objects for further use
     } catch (error) {
       // console.error("Error during registration:", error);
   

@@ -1,12 +1,13 @@
 "use client"
-import { getMyPets } from '@/lib/appwrite/pets';
+import { deleteMyPet, getMyPets } from '@/lib/appwrite/pets';
 import React, { useEffect, useState } from 'react';
 
 const MyPets = () => {
-
     const [pets, setPets] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(false);
+    const [deletingPetId, setDeletingPetId] = useState(null);
+
 
     useEffect(() => {
         (async () => {
@@ -24,6 +25,18 @@ const MyPets = () => {
             }
         })()
     }, []);
+
+    async function deletePet(petId) {
+        setDeletingPetId(petId);
+        try {
+            await deleteMyPet(petId);
+            setPets((prevPets) => prevPets.filter((pet) => pet.$id !== petId));
+        } catch (error) {
+            console.log("Error While Deleting Pet:", error.message);
+        } finally {
+            setDeletingPetId(null);
+        }
+    }
 
     const RowLoader = () => {
         return (<tr className="bg-white">
@@ -49,6 +62,8 @@ const MyPets = () => {
             </td>
             <td className="px-6 py-4">
                 <a href="#" className="font-medium text-[#E17716] hover:underline">Edit</a>
+                <a href="#" className="font-medium text-[#ff0000] ml-2 hover:underline" >Delete</a>
+
             </td>
         </tr>)
     };
@@ -103,7 +118,8 @@ const MyPets = () => {
                                         </td>
                                         <td className="px-6 py-4 gap-5">
                                             <a href="#" className="font-medium text-[#E17716] hover:underline">Edit</a>
-                                            <a href="#" className="font-medium text-[#ff0000] ml-2 hover:underline">Delete</a>
+                                            
+                                            <a href="#" onClick={() => deletePet(item.$id)} className="font-medium text-[#ff0000] ml-2 hover:underline" >{deletingPetId === item.$id ? "Deleting..." : "Delete"}</a>
                                         </td>
                                     </tr>
                                 ))

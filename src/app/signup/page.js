@@ -6,8 +6,12 @@ import { registerUser } from "@/lib/appwrite/auth";
 import authRouteProtect from '@/lib/middlewares/authRouteProtect';
 import ButtonSpinner from "@/components/atoms/buttonSpinner";
 import Toast from "@/components/atoms/Toast";
+import { useUser } from "@/context/userContext";
 
 function SignUpForm() {
+
+  const {setUser} = useUser();
+
   const [showPassword, setShowPassword] = useState(false)
   const [loading,setLoading] = useState(false);
   const [error,setError] = useState(null);
@@ -21,7 +25,9 @@ function SignUpForm() {
   async function handleSubmit() {
     try {
       setLoading(true);
-      await registerUser(formData.name, formData.email, formData.password, formData.role);
+      const newUser = await registerUser(formData.name, formData.email, formData.password, formData.role);
+      setShowToast(true);
+      setUser(newUser);
     } catch (error) {
       setError(error.message);
     }

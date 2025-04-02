@@ -8,9 +8,12 @@ import { useState } from "react"
 import withAuth from "@/lib/middlewares/withAuth"
 import { logOutUser } from "@/lib/appwrite/auth"
 import { useUser } from "@/context/userContext"
-import Actions from "@/components/pagesComponents/profile/actions/Actions"
+import Actions from "@/components/pagesComponents/profile/actions/Actions";
+import { useRouter } from "next/navigation";
+
 
 function SidebarNavigation() {
+  const router = useRouter();
 
   const [activeTab,setActiveTab] = useState('general');
 
@@ -20,6 +23,7 @@ function SidebarNavigation() {
     try {
       await logOutUser();
       setUser(null);
+      router.push("/login");
     } catch (error) {
       console.log('logout error',error.message);
     }
