@@ -1,15 +1,67 @@
 "use client"
-
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Input } from "@/components/ui/input"
 import { Avatar } from "@/components/ui/avatar"
 import { Search, Smile, Paperclip, Send } from "lucide-react"
+import { fetchMyChats, getMessages, sendMessage } from "@/lib/appwrite/messages"
+import { useUser } from "@/context/userContext"
+import ChatsList from "@/components/pagesComponents/messages/ChatsList"
+import MessagesList from "@/components/pagesComponents/messages/MessagesList"
+import { client } from "@/lib/appwrite/appwrite"
 
 export default function MessaesComp() {
-  const [message, setMessage] = useState("")
+  const [message,setMessage] = useState('');
+  const [messagesList, setMessagesList] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [recieverId,setRecieverId] = useState('');
+  
+  
+  const {user} = useUser();
+
+  useEffect(() => {
+    async function fetchMessages() {
+      try {
+        // Only show the loader if there are no messages loaded yet
+        if (messagesList.length === 0) {
+          setLoading(true);
+        }
+        const sentMessages = await getMessages(user.$id, recieverId);
+        const receivedMessages = await getMessages(recieverId, user.$id);
+        const allMessages = [...sentMessages, ...receivedMessages];
+        allMessages.sort((a, b) => new Date(b.$createdAt) - new Date(a.$createdAt));
+        console.log('all messages',allMessages);
+        
+        setMessagesList(allMessages);
+      } catch (error) {
+        console.log("Error getting messages:", error);
+      } finally {
+        setLoading(false);
+      }
+    }
+    if (recieverId && user) fetchMessages();
+
+    const unsubscribe = client.subscribe(
+      "databases.6799c8c6002ec035cc8c.collections.679b5d920001b01e6659.documents",
+      (response) => {
+        fetchMessages();
+      }
+    );
+    return () => unsubscribe();
+  }, [recieverId, user]);
+
+
+  async function handleSendMsg() {
+    try {
+      await sendMessage(user.$id,recieverId,message);
+    } catch (error) {
+      console.log('msg send error',error);
+      
+    }
+  }
 
   return (
     <div className="flex h-screen bg-[#fdf6e3]">
+
       {/* Left sidebar */}
       <div className="w-[450px] border-r border-[#e7e7e7] flex flex-col">
         <div className="p-4">
@@ -23,50 +75,9 @@ export default function MessaesComp() {
           <h2 className="text-xl font-semibold text-[#333333]">Organization</h2>
         </div>
 
-        <div className="flex-1 overflow-auto">
-          {/* Chat list */}
-          <div className="border-b border-[#e7e7e7] p-4 flex items-center hover:bg-[#eff6fc] cursor-pointer">
-            <Avatar className="h-12 w-12 mr-3">
-              <img src="/messages-demo.jpeg" alt="Avatar" className="rounded-full" />
-            </Avatar>
-            <div className="flex-1 min-w-0">
-              <div className="flex justify-between items-center">
-                <h3 className="font-medium text-[#333333]">Organization 01</h3>
-                <span className="text-sm text-[#7c7c7c]">Today, 9:52pm</span>
-              </div>
-              <p className="text-[#7c7c7c] truncate">Not today!</p>
-            </div>
-            <div className="ml-2 bg-[#f24e1e] text-white rounded-full w-6 h-6 flex items-center justify-center text-xs">
-              4
-            </div>
-          </div>
 
-          <div className="border-b border-[#e7e7e7] p-4 flex items-center hover:bg-[#eff6fc] cursor-pointer">
-            <Avatar className="h-12 w-12 mr-3">
-              <img src="/messages-demo.jpeg" alt="Avatar" className="rounded-full" />
-            </Avatar>
-            <div className="flex-1 min-w-0">
-              <div className="flex justify-between items-center">
-                <h3 className="font-medium text-[#333333]">Organization 01</h3>
-                <span className="text-sm text-[#7c7c7c]">Yesterday, 12:31pm</span>
-              </div>
-              <p className="text-[#7c7c7c] truncate">Okay???</p>
-            </div>
-          </div>
+      <ChatsList setRecieverId={setRecieverId}/>
 
-          <div className="border-b border-[#e7e7e7] p-4 flex items-center hover:bg-[#eff6fc] cursor-pointer">
-            <Avatar className="h-12 w-12 mr-3">
-              <img src="/messages-demo.jpeg" alt="Avatar" className="rounded-full" />
-            </Avatar>
-            <div className="flex-1 min-w-0">
-              <div className="flex justify-between items-center">
-                <h3 className="font-medium text-[#333333]">Organization 01</h3>
-                <span className="text-sm text-[#7c7c7c]">Wednesday, 9:12am</span>
-              </div>
-              <p className="text-[#7c7c7c] truncate">It's not going to happen</p>
-            </div>
-          </div>
-        </div>
       </div>
 
       {/* Main chat area */}
@@ -103,57 +114,7 @@ export default function MessaesComp() {
         </div>
 
         {/* Chat messages */}
-        <div className="flex-1 overflow-auto p-4">
-          <div className="space-y-4">
-            {/* Received message */}
-            <div className="flex flex-col max-w-[70%] items-start">
-              <div className="bg-[#e7e7e7] rounded-2xl py-3 px-4 text-[#333333]">
-                <p>Hey There!</p>
-              </div>
-              <span className="text-xs text-[#7c7c7c] mt-1">Today, 8:30pm</span>
-            </div>
-
-            {/* Received message */}
-            <div className="flex flex-col max-w-[70%] items-start">
-              <div className="bg-[#e7e7e7] rounded-2xl py-3 px-4 text-[#333333]">
-                <p>How are you?</p>
-              </div>
-              <span className="text-xs text-[#7c7c7c] mt-1">Today, 8:30pm</span>
-            </div>
-
-            {/* Sent message */}
-            <div className="flex flex-col max-w-[70%] items-end ml-auto">
-              <div className="bg-[#e17716] rounded-2xl py-3 px-4 text-white">
-                <p>Hello!</p>
-              </div>
-              <span className="text-xs text-[#7c7c7c] mt-1">Today, 8:33pm</span>
-            </div>
-
-            {/* Sent message */}
-            <div className="flex flex-col max-w-[70%] items-end ml-auto">
-              <div className="bg-[#e17716] rounded-2xl py-3 px-4 text-white">
-                <p>I am fine and how are you?</p>
-              </div>
-              <span className="text-xs text-[#7c7c7c] mt-1">Today, 8:34pm</span>
-            </div>
-
-            {/* Received message */}
-            <div className="flex flex-col max-w-[70%] items-start">
-              <div className="bg-[#e7e7e7] rounded-2xl py-3 px-4 text-[#333333]">
-                <p>I am doing well, Can we meet tomorrow?</p>
-              </div>
-              <span className="text-xs text-[#7c7c7c] mt-1">Today, 8:36pm</span>
-            </div>
-
-            {/* Sent message */}
-            <div className="flex flex-col max-w-[70%] items-end ml-auto">
-              <div className="bg-[#e17716] rounded-2xl py-3 px-4 text-white">
-                <p>Yes Sure!</p>
-              </div>
-              <span className="text-xs text-[#7c7c7c] mt-1">Today, 8:58pm</span>
-            </div>
-          </div>
-        </div>
+      <MessagesList recieverId={recieverId} messagesList={messagesList} setMessagesList={setMessagesList}/>
 
         {/* Message input */}
         <div className="p-4 border-t border-[#e7e7e7]">
@@ -171,7 +132,9 @@ export default function MessaesComp() {
             <button className="p-2 text-[#7c7c7c]">
               <Smile size={20} />
             </button>
-            <button className="bg-[#f24e1e] text-white p-3 rounded-full ml-2">
+            <button
+              onClick={handleSendMsg}
+             className="bg-[#f24e1e] text-white p-3 rounded-full ml-2">
               <Send size={20} />
             </button>
           </div>

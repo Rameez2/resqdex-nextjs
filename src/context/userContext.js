@@ -14,17 +14,17 @@ const UserContext = createContext({
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  
 
   // Simulate fetching user with hardcoded data
   useEffect(() => {
     (async () => {
         try {
-            
             const currentUser = await fetchCurrentUser();
-            console.log('fetching user contet',currentUser);
+            // console.log('fetching user contet',currentUser);
             setUser(currentUser);
         } catch (error) {
-            console.log('context Error',error.message);
+            // console.log('context Error',error.message);
             setUser(null)
         }
         finally {

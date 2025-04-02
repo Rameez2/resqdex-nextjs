@@ -22,7 +22,7 @@ export const fetchCurrentUser = async () => {
     }
 
     const userData = response.documents[0]; // Get the first document (should be unique)
-    console.log("User Data from Database:", userData);
+    // console.log("User Data from Database:", userData);
     return userData;
 }
 
