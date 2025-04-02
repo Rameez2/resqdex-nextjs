@@ -4,9 +4,13 @@ import { Eye, EyeOff } from "lucide-react"
 import Link from "next/link"
 import { registerUser } from "@/lib/appwrite/auth";
 import authRouteProtect from '@/lib/middlewares/authRouteProtect';
+import ButtonSpinner from "@/components/atoms/buttonSpinner";
+import Toast from "@/components/atoms/Toast";
 
 function SignUpForm() {
   const [showPassword, setShowPassword] = useState(false)
+  const [loading,setLoading] = useState(false);
+  const [error,setError] = useState(null);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -16,14 +20,18 @@ function SignUpForm() {
 
   async function handleSubmit() {
     try {
+      setLoading(true);
       await registerUser(formData.name, formData.email, formData.password, formData.role);
     } catch (error) {
-
+      setError(error.message);
+    }
+    finally {
+      setLoading(false);
     }
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-[#fbf5f0]">
+    <div className="flex min-h-screen items-center justify-center bg-[#fbf5f0] pr-5 pl-5">
       <div className="w-full max-w-md rounded-3xl bg-white p-8 shadow-sm">
         <h1 className="mb-6 text-3xl font-bold text-black" onClick={() => console.log(formData)}>Sign up</h1>
 
@@ -97,7 +105,12 @@ function SignUpForm() {
             onClick={handleSubmit}
             className="w-full rounded-md bg-[#e17716] py-3 font-medium text-white hover:bg-[#d06a14] transition-colors"
           >
-            Sign Up
+          {loading ? <>
+            <ButtonSpinner/>
+            Loading...
+          </> :
+            'Sign Up'
+          }
           </button>
 
           <div className="text-center text-sm">
@@ -108,6 +121,7 @@ function SignUpForm() {
           </div>
         </div>
       </div>
+      {error && <Toast content='Error Occured' type='error' closeTime={5000}/>}
     </div>
   )
 }

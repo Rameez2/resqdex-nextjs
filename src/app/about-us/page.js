@@ -17,6 +17,7 @@ export default function About() {
           <div className="relative w-full md:w-1/2 h-[300px] md:h-[400px]">
             <div className="absolute top-0 left-0 w-[220px] h-[220px] md:w-[280px] md:h-[280px] rounded-full overflow-hidden border-4 border-white z-10">
               <Image
+              style={{ borderRadius: '30% 70% 70% 30% / 30% 30% 70% 70%' }}
                 src="/about-dog.jpeg"
                 alt="White dog"
                 width={280}
@@ -26,6 +27,7 @@ export default function About() {
             </div>
             <div className="absolute bottom-0 right-0 md:right-20 w-[220px] h-[220px] md:w-[280px] md:h-[280px] rounded-full overflow-hidden border-4 border-white">
               <Image
+              style={{ borderRadius: '30% 70% 70% 30% / 30% 30% 70% 70%' }}
                 src="/about-kitten.jpeg"
                 alt="White kitten"
                 width={280}

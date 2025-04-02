@@ -73,7 +73,7 @@ const Nav = () => {
             </button>
           </div>
           <button className="mt-4 md:mt-0 border border-white text-white px-6 py-2 rounded-md hover:bg-white/10 transition-colors">
-            Join as Organization
+            Search For Adopters
           </button>
         </div>
       </div>

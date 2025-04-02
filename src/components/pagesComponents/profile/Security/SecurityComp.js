@@ -29,7 +29,8 @@ export default function SecurityComp() {
                 id="current-password"
                 type={showCurrentPassword ? "text" : "password"}
                 className="w-full p-3 bg-input rounded-md border border-border"
-                defaultValue="****************"
+                // defaultValue=""
+                placeholder="Current Password"
               />
               <button
                 type="button"

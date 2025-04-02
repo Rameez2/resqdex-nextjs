@@ -7,10 +7,10 @@ export const fetchCurrentUser = async () => {
     const userId = currentUser.$id; // Authenticated user ID
 
     const response = await databases.listDocuments(
-        // process.env.REACT_APP_DB_ID,  // Database ID
-        // process.env.REACT_APP_USERS_ID, // Users Collection ID
-        "6799c8c6002ec035cc8c", // DB_ID
-        "6799c8e30016e6194427", // Users Collection ID
+        process.env.NEXT_PUBLIC_DB_ID,  // Database ID
+        process.env.NEXT_PUBLIC_USERS_ID, // Users Collection ID
+        // "6799c8c6002ec035cc8c", // DB_ID
+        // "6799c8e30016e6194427", // Users Collection ID
         [Query.equal("userId", userId)] // Query by userId field
     );
 
@@ -25,3 +25,17 @@ export const fetchCurrentUser = async () => {
     console.log("User Data from Database:", userData);
     return userData;
 }
+
+
+export const updateUserData = async (userId, userData) => {
+    // Update user document in the database
+    const response = await databases.updateDocument(
+      process.env.NEXT_PUBLIC_DB_ID,    // Database ID
+      process.env.NEXT_PUBLIC_USERS_ID, // Collection ID where users are stored
+      userId,                         // User ID to identify the document to update
+      userData                        // New data to update in the user document
+    );
+  
+    return response;  // Return the updated document
+  }
+  

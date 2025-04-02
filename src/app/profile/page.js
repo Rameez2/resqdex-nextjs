@@ -1,6 +1,6 @@
 "use client"
 
-import { Settings, Lock, Bell, MessageSquare, Trash2, LogOut } from "lucide-react"
+import { Settings, Lock, Bell, MessageSquare,Bolt, Trash2, LogOut } from "lucide-react"
 import Link from "next/link"
 import GeneralSettings from "@/components/pagesComponents/profile/general/GeneralSettings"
 import SecurityComp from "@/components/pagesComponents/profile/Security/SecurityComp"
@@ -8,6 +8,7 @@ import { useState } from "react"
 import withAuth from "@/lib/middlewares/withAuth"
 import { logOutUser } from "@/lib/appwrite/auth"
 import { useUser } from "@/context/userContext"
+import Actions from "@/components/pagesComponents/profile/actions/Actions"
 
 function SidebarNavigation() {
 
@@ -49,17 +50,17 @@ function SidebarNavigation() {
               </Link>
             </li>
             <li>
-              <Link href="#" className={`flex items-center px-6 py-3 text-black ${activeTab === 'notifications' && 'bg-[#fcf1e8]'} hover:bg-[#fbf5f0]`}>
-                <Bell className="w-5 h-5 mr-3 text-[#666666]" />
-                <span>Notification</span>
+              <Link href="#" className={`flex items-center px-6 py-3 text-black ${activeTab === 'actions' && 'bg-[#fcf1e8]'} hover:bg-[#fbf5f0]`} onClick={() => setActiveTab('actions')}>
+              <Bolt className="w-5 h-5 mr-3 text-[#666666]" />
+                <span>Actions</span>
               </Link>
             </li>
-            <li>
+            {/* <li>
               <Link href="/messages" className="flex items-center px-6 py-3 text-black hover:bg-[#fbf5f0]">
                 <MessageSquare className="w-5 h-5 mr-3 text-[#666666]" />
                 <span>Messages</span>
               </Link>
-            </li>
+            </li> */}
           </ul>
         </nav>
 
@@ -91,7 +92,8 @@ function SidebarNavigation() {
       {/* <SecurityComp/> */}
       {
         activeTab === "general" ? <GeneralSettings/> : 
-        activeTab === "security" ? <SecurityComp/> : ''
+        activeTab === "security" ? <SecurityComp/> :
+        activeTab === "actions" ? <Actions/> : ''
       }
       </div>
     </div>

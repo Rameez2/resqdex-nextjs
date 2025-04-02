@@ -20,8 +20,8 @@ export default function ContactPage() {
       </div>
 
       {/* Contact Content */}
-      <div className="container mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
+      <div className="container mx-auto px-4 py-12  flex justify-center items-center">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 max-w-[900px] ">
           {/* Left Column - Contact Info */}
           <div className="flex flex-col justify-center space-y-8">
             <div>
