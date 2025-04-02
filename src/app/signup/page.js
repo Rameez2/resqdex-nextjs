@@ -11,8 +11,8 @@ import { useUser } from "@/context/userContext";
 function SignUpForm() {
 
   const {setUser} = useUser();
-
-  const [showPassword, setShowPassword] = useState(false)
+  const [showPassword, setShowPassword] = useState(false);
+  const [showToast,setShowToast] = useState(false);
   const [loading,setLoading] = useState(false);
   const [error,setError] = useState(null);
   const [formData, setFormData] = useState({
@@ -29,6 +29,8 @@ function SignUpForm() {
       setShowToast(true);
       setUser(newUser);
     } catch (error) {
+      console.log(error);
+      
       setError(error.message);
     }
     finally {
@@ -128,6 +130,7 @@ function SignUpForm() {
         </div>
       </div>
       {error && <Toast content='Error Occured' type='error' closeTime={5000}/>}
+      {showToast && <Toast content='Signup Successfull!' closeTime={5000}/>}
     </div>
   )
 }

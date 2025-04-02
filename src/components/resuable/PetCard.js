@@ -12,7 +12,8 @@ const PetCard = ({petName,breedName,petId,imageId}) => {
         </button>
         <div className="h-48 relative">
           {/* <Image src={storage.getFileView('6799fb94000edc47b27d', imageId)} alt="Cat named Max" fill className="object-cover" /> */}
-          <Image src="/dog main image.jpeg" alt="Cat named Max" fill className="object-cover" />
+          {/* <Image src="/dog main image.jpeg" alt="Cat named Max" fill className="object-cover" /> */}
+          <img src={storage.getFileView('6799fb94000edc47b27d', imageId)} alt="" fill="true" className="w-[275px] h-[183px] object-cover" />
           
         </div>
         <div className="p-4 flex justify-between items-center">

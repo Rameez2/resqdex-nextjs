@@ -1,27 +1,23 @@
 "use client";
 import { useUser } from "@/context/userContext";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";  // Import useEffect
+import { useEffect, useState } from "react";
 
-// Higher Order Component (HOC) for route protection
 const authRouteProtect = (WrappedComponent) => {
   return (props) => {
     const { user, loading } = useUser();
     const router = useRouter();
+    const [redirecting, setRedirecting] = useState(false);
 
     useEffect(() => {
-      if (user) {
+      if (!loading && user) {
+        setRedirecting(true);  // Set state before redirecting to avoid re-rendering issues
         router.push("/");
       }
-    }, [user, router]); // Runs when `user` or `router` changes
+    }, [user, loading, router]);
 
-    if (loading) {
-      return <p>Loading...</p>;
-    }
-
-    // If a user exists, don't render anything while redirecting
-    if (user) {
-      return null;
+    if (loading || redirecting) {
+      return <p>Loading...</p>;  // Prevent rendering during redirection
     }
 
     return <WrappedComponent {...props} />;

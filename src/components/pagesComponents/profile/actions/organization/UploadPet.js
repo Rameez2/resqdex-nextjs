@@ -6,7 +6,7 @@ import { storage } from '@/lib/appwrite/appwrite';
 import { uploadPet } from '@/lib/appwrite/pets';
 import { ID } from 'appwrite';
 import React, { useState } from 'react';
-
+ 
 const UploadPet = () => {
   const { user } = useUser();
   const [petInfo, setPetInfo] = useState({
