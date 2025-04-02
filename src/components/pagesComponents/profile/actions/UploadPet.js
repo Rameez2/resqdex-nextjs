@@ -1,5 +1,6 @@
 "use client"
 import ButtonSpinner from '@/components/atoms/buttonSpinner';
+import Toast from '@/components/atoms/Toast';
 import { useUser } from '@/context/userContext';
 import { storage } from '@/lib/appwrite/appwrite';
 import { uploadPet } from '@/lib/appwrite/pets';
@@ -25,6 +26,8 @@ const UploadPet = () => {
   const [mainImageFile, setMainImageFile] = useState(null);
   const [imageFiles, setImageFiles] = useState([]); // State for multiple images
   const [loading, setLoading] = useState(false);
+  const [showToast, setShowToast] = useState(false);
+
 
   const handleChange = (e) => {
     const { name, value, type, files } = e.target;
@@ -91,8 +94,8 @@ const UploadPet = () => {
         ? await updatePetById(petId, petData)
         : await uploadPet(petData);
 
-      alert('Pet uploaded successfully!');
-
+      // alert('Pet uploaded successfully!');
+      setShowToast(true);
       // Reset form states after submission
       setPetInfo({
         name: '',
@@ -288,11 +291,14 @@ const UploadPet = () => {
 
         <div className="mt-4">
           <button className="bg-[#E17716] text-white px-4 py-2 rounded-md">
-          {loading && <ButtonSpinner/>}
+            {loading && <ButtonSpinner />}
             Upload Pet
           </button>
         </div>
       </form>
+      {showToast ?
+        <Toast content='Pet Uploaded Successfully!' type='success' /> : ''
+      }
     </div>
   );
 };
