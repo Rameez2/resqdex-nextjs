@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useUser } from "@/context/userContext";
 import { approveOrganization, getAllUsers } from "@/lib/appwrite/admin";
+import ButtonSpinner from "@/components/atoms/buttonSpinner";
 
 const UsersManagement = () => {
     const [orgDetails, setOrgDetails] = useState([]);
@@ -211,6 +212,7 @@ const UsersManagement = () => {
                                             href="#"
                                             className="px-3 py-1 bg-green-500 text-white rounded"
                                         >
+                                        {loadingStates[details.$id] === "Approved" ? <ButtonSpinner/>:''}
                                             Approve
                                         </button>
                                         <button
@@ -219,6 +221,8 @@ const UsersManagement = () => {
                                             href="#"
                                             className="px-3 py-1 bg-red-500 text-white rounded ml-2"
                                         >
+                                        {loadingStates[details.$id] === "Rejected" ? <ButtonSpinner/>:''}
+
                                             Reject
                                         </button>
                                     </td>
