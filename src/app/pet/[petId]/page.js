@@ -5,20 +5,19 @@ import { ChevronLeft, ChevronRight, Share, MapPin, Phone } from "lucide-react"
 import { Button } from "@/components/ui/button";
 import { useParams } from "next/navigation";
 import { getPetById } from "@/lib/appwrite/pets";
+import { useRouter } from "next/navigation";
+import { getUserById } from "@/lib/appwrite/user";
+import { storage } from "@/lib/appwrite/appwrite";
 
 export default function PetAdoption() {
   const { petId } = useParams();
-  
+  const router = useRouter();
   const [petDetails, setPetDetails] = useState(null); // State to store pet details
   const [loading, setLoading] = useState(true); // State to show loading state
   const [error, setError] = useState(null); // State to handle errors
 
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
-  const images = [ // height 300,widht 400
-    "/petdetails-dog.jpeg",
-    "/about-dog.jpeg",
-    "/about-kitten.jpeg",
-  ]
+  const [images, setImages] = useState([]);
 
   useEffect(() => {
     // Fetch the pet details using the ID
@@ -27,6 +26,7 @@ export default function PetAdoption() {
         setLoading(true);
         const data = await getPetById(petId); // Replace with your API call
         setPetDetails(data); // Save the data to state
+        setImages([data.main_image, ...data.images]);
       } catch (err) {
         setError('Failed to fetch pet details.'); // Handle error
       } finally {
@@ -45,6 +45,20 @@ export default function PetAdoption() {
     setCurrentImageIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1))
   }
 
+
+  async function startInquiry(orgId) {
+    try {
+      // console.log('NEW INQUIRY');
+      // console.log('org id,',orgId);
+      const doc = await getUserById(orgId);
+
+      router.push(`/messages?adopterId=${doc.$id}&name=${doc.name}`);
+    } catch (error) {
+      console.error('Error starting inquiry:', error);
+    }
+  }
+
+
   if (loading) return <p>Loading...</p>;
   if (error) return <h1>NO PET FOUND</h1>;
 
@@ -56,9 +70,8 @@ export default function PetAdoption() {
           <div className="md:col-span-2">
             <div className="relative rounded-lg overflow-hidden mb-4">
               <img
-                src={images[currentImageIndex] || "/placeholder.svg"}
-                alt="Munchy the dog"
-                className="w-full h-[300px] object-cover rounded-lg"
+                src={storage.getFileView('6799fb94000edc47b27d', images[currentImageIndex])}
+                className="w-full h-[300px] object-cover rounded-lg bg-[#ffcb6c]"
               />
               <button
                 onClick={prevImage}
@@ -87,9 +100,8 @@ export default function PetAdoption() {
                       className={`${currentImageIndex === index ? "ring-2 ring-[#ffba7a]" : ""}`}
                     >
                       <img
-                        src={img || "/placeholder.svg"}
-                        alt={`Thumbnail ${index + 1}`}
-                        className="w-20 h-14 object-cover rounded"
+                        src={storage.getFileView('6799fb94000edc47b27d', images[index])}
+                        className="w-20 h-14 object-cover rounded bg-[#ffcb6c]"
                       />
                     </button>
                   ))}
@@ -110,10 +122,6 @@ export default function PetAdoption() {
               </div>
 
               <p className="mb-4">
-                {/* <span className="text-[#e17716] font-medium">Munchy</span> is a friendly 2-year-old{" "}
-                <span className="font-medium">Husky</span> with striking blue eyes and a{" "}
-                <span className="font-medium">playful personality</span>. He loves outdoor adventures and gets along
-                well with kids and other pets. Munchy is ready to bring joy to his forever home! */}
                 {petDetails.bio}
               </p>
 
@@ -123,15 +131,15 @@ export default function PetAdoption() {
                 <div className="grid grid-cols-3 gap-4 border-b border-[#eeeeee] pb-6">
                   <div>
                     <h4 className="text-[#e17716] text-xl font-medium">Name</h4>
-                    <p className="font-medium">Munchy</p>
+                    <p className="font-medium">{petDetails.name}</p>
                   </div>
                   <div>
                     <h4 className="text-[#e17716] text-xl font-medium">Gender</h4>
-                    <p className="font-medium">Male</p>
+                    <p className="font-medium">{petDetails.gender}</p>
                   </div>
                   <div>
                     <h4 className="text-[#e17716] text-xl font-medium">Age</h4>
-                    <p className="font-medium">6 Months</p>
+                    <p className="font-medium">{petDetails.age}</p>
                   </div>
                 </div>
               </div>
@@ -156,7 +164,7 @@ export default function PetAdoption() {
             <div className="bg-[#ffffff] rounded-lg p-6">
               <h2 className="text-2xl font-bold mb-6">Rescue Story</h2>
               <p className="mb-4 text-[#55514f]">
-              {petDetails.rescue_story}
+                {petDetails.rescue_story}
               </p>
             </div>
           </div>
@@ -198,7 +206,7 @@ export default function PetAdoption() {
               </div>
 
               <div className="space-y-3">
-                <Button className="w-full bg-[#e17716] hover:bg-[#e17716]/90 text-white">Start Inquiry</Button>
+                <Button className="w-full bg-[#e17716] hover:bg-[#e17716]/90 text-white" onClick={() => startInquiry(petDetails.organization_id)}>Start Inquiry</Button>
                 <Button variant="outline" className="w-full border-[#e17716] text-[#e17716] hover:bg-[#fff5ef]">
                   Sponsor
                 </Button>

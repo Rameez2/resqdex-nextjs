@@ -27,6 +27,7 @@ const UploadPet = () => {
   const [imageFiles, setImageFiles] = useState([]); // State for multiple images
   const [loading, setLoading] = useState(false);
   const [showToast, setShowToast] = useState(false);
+  const [error, setError] = useState(null);
 
 
   const handleChange = (e) => {
@@ -75,6 +76,8 @@ const UploadPet = () => {
     setLoading(true);
 
     try {
+      setError(null);
+      setShowToast(false);
       // Upload main image
       let mainImgId = await uploadImage(mainImageFile);
       // Upload additional images
@@ -116,7 +119,8 @@ const UploadPet = () => {
       setImageFiles([]);
     } catch (error) {
       console.error('Error:', error);
-      alert('Failed to upload pet.');
+      // alert('Failed to upload pet.');
+      setError(error.message);
     } finally {
       setLoading(false);
     }
@@ -299,6 +303,7 @@ const UploadPet = () => {
       {showToast ?
         <Toast content='Pet Uploaded Successfully!' type='success' /> : ''
       }
+      {error && <Toast content={error} type="error" />}
     </div>
   );
 };

@@ -7,16 +7,30 @@ import { fetchMyChats, getMessages, sendMessage } from "@/lib/appwrite/messages"
 import { useUser } from "@/context/userContext"
 import ChatsList from "@/components/pagesComponents/messages/ChatsList"
 import MessagesList from "@/components/pagesComponents/messages/MessagesList"
-import { client } from "@/lib/appwrite/appwrite"
+import { client } from "@/lib/appwrite/appwrite";
+import { useSearchParams } from "next/navigation";
+import withAuth from "@/lib/middlewares/withAuth"
 
-export default function MessaesComp() {
-  const [message,setMessage] = useState('');
+const MessaesComp = () => {
+  const [message, setMessage] = useState('');
   const [messagesList, setMessagesList] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [recieverId,setRecieverId] = useState('');
-  
-  
-  const {user} = useUser();
+  const [recieverId, setRecieverId] = useState('');
+  const [recieverName, setRecieverName] = useState('');
+  const [chats, setChats] = useState([]);
+
+  const searchParams = useSearchParams();
+  const adopterId = searchParams.get("adopterId"); // Get adopterId from URL
+  const adopterName = searchParams.get("name");
+  const { user } = useUser();
+
+  useEffect(() => {
+    if (adopterId && adopterName) {
+      setRecieverId(adopterId);
+      setRecieverName(adopterName);
+    }
+  }, [adopterId, adopterName]);
+
 
   useEffect(() => {
     async function fetchMessages() {
@@ -29,8 +43,8 @@ export default function MessaesComp() {
         const receivedMessages = await getMessages(recieverId, user.$id);
         const allMessages = [...sentMessages, ...receivedMessages];
         allMessages.sort((a, b) => new Date(b.$createdAt) - new Date(a.$createdAt));
-        console.log('all messages',allMessages);
-        
+        console.log('all messages', allMessages);
+
         setMessagesList(allMessages);
       } catch (error) {
         console.log("Error getting messages:", error);
@@ -38,8 +52,10 @@ export default function MessaesComp() {
         setLoading(false);
       }
     }
+    
+    
     if (recieverId && user) fetchMessages();
-
+    
     const unsubscribe = client.subscribe(
       "databases.6799c8c6002ec035cc8c.collections.679b5d920001b01e6659.documents",
       (response) => {
@@ -48,16 +64,43 @@ export default function MessaesComp() {
     );
     return () => unsubscribe();
   }, [recieverId, user]);
-
-
+  
   async function handleSendMsg() {
     try {
-      await sendMessage(user.$id,recieverId,message);
+      updateChat(recieverId, message);
+      // const newMessage = {
+      //   senderId: user.$id,
+      //   receiverId: recieverId,
+      //   content: message,
+      //   $createdAt: new Date().toISOString(), // Mock createdAt timestamp
+      // };
+      // setMessagesList((prevMessages) => [newMessage, ...prevMessages]);
+      setMessage('');
+      await sendMessage(user.$id, recieverId, message);
     } catch (error) {
-      console.log('msg send error',error);
-      
+      console.log('msg send error', error);
+
     }
   }
+
+  function updateChat() {
+    setChats((prevChatList) => {
+      // Find the chat with the recieverId and remove it from the list
+      const updatedChatList = prevChatList.filter(chat => chat.otherUserId !== recieverId);
+
+      // Create a new chat object for the receiver (or update if it already exists)
+      const updatedChat = {
+        otherUserId: recieverId,
+        otherUserName: recieverName,
+        lastMessage: message,
+        lastMessageTime: new Date().toISOString(), // Update the timestamp
+      };
+
+      // Add the updated chat to the top
+      return [updatedChat, ...updatedChatList];
+    });
+  }
+
 
   return (
     <div className="flex h-screen bg-[#fdf6e3]">
@@ -76,7 +119,7 @@ export default function MessaesComp() {
         </div>
 
 
-      <ChatsList setRecieverId={setRecieverId}/>
+        <ChatsList chats={chats} setChats={setChats} setRecieverId={setRecieverId} setRecieverName={setRecieverName} />
 
       </div>
 
@@ -85,12 +128,12 @@ export default function MessaesComp() {
         {/* Chat header */}
         <div className="flex items-center justify-between p-4 border-b border-[#e7e7e7]">
           <div className="flex items-center">
-            <Avatar className="h-12 w-12 mr-3">
+            {/* <Avatar className="h-12 w-12 mr-3">
               <img src="/messages-demo.jpeg" alt="Avatar" className="rounded-full" />
-            </Avatar>
+            </Avatar> */}
             <div>
-              <h2 className="text-xl font-semibold text-[#333333]">Oraganization</h2>
-              <p className="text-sm text-[#7c7c7c]">Online - Last seen, 2:02pm</p>
+              <h2 className="text-xl font-semibold text-[#333333]">{recieverName}</h2>
+              {/* <p className="text-sm text-[#7c7c7c]">Online - Last seen, 2:02pm</p> */}
             </div>
           </div>
           <button className="text-[#7c7c7c]">
@@ -114,33 +157,11 @@ export default function MessaesComp() {
         </div>
 
         {/* Chat messages */}
-      <MessagesList recieverId={recieverId} messagesList={messagesList} setMessagesList={setMessagesList}/>
+        <MessagesList user={user} message={message} setMessage={setMessage} handleSendMsg={handleSendMsg} recieverId={recieverId} messagesList={messagesList} setMessagesList={setMessagesList} />
 
-        {/* Message input */}
-        <div className="p-4 border-t border-[#e7e7e7]">
-          <div className="flex items-center bg-[#eff6fc] rounded-full p-2">
-            <button className="p-2 text-[#7c7c7c]">
-              <Paperclip size={20} />
-            </button>
-            <input
-              type="text"
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              placeholder="Type your message here..."
-              className="flex-1 bg-transparent border-none focus:outline-none px-2 text-[#333333]"
-            />
-            <button className="p-2 text-[#7c7c7c]">
-              <Smile size={20} />
-            </button>
-            <button
-              onClick={handleSendMsg}
-             className="bg-[#f24e1e] text-white p-3 rounded-full ml-2">
-              <Send size={20} />
-            </button>
-          </div>
-        </div>
       </div>
     </div>
   )
 }
 
+export default withAuth(MessaesComp);

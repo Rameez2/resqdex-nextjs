@@ -1,11 +1,23 @@
 "use client"
 import Link from "next/link"
-import { ChevronDown, CircleUser,MessageSquare } from "lucide-react"
+import { ChevronDown, CircleUser, MessageSquare, BadgeCheck } from "lucide-react"
 import { useUser } from "@/context/userContext"
+import { logOutUser } from "@/lib/appwrite/auth"
+import { useRouter } from "next/navigation"
 
 const Nav = () => {
+  const router = useRouter();
+  const { user, loading,setUser } = useUser();
 
-  const { user, loading } = useUser();
+  async function handleLogOut() {
+    try {
+      await logOutUser();
+      setUser(null);
+      router.push("/login");
+    } catch (error) {
+      console.log('logout error',error.message);
+    }
+  }
 
   return (
     <div>
@@ -29,12 +41,14 @@ const Nav = () => {
         <div className="flex items-center space-x-4">
           {loading ? 'loading...' : user ?
             <>
+              {user.status === "Approved" && <BadgeCheck className="w-9 h-9 text-[#00bc00]" />}
               <Link href="/messages">
                 <MessageSquare className="w-9 h-9 text-[#e17716]" />
               </Link>
               <Link href="/profile">
                 <CircleUser className="w-9 h-9 text-[#e17716]" />
               </Link>
+              <button onClick={handleLogOut}>LogOUt</button>
             </>
             :
             <>
@@ -72,9 +86,13 @@ const Nav = () => {
               Pet Shelters <ChevronDown className="ml-1 h-4 w-4" />
             </button>
           </div>
-          <button className="mt-4 md:mt-0 border border-white text-white px-6 py-2 rounded-md hover:bg-white/10 transition-colors">
+          {user ? user.role === "Organization" &&
+          <Link href="/adopters-posts">
+           <button className="mt-4 md:mt-0 border border-white text-white px-6 py-2 rounded-md hover:bg-white/10 transition-colors">
             Search For Adopters
           </button>
+          </Link>
+          :<></>}
         </div>
       </div>
     </div>

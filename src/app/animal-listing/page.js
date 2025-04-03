@@ -16,7 +16,8 @@ export default function Home() {
     (async () => {
       try {
         const petsResponse = await getPetsByFilter(10, 0); // limit,offset
-        setPets(petsResponse);
+        const filteredPets = petsResponse.filter(pet => pet.post_by !== "Adopter");
+        setPets(filteredPets);
       } catch (error) {
         console.log("Error while fetching pets", error.message);
         setError(error.message);

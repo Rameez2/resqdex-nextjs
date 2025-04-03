@@ -5,7 +5,7 @@ export const adopterPost = async (data) => {
     console.log('creating post....');
 
     const postData = {
-        name: "",
+        name: data.name,
         age: 1,
         contact: "",
         breed: "",
@@ -61,6 +61,23 @@ export const deletePostById = async (postId) => {
         return response;
     } catch (error) {
         console.error("Error deleting post:", error);
+        throw error;
+    }
+};
+
+export const getPosts = async () => {
+    try {
+        const response = await databases.listDocuments(
+            process.env.NEXT_PUBLIC_DB_ID,  // Your database ID
+            process.env.NEXT_PUBLIC_ANIMALS_ID,  // Your collection ID
+            [
+                // Appwrite Query to filter posts where `post_by` is "Adopter"
+                Query.equal("post_by", "Adopter")
+            ]
+        );
+        return response.documents;  // This returns an array of documents
+    } catch (error) {
+        console.error("Error fetching posts:", error);
         throw error;
     }
 };

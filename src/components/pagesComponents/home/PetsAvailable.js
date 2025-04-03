@@ -16,7 +16,6 @@ const PetsAvailable = () => {
                 const petsResponse = await getPetsByFilter();
                 const filteredPets = petsResponse.filter(pet => pet.post_by !== "Adopter");
                 console.log('got pets', filteredPets);
-
                 setPets(filteredPets);
                 setLoading(false);
             } catch (error) {

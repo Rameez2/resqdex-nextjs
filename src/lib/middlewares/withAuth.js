@@ -1,26 +1,31 @@
-"use client"
+"use client";
 import { useUser } from "@/context/userContext";
-import { useRouter } from "next/navigation";  // Import useRouter for redirecting
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";  // Import useEffect
 
-// Higher Order Component (HOC) for route protection
 const withAuth = (WrappedComponent) => {
   return (props) => {
-    const { user, loading } = useUser();  // Get user and loading from context
-    const router = useRouter();  // Access Next.js router to redirect
+    const { user, loading } = useUser();
+    const router = useRouter();
 
-    // If loading is true, do not render the component, we can show a loading state or nothing
+    useEffect(() => {
+      if (!loading) {
+        if (!user) {
+          router.push("/login");
+        } else if (user.role === "Organization" && user.status === "Apply") {
+          router.push("/org-form");
+        }
+      }
+    }, [user, loading, router]); // Runs when user or loading state changes
+
     if (loading) {
       return <p>Loading...</p>;
     }
 
-    // If no user is logged in, redirect to the login page
     if (!user) {
-      router.push("/login");
-    
-      return null;  // Don't render anything if the user is redirected
+      return null; // Prevent rendering while redirecting
     }
 
-    // If user is logged in, render the wrapped component
     return <WrappedComponent {...props} />;
   };
 };

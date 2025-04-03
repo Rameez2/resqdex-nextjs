@@ -39,3 +39,17 @@ export const updateUserData = async (userId, userData) => {
     return response;  // Return the updated document
   }
   
+
+  export const getUserById = async (id) => {
+    try {
+      const response = await databases.getDocument(
+        process.env.NEXT_PUBLIC_DB_ID,    // Your Database ID
+        process.env.NEXT_PUBLIC_USERS_ID, // Your Users Collection ID
+        id                              // Document ID provided as a parameter
+      );
+      return response;
+    } catch (error) {
+      console.error("Error fetching document:", error);
+      throw error;
+    }
+  };

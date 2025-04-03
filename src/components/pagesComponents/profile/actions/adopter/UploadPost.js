@@ -23,7 +23,7 @@ const UploadPost = () => {
                 throw new Error("User not Approved!");
             }
             console.log('handle submit runned');
-            await adopterPost({id:user.$id,content:content})
+            await adopterPost({id:user.$id,content:content,name:user.name});
             setShowToast(true);  
         } catch (error) {
             console.log(error);

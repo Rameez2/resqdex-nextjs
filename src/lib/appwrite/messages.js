@@ -123,7 +123,6 @@ export const fetchMyChats = async (userId) => {
         console.log('chats', chats);
 
         return chats;
-        // return response.documents;
     } catch (error) {
         console.error("Error fetching your chats:", error);
         return [];

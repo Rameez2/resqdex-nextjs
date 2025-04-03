@@ -9,6 +9,8 @@ import { useUser } from "@/context/userContext"
 import { updateUserData } from "@/lib/appwrite/user"
 import Toast from "@/components/atoms/Toast"
 import ButtonSpinner from "@/components/atoms/buttonSpinner"
+import AdopterQuestionnaire from "../Dataforms/AdopterQuestionnaire"
+// import OrganizationQuestionnaire from "../Dataforms/OrganizationQuestionnaire"
 
 export default function GeneralSettings() {
   const { user } = useUser();
@@ -19,6 +21,11 @@ export default function GeneralSettings() {
   const [updateLoading, setUpdateLoading] = useState(false);
   const [showToast, setShowToast] = useState(false);
   const [error, setError] = useState(false);
+  
+  const [isAdopterOpen, setIsAdopterOpen] = useState(false);
+
+  const handleOpenAdopter = () => setIsAdopterOpen(true);
+  const handleCloseAdopter = () => setIsAdopterOpen(false);
 
   useEffect(() => {
     setUserData(user);
@@ -86,9 +93,9 @@ export default function GeneralSettings() {
               <label className="block text-[#292d32] font-medium mb-2">Status</label>
               {/* <span class="bg-gray-100 text-gray-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-sm dark:bg-gray-700 dark:text-gray-300">{user.status}</span> */}
               {
-                user.status === "Apply" ? <span className="bg-yellow-100 text-yellow-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-sm dark:bg-yellow-900 dark:text-yellow-300 cursor-pointer">Apply Now</span> :
+                user.status === "Apply" ? <span onClick={handleOpenAdopter} className="bg-yellow-100 text-yellow-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-sm dark:bg-yellow-900 dark:text-yellow-300 cursor-pointer">Get Verified</span> :
                   user.status === "Pending" ? <span className="bg-gray-100 text-gray-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-sm dark:bg-gray-700 dark:text-gray-300">Pending</span> :
-                    user.status === "Rejected" ? <span className="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-sm dark:bg-red-900 dark:text-red-300">Rejected</span> :
+                    user.status === "Rejected" ? <span onClick={handleOpenAdopter} className="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-sm dark:bg-red-900 dark:text-red-300">Rejected</span> :
                       user.status === "Approved" ? <span className="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-sm dark:bg-green-900 dark:text-green-300">Approved</span> : ''
               }
             </div>
@@ -139,6 +146,13 @@ export default function GeneralSettings() {
       </div>
       {error && <Toast content={error} type="error" />}
       {showToast && <Toast content='data updated' />}
+
+            {/* <OrganizationQuestionnaire/> */}
+
+      <AdopterQuestionnaire
+        isOpen={isAdopterOpen}
+        onClose={handleCloseAdopter}
+      />
     </div>
   )
 }
