@@ -52,9 +52,9 @@ const MessagesList = ({ user, updateChat, message, setMessage, messagesList, han
 
             <div className="p-4 border-t border-[#e7e7e7]">
                 <div className="flex items-center bg-[#eff6fc] rounded-full p-2">
-                    <button className="p-2 text-[#7c7c7c]">
+                    {/* <button className="p-2 text-[#7c7c7c]">
                         <Paperclip size={20} />
-                    </button>
+                    </button> */}
                     <input
                         type="text"
                         value={message}
@@ -62,9 +62,9 @@ const MessagesList = ({ user, updateChat, message, setMessage, messagesList, han
                         placeholder="Type your message here..."
                         className="flex-1 bg-transparent border-none focus:outline-none px-2 text-[#333333]"
                     />
-                    <button className="p-2 text-[#7c7c7c]">
+                    {/* <button className="p-2 text-[#7c7c7c]">
                         <Smile size={20} />
-                    </button>
+                    </button> */}
                     <button
                         onClick={handleSendMsg}
                         className="bg-[#f24e1e] text-white p-3 rounded-full ml-2">
