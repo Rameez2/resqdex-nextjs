@@ -175,16 +175,16 @@ export default function PetAdoption() {
               <div className="flex items-center gap-4 mb-4">
                 <div className="w-16 h-16 rounded-full overflow-hidden">
                   <img
-                    src="/petdetails-dog.jpeg"
-                    alt="Munchy thumbnail"
-                    className="w-full h-full object-cover"
+                    src={storage.getFileView('6799fb94000edc47b27d', petDetails.main_image)}
+                    alt={petDetails.name}
+                    width={80} height={80} className="rounded-full w-20 h-20 border-2 border-white shadow-sm object-cover"
                   />
                 </div>
                 <div>
-                  <h3 className="font-medium">Considering Munchy for adoption?</h3>
+                  <h3 className="font-medium">Considering {petDetails.name} for adoption?</h3>
                 </div>
                 <button className="ml-auto">
-                  <Share className="h-5 w-5 text-[#3f3f3f]" />
+                  <Share className="h-5 w-5 text-[#3f3f3f] cursor-pointer hover:text-[#e17716]" />
                 </button>
               </div>
 
@@ -193,7 +193,7 @@ export default function PetAdoption() {
                   <MapPin className="h-5 w-5 text-[#3f3f3f]" />
                   <div>
                     <p className="text-sm text-[#7d7d7d]">Location</p>
-                    <p>V{petDetails.location}</p>
+                    <p>{petDetails.location}</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-2">

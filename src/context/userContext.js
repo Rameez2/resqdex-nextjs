@@ -21,7 +21,6 @@ export const UserProvider = ({ children }) => {
     (async () => {
         try {
             const currentUser = await fetchCurrentUser();
-            // console.log('fetching user contet',currentUser);
             setUser(currentUser);
         } catch (error) {
             // console.log('context Error',error.message);

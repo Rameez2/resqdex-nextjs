@@ -69,8 +69,8 @@ const ChatsList = ({ setRecieverId, chats, setChats, setRecieverName }) => {
           {/* <Avatar className="h-12 w-12 mr-3">
             <img src="/messages-demo.jpeg" alt="Avatar" className="rounded-full" />
           </Avatar> */}
-          <div className="flex-1 min-w-0">
-            <div onClick={() => { setRecieverId(item.otherUserId); setRecieverName(item.otherUserName) }} className="flex justify-between items-center">
+          <div className="flex-1 min-w-0" onClick={() => { setRecieverId(item.otherUserId); setRecieverName(item.otherUserName) }}>
+            <div className="flex justify-between items-center">
               <h3 className="font-medium text-[#333333]">{item.otherUserName}</h3>
               <span className="text-sm text-[#7c7c7c]">{formatChatTime(item.lastMessageTime)}</span>
             </div>

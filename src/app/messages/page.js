@@ -103,7 +103,7 @@ const MessaesComp = () => {
 
 
   return (
-    <div className="flex h-screen bg-[#fdf6e3]">
+    <div className="flex h-[85vh] bg-[#fdf6e3]">
 
       {/* Left sidebar */}
       <div className="w-[450px] border-r border-[#e7e7e7] flex flex-col">

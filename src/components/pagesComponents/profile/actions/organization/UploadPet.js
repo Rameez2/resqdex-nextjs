@@ -1,43 +1,68 @@
-"use client"
+"use client";
 import ButtonSpinner from '@/components/atoms/buttonSpinner';
 import Toast from '@/components/atoms/Toast';
 import { useUser } from '@/context/userContext';
 import { storage } from '@/lib/appwrite/appwrite';
 import { uploadPet } from '@/lib/appwrite/pets';
 import { ID } from 'appwrite';
+import { ImageIcon } from 'lucide-react';
 import React, { useState } from 'react';
- 
+
 const UploadPet = () => {
   const { user } = useUser();
   const [petInfo, setPetInfo] = useState({
-    name: 'next pet',
+    name: '',
     age: 3,
     specie: 'Other',
-    breed: 'Persian',
-    size: 'Medium',
-    temperament: 'Friendly',
-    contact: '+92 3051088667',
+    breed: '',
+    size: '',
+    temperament: '',
+    contact: '',
     gender: 'Male',
-    location: 'Peshawar, Pakistan',
-    bio: 'hehehnext',
-    rescue_story: 'next rescue',
+    location: '',
+    bio: '',
+    rescue_story: '',
   });
 
   const [mainImageFile, setMainImageFile] = useState(null);
   const [imageFiles, setImageFiles] = useState([]); // State for multiple images
+  const [mainImagePreview, setMainImagePreview] = useState(null);
+  const [additionalImagePreviews, setAdditionalImagePreviews] = useState([]);
   const [loading, setLoading] = useState(false);
   const [showToast, setShowToast] = useState(false);
   const [error, setError] = useState(null);
+  
 
+
+  // const handleChange = (e) => {
+  //   const { name, value, type, files } = e.target;
+
+  //   if (type === 'file') {
+  //     if (name === 'main_image') {
+  //       setMainImageFile(files[0]); // Directly update the mainImageFile state
+  //     } else if (name === 'images') {
+  //       setImageFiles(files); // Directly update the imageFiles state
+  //     }
+  //   } else {
+  //     setPetInfo((prevState) => ({
+  //       ...prevState,
+  //       [name]: name === 'age' ? parseInt(value, 10) || '' : value,
+  //     }));
+  //   }
+  // };
 
   const handleChange = (e) => {
     const { name, value, type, files } = e.target;
-
+  
     if (type === 'file') {
-      if (name === 'main_image') {
-        setMainImageFile(files[0]); // Directly update the mainImageFile state
-      } else if (name === 'images') {
-        setImageFiles(files); // Directly update the imageFiles state
+      if (name === 'main_image' && files.length > 0) {
+        setMainImageFile(files[0]);
+        setMainImagePreview(URL.createObjectURL(files[0]));
+      } else if (name === 'images' && files.length > 0) {
+        const fileList = Array.from(files);
+        setImageFiles(fileList);
+        const previews = fileList.map((file) => URL.createObjectURL(file));
+        setAdditionalImagePreviews(previews);
       }
     } else {
       setPetInfo((prevState) => ({
@@ -46,6 +71,7 @@ const UploadPet = () => {
       }));
     }
   };
+  
 
   async function uploadImage(file) {
     try {
@@ -97,7 +123,6 @@ const UploadPet = () => {
         ? await updatePetById(petId, petData)
         : await uploadPet(petData);
 
-      // alert('Pet uploaded successfully!');
       setShowToast(true);
       // Reset form states after submission
       setPetInfo({
@@ -119,7 +144,6 @@ const UploadPet = () => {
       setImageFiles([]);
     } catch (error) {
       console.error('Error:', error);
-      // alert('Failed to upload pet.');
       setError(error.message);
     } finally {
       setLoading(false);
@@ -128,181 +152,228 @@ const UploadPet = () => {
 
   return (
     <div className="p-4 flex flex-col h-full max-h-[90vh] overflow-auto">
-      <form
-        onSubmit={handleSubmit}
-        className="p-4 bg-white shadow-md rounded-md flex flex-col space-y-4"
+<form
+  onSubmit={handleSubmit}
+  className="p-6 bg-white shadow-md rounded-md flex flex-col space-y-6 max-w-5xl mx-auto w-full"
+>
+  <h2 className="text-lg font-semibold">Upload Pet Information</h2>
+
+  <div className="flex flex-wrap gap-4">
+    <div className="flex-1 min-w-[220px] max-w-sm">
+      <label className="block text-sm text-gray-700 mb-1">Name:</label>
+      <input
+        type="text"
+        name="name"
+        value={petInfo.name}
+        onChange={handleChange}
+        className="w-full p-2 border rounded-md"
+        placeholder="Enter pet's name"
+        required
+      />
+    </div>
+
+    <div className="flex-1 min-w-[120px] max-w-[150px]">
+      <label className="block text-sm text-gray-700 mb-1">Age:</label>
+      <input
+        type="number"
+        name="age"
+        value={petInfo.age}
+        onChange={handleChange}
+        className="w-full p-2 border rounded-md"
+        placeholder="e.g. 3"
+        required
+      />
+    </div>
+
+    <div className="flex-1 min-w-[160px] max-w-sm">
+      <label className="block text-sm text-gray-700 mb-1">Specie:</label>
+      <select
+        name="specie"
+        value={petInfo.specie}
+        onChange={handleChange}
+        className="w-full p-2 border rounded-md"
+        required
       >
-        <h2 className="text-lg font-semibold mb-4">Upload Pet Information</h2>
+        <option value="Other">Other</option>
+        <option value="Dog">Dog</option>
+        <option value="Cat">Cat</option>
+      </select>
+    </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-            <label className="block text-gray-700">Name:</label>
-            <input
-              type="text"
-              name="name"
-              value={petInfo.name}
-              onChange={handleChange}
-              className="w-full p-2 border rounded-md"
-              required
-            />
-          </div>
+    <div className="flex-1 min-w-[200px] max-w-sm">
+      <label className="block text-sm text-gray-700 mb-1">Breed:</label>
+      <input
+        type="text"
+        name="breed"
+        value={petInfo.breed}
+        onChange={handleChange}
+        className="w-full p-2 border rounded-md"
+        placeholder="e.g. Persian"
+        required
+      />
+    </div>
 
-          <div>
-            <label className="block text-gray-700">Age:</label>
-            <input
-              type="number"
-              name="age"
-              value={petInfo.age}
-              onChange={handleChange}
-              className="w-full p-2 border rounded-md"
-              required
-            />
-          </div>
+    <div className="flex-1 min-w-[180px] max-w-sm">
+      <label className="block text-sm text-gray-700 mb-1">Size:</label>
+      <input
+        type="text"
+        name="size"
+        value={petInfo.size}
+        onChange={handleChange}
+        className="w-full p-2 border rounded-md"
+        placeholder="e.g. Medium"
+        required
+      />
+    </div>
 
-          <div>
-            <label className="block text-gray-700">Specie:</label>
-            <select
-              name="specie"
-              value={petInfo.specie}
-              onChange={handleChange}
-              className="w-full p-2 border rounded-md"
-              required
-            >
-              <option value="Other">Other</option>
-              <option value="Dog">Dog</option>
-              <option value="Cat">Cat</option>
-            </select>
-          </div>
+    <div className="flex-1 min-w-[200px] max-w-sm">
+      <label className="block text-sm text-gray-700 mb-1">Temperament:</label>
+      <input
+        type="text"
+        name="temperament"
+        value={petInfo.temperament}
+        onChange={handleChange}
+        className="w-full p-2 border rounded-md"
+        placeholder="e.g. Friendly"
+        required
+      />
+    </div>
 
-          <div>
-            <label className="block text-gray-700">Breed:</label>
-            <input
-              type="text"
-              name="breed"
-              value={petInfo.breed}
-              onChange={handleChange}
-              className="w-full p-2 border rounded-md"
-              required
-            />
-          </div>
+    <div className="flex-1 min-w-[200px] max-w-sm">
+      <label className="block text-sm text-gray-700 mb-1">Contact:</label>
+      <input
+        type="text"
+        name="contact"
+        value={petInfo.contact}
+        onChange={handleChange}
+        className="w-full p-2 border rounded-md"
+        placeholder="e.g. +92 3001234567"
+        required
+      />
+    </div>
 
-          <div>
-            <label className="block text-gray-700">Size:</label>
-            <input
-              type="text"
-              name="size"
-              value={petInfo.size}
-              onChange={handleChange}
-              className="w-full p-2 border rounded-md"
-              required
-            />
-          </div>
+    <div className="flex-1 min-w-[220px] max-w-sm">
+      <label className="block text-sm text-gray-700 mb-1">Location:</label>
+      <input
+        type="text"
+        name="location"
+        value={petInfo.location}
+        onChange={handleChange}
+        className="w-full p-2 border rounded-md"
+        placeholder="e.g. Peshawar, Pakistan"
+        required
+      />
+    </div>
 
-          <div>
-            <label className="block text-gray-700">Temperament:</label>
-            <input
-              type="text"
-              name="temperament"
-              value={petInfo.temperament}
-              onChange={handleChange}
-              className="w-full p-2 border rounded-md"
-              required
-            />
-          </div>
+    <div className="flex-1 min-w-[160px] max-w-sm">
+      <label className="block text-sm text-gray-700 mb-1">Gender:</label>
+      <select
+        name="gender"
+        value={petInfo.gender}
+        onChange={handleChange}
+        className="w-full p-2 border rounded-md"
+        required
+      >
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+      </select>
+    </div>
+  </div>
 
-          <div>
-            <label className="block text-gray-700">Contact:</label>
-            <input
-              type="text"
-              name="contact"
-              value={petInfo.contact}
-              onChange={handleChange}
-              className="w-full p-2 border rounded-md"
-              required
-            />
-          </div>
+  <div className="flex flex-wrap gap-4 w-full">
+    <div className="flex-1 min-w-[250px] max-w-[50%]">
+      <label className="block text-sm text-gray-700 mb-1">Bio:</label>
+      <textarea
+        name="bio"
+        value={petInfo.bio}
+        onChange={handleChange}
+        className="w-full p-2 border rounded-md h-20"
+        placeholder="Short description about the pet"
+        required
+      />
+    </div>
 
-          <div>
-            <label className="block text-gray-700">Location:</label>
-            <input
-              type="text"
-              name="location"
-              value={petInfo.location}
-              onChange={handleChange}
-              className="w-full p-2 border rounded-md"
-              required
-            />
-          </div>
+    <div className="flex-1 min-w-[250px] max-w-[50%]">
+      <label className="block text-sm text-gray-700 mb-1">Rescue Story:</label>
+      <textarea
+        name="rescue_story"
+        value={petInfo.rescue_story}
+        onChange={handleChange}
+        className="w-full p-2 border rounded-md h-20"
+        placeholder="How was this pet rescued?"
+        required
+      />
+    </div>
+  </div>
+  <div className="flex flex-wrap gap-4 w-full">
+  {/* Main Image Upload + Preview */}
+  <div className="flex-1 min-w-[220px] max-w-[50%]">
+    <label className="block text-sm text-gray-700 mb-1">Main Image:</label>
+    <label className="flex items-center justify-center gap-2 p-2 border rounded-md cursor-pointer bg-gray-50 hover:bg-gray-100">
+      <ImageIcon className="w-5 h-5 text-gray-600" />
+      <span className="text-sm text-gray-600">Choose Image</span>
+      <input
+        type="file"
+        name="main_image"
+        accept="image/*"
+        onChange={handleChange}
+        className="hidden"
+        required
+      />
+    </label>
+    {mainImagePreview && (
+      <img
+        src={mainImagePreview}
+        alt="Main Preview"
+        className="mt-2 h-32 w-40 object-cover rounded-md border"
+      />
+    )}
+  </div>
 
-          <div className="md:col-span-2">
-            <label className="block text-gray-700">Bio:</label>
-            <textarea
-              name="bio"
-              value={petInfo.bio}
-              onChange={handleChange}
-              className="w-full p-2 border rounded-md"
-              required
-            />
-          </div>
+  {/* Additional Images Upload + Previews */}
+  <div className="flex-1 min-w-[220px] max-w-[50%]">
+    <label className="block text-sm text-gray-700 mb-1">Additional Images:</label>
+    <label className="flex items-center justify-center gap-2 p-2 border rounded-md cursor-pointer bg-gray-50 hover:bg-gray-100">
+      <ImageIcon className="w-5 h-5 text-gray-600" />
+      <span className="text-sm text-gray-600">Upload Multiple</span>
+      <input
+        type="file"
+        name="images"
+        accept="image/*"
+        multiple
+        onChange={handleChange}
+        className="hidden"
+      />
+    </label>
+    {additionalImagePreviews.length > 0 && (
+      <div className="mt-2 flex flex-wrap gap-2">
+        {additionalImagePreviews.map((src, index) => (
+          <img
+            key={index}
+            src={src}
+            alt={`Preview ${index + 1}`}
+            className="h-20 w-20 object-cover rounded-md border"
+          />
+        ))}
+      </div>
+    )}
+  </div>
+</div>
 
-          <div className="md:col-span-2">
-            <label className="block text-gray-700">Rescue Story:</label>
-            <textarea
-              name="rescue_story"
-              value={petInfo.rescue_story}
-              onChange={handleChange}
-              className="w-full p-2 border rounded-md"
-              required
-            />
-          </div>
 
-          <div>
-            <label className="block text-gray-700">Gender:</label>
-            <select
-              name="gender"
-              value={petInfo.gender}
-              onChange={handleChange}
-              className="w-full p-2 border rounded-md"
-              required
-            >
-              <option value="Male">Male</option>
-              <option value="Female">Female</option>
-            </select>
-          </div>
+  <div className="flex">
+    <button className="bg-[#E17716] text-white px-4 py-2 rounded-md w-full max-w-xs mx-auto">
+      {loading && <ButtonSpinner />}
+      Upload Pet
+    </button>
+  </div>
+</form>
 
-          <div>
-            <label className="block text-gray-700">Main Image:</label>
-            <input
-              type="file"
-              name="main_image"
-              onChange={handleChange}
-              className="w-full p-2 border rounded-md"
-              required
-            />
-          </div>
 
-          <div>
-            <label className="block text-gray-700">Additional Images:</label>
-            <input
-              type="file"
-              name="images"
-              multiple
-              onChange={handleChange}
-              className="w-full p-2 border rounded-md"
-            />
-          </div>
-        </div>
+      {showToast ? (
+        <Toast content='Pet Uploaded Successfully!' type='success' />
+      ) : ''}
 
-        <div className="mt-4">
-          <button className="bg-[#E17716] text-white px-4 py-2 rounded-md">
-            {loading && <ButtonSpinner />}
-            Upload Pet
-          </button>
-        </div>
-      </form>
-      {showToast ?
-        <Toast content='Pet Uploaded Successfully!' type='success' /> : ''
-      }
       {error && <Toast content={error} type="error" />}
     </div>
   );

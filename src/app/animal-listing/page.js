@@ -30,7 +30,7 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-[#fbf5f0]">
       {/* Main Content */}
-      <main className="container mx-4 px-4 py-8 flex flex-col md:flex-row gap-8">
+      <main className="w-full pl-4 py-8 flex flex-col md:flex-row gap-8">
         {/* Filters Sidebar */}
         <PetFilters />
 
@@ -50,7 +50,7 @@ export default function Home() {
           </div>
 
           {/* Pet Cards Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+          <div className="flex flex-wrap gap-6">
 
             {loading ? <h1>Loading</h1>
               : error ? <h1>Error : {error}</h1> :

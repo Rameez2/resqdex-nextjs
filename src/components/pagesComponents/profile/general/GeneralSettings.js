@@ -13,7 +13,7 @@ import AdopterQuestionnaire from "../Dataforms/AdopterQuestionnaire"
 // import OrganizationQuestionnaire from "../Dataforms/OrganizationQuestionnaire"
 
 export default function GeneralSettings() {
-  const { user } = useUser();
+  const { user,setUser } = useUser();
   const [isEditing, setIsEditing] = useState(false);
   const [email, setEmail] = useState("");
   const [userData, setUserData] = useState("");
@@ -25,7 +25,13 @@ export default function GeneralSettings() {
   const [isAdopterOpen, setIsAdopterOpen] = useState(false);
 
   const handleOpenAdopter = () => setIsAdopterOpen(true);
-  const handleCloseAdopter = () => setIsAdopterOpen(false);
+  const handleCloseAdopter = (isSubmitted) => {
+    // if(isSubmitted) {
+    //   user.status = "Pending"
+    //   setUser()
+    // }
+    setIsAdopterOpen(false)
+  };
 
   useEffect(() => {
     setUserData(user);
@@ -52,13 +58,13 @@ export default function GeneralSettings() {
 
 
   return (
-    <div className="min-h-screen bg-[#fbf5f0] flex justify-center items-center p-4">
-      <div className="w-full max-w-3xl bg-white rounded-xl overflow-hidden shadow-sm">
+    <div className="bg-[#fbf5f0] flex justify-center items-center p-4">
+      <div className="w-full max-w-3xl bg-white rounded-xl overflow-hidden shadow-sm pb-3">
         {/* Header gradient */}
         <div className="h-16 bg-gradient-to-r from-[#b8d5ff] to-[#f9f9f9]"></div>
 
         {/* Profile section */}
-        <div className="px-8 py-6">
+        <div className="px-8">
           <ProfileSection />
 
           {/* Form */}
@@ -95,8 +101,8 @@ export default function GeneralSettings() {
               {
                 user.status === "Apply" ? <span onClick={handleOpenAdopter} className="bg-yellow-100 text-yellow-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-sm dark:bg-yellow-900 dark:text-yellow-300 cursor-pointer">Get Verified</span> :
                   user.status === "Pending" ? <span className="bg-gray-100 text-gray-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-sm dark:bg-gray-700 dark:text-gray-300">Pending</span> :
-                    user.status === "Rejected" ? <span onClick={handleOpenAdopter} className="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-sm dark:bg-red-900 dark:text-red-300">Rejected</span> :
-                      user.status === "Approved" ? <span className="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-sm dark:bg-green-900 dark:text-green-300">Approved</span> : ''
+                    user.status === "Rejected" ? <span onClick={handleOpenAdopter} className="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-sm dark:bg-red-900 dark:text-red-300 cursor-pointer">Rejected</span> :
+                      user.status === "Approved" ? <span className="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-sm dark:bg-green-900 dark:text-green-300">Verified</span> : ''
               }
             </div>
 

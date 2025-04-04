@@ -41,7 +41,25 @@ const Nav = () => {
         <div className="flex items-center space-x-4">
           {loading ? 'loading...' : user ?
             <>
-              {user.status === "Approved" && <BadgeCheck className="w-9 h-9 text-[#00bc00]" />}
+              {user.status === "Approved" ?
+              <>
+              {/* Verified
+               <BadgeCheck className="w-9 h-9 text-[#00bc00]" /> */}
+               <span className="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-sm dark:bg-green-900 dark:text-green-300">Approved</span>
+              </>:
+              user.status === "Apply" ? <>
+              <Link href="/profile">
+              <span className="bg-yellow-100 text-yellow-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-sm dark:bg-yellow-900 dark:text-yellow-300 cursor-pointer">Get Verified</span>
+              </Link>
+              </>: 
+              user.status === "Pending" ? <span className="bg-gray-100 text-gray-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-sm dark:bg-gray-700 dark:text-gray-300">Pending</span>
+              :
+              user.status === "Rejected" ?               
+              <Link href="/profile">
+              <span className="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-sm dark:bg-red-900 dark:text-red-300">Rejected</span>
+              </Link>
+              : ''
+               }
               <Link href="/messages">
                 <MessageSquare className="w-9 h-9 text-[#e17716]" />
               </Link>
@@ -70,7 +88,7 @@ const Nav = () => {
       </header>
 
       {/* Secondary Navigation */}
-      <div className="bg-[#e17716] py-4">
+      {/* <div className="bg-[#e17716] py-4">
         <div className="container mx-auto px-4 flex flex-wrap items-center justify-around">
           <div className="flex flex-wrap items-center space-x-4 md:space-x-8">
             <button className="text-white flex items-center">
@@ -94,7 +112,7 @@ const Nav = () => {
           </Link>
           :<></>}
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }

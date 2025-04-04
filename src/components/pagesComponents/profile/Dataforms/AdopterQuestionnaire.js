@@ -3,6 +3,7 @@ import React, { useReducer, useState } from "react";
 import { updateRecord } from "@/lib/appwrite/dataForms";
 import { useUser } from "@/context/userContext";
 import ButtonSpinner from "@/components/atoms/buttonSpinner";
+import Toast from "@/components/atoms/Toast";
 
 // ----------------- INITIAL STATE -----------------
 const initialState = {
@@ -74,7 +75,8 @@ const formReducer = (state, action) => {
 const AdopterQuestionnaire = ({ isOpen, onClose, onSubmit }) => {
   const [formData, dispatch] = useReducer(formReducer, initialState);
   const [submitLoading, setSubmitLoading] = useState(false);
-  const { user } = useUser();
+  const [showTost, setShowToast] = useState(false);
+  const { user, setUser } = useUser();
 
   if (!isOpen) return null;
 
@@ -87,10 +89,14 @@ const AdopterQuestionnaire = ({ isOpen, onClose, onSubmit }) => {
     try {
       setSubmitLoading(true);
       const updatedDoc = await updateRecord(user.$id, user.more_info, formData, "adopter");
+      setShowToast(true);
 
-      console.log("Adopter record updated:", updatedDoc);
-      alert("Form Submit Success");
-      onClose();
+      user.status = "Pending";
+      setUser(user);
+      // onClose();
+      setTimeout(() => {
+        onClose();
+      }, 2000);
       if (onSubmit) onSubmit(updatedDoc);
     } catch (error) {
       console.error("Error updating the record:", error);
@@ -117,12 +123,11 @@ const AdopterQuestionnaire = ({ isOpen, onClose, onSubmit }) => {
 
         {/* Form */}
         <form onSubmit={handleSubmit} className="space-y-6 mt-4">
-          {/* Personal Information */}
+          {/* // Personal Information */}
           <div className="p-4 bg-gray-50 rounded-lg border border-gray-200 mb-4">
             <h3 className="text-lg font-semibold text-gray-700">Personal Information</h3>
             {formData.personal_info.map((val, idx) => (
               <div key={idx} className="mb-2">
-                <label>{`Personal Info ${idx + 1}`}</label>
                 <input
                   type="text"
                   value={val}
@@ -134,7 +139,7 @@ const AdopterQuestionnaire = ({ isOpen, onClose, onSubmit }) => {
             ))}
           </div>
 
-          {/* Additional Info */}
+          {/* // Additional Info */}
           <div className="p-4 bg-gray-50 rounded-lg border border-gray-200 mb-4">
             <h3 className="text-lg font-semibold text-gray-700">Additional Info</h3>
             <textarea
@@ -145,12 +150,11 @@ const AdopterQuestionnaire = ({ isOpen, onClose, onSubmit }) => {
             />
           </div>
 
-          {/* Household Info */}
+          {/* // Household Info */}
           <div className="p-4 bg-gray-50 rounded-lg border border-gray-200 mb-4">
             <h3 className="text-lg font-semibold text-gray-700">Household Information</h3>
             {formData.household_info.map((val, idx) => (
               <div key={idx} className="mb-2">
-                <label>{`Household Info ${idx + 1}`}</label>
                 <input
                   type="text"
                   value={val}
@@ -162,12 +166,11 @@ const AdopterQuestionnaire = ({ isOpen, onClose, onSubmit }) => {
             ))}
           </div>
 
-          {/* Experience with Pets */}
+          {/* // Experience with Pets */}
           <div className="p-4 bg-gray-50 rounded-lg border border-gray-200 mb-4">
             <h3 className="text-lg font-semibold text-gray-700">Experience with Pets</h3>
             {formData.experience_with_pets.map((val, idx) => (
               <div key={idx} className="mb-2">
-                <label>{`Experience with Pets ${idx + 1}`}</label>
                 <input
                   type="text"
                   value={val}
@@ -179,12 +182,11 @@ const AdopterQuestionnaire = ({ isOpen, onClose, onSubmit }) => {
             ))}
           </div>
 
-          {/* Adoption Intentions */}
+          {/* // Adoption Intentions */}
           <div className="p-4 bg-gray-50 rounded-lg border border-gray-200 mb-4">
             <h3 className="text-lg font-semibold text-gray-700">Adoption Intentions</h3>
             {formData.adoption_intentions.map((val, idx) => (
               <div key={idx} className="mb-2">
-                <label>{`Adoption Intentions ${idx + 1}`}</label>
                 <input
                   type="text"
                   value={val}
@@ -196,12 +198,11 @@ const AdopterQuestionnaire = ({ isOpen, onClose, onSubmit }) => {
             ))}
           </div>
 
-          {/* Lifestyle Commitment */}
+          {/* // Lifestyle Commitment */}
           <div className="p-4 bg-gray-50 rounded-lg border border-gray-200 mb-4">
             <h3 className="text-lg font-semibold text-gray-700">Lifestyle Commitment</h3>
             {formData.lifestyle_commitment.map((val, idx) => (
               <div key={idx} className="mb-2">
-                <label>{`Lifestyle Commitment ${idx + 1}`}</label>
                 <input
                   type="text"
                   value={val}
@@ -213,12 +214,11 @@ const AdopterQuestionnaire = ({ isOpen, onClose, onSubmit }) => {
             ))}
           </div>
 
-          {/* Financial Considerations */}
+          {/* // Financial Considerations */}
           <div className="p-4 bg-gray-50 rounded-lg border border-gray-200 mb-4">
             <h3 className="text-lg font-semibold text-gray-700">Financial Considerations</h3>
             {formData.financial_considerations.map((val, idx) => (
               <div key={idx} className="mb-2">
-                <label>{`Financial Considerations ${idx + 1}`}</label>
                 <input
                   type="text"
                   value={val}
@@ -230,12 +230,11 @@ const AdopterQuestionnaire = ({ isOpen, onClose, onSubmit }) => {
             ))}
           </div>
 
-          {/* References */}
+          {/* // References */}
           <div className="p-4 bg-gray-50 rounded-lg border border-gray-200 mb-4">
             <h3 className="text-lg font-semibold text-gray-700">References</h3>
             {formData.references.map((val, idx) => (
               <div key={idx} className="mb-2">
-                <label>{`Reference ${idx + 1}`}</label>
                 <input
                   type="text"
                   value={val}
@@ -257,6 +256,7 @@ const AdopterQuestionnaire = ({ isOpen, onClose, onSubmit }) => {
           </button>
         </form>
       </div>
+      {showTost && <Toast content='Application submit success!' />}
     </div>
   );
 };

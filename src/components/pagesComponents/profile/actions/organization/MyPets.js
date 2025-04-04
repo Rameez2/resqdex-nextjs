@@ -3,6 +3,7 @@ import ButtonSpinner from '@/components/atoms/buttonSpinner';
 import Toast from '@/components/atoms/Toast';
 import { storage } from '@/lib/appwrite/appwrite';
 import { deleteMyPet, getMyPets } from '@/lib/appwrite/pets';
+import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 
 const MyPets = () => {
@@ -81,7 +82,10 @@ const MyPets = () => {
                                             className="w-14 h-14 object-cover rounded-lg"
                                         />
                                     </td>
-                                    <td className="px-6 py-4">{item.name}</td>
+
+                                    <Link href={`/pet/${item.$id}`}>
+                                        <td className="px-6 py-4">{item.name}</td>
+                                    </Link>
                                     <td className="px-6 py-4">{item.specie}</td>
                                     <td className="px-6 py-4">{item.gender}</td>
                                     <td className="px-6 py-4 flex justify-center items-center space-x-4">

@@ -37,15 +37,21 @@ const PetsAvailable = () => {
         }
     };
 
+
+
     return (
         <div>
             <h2 className="text-center text-[#e17716] text-3xl font-bold mb-10">Pets Available For Adoption</h2>
 
             <div className="flex justify-end gap-2 pr-5 mb-3">
-                <ArrowButton right={false} onClick={() => scroll('left')} />
-                <ArrowButton onClick={() => scroll('right')} />
+            <div onClick={() => scroll('left')}>
+                <ArrowButton right={false} />
             </div>
-            <div ref={scrollContainerRef} className="flex gap-4 overflow-x-auto pb-4 px-4 scrollbar-hide">
+            <div onClick={() => scroll('right')}>
+                <ArrowButton />
+            </div>
+            </div>
+            <div ref={scrollContainerRef} className="flex gap-4 overflow-x-auto pb-4 px-4 scrollbar-hide" style={{scrollbarWidth:'none'}}>
                 <div className="flex gap-4">
                     {loading ? <h1>Loading</h1>
                         : error ? <h1>Error : {error}</h1> :
