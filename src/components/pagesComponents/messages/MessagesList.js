@@ -1,5 +1,5 @@
 
-import MessagesSkeleton from '@/components/skeletons/messages/MessagesSkeleton';
+import MessagesSkeleton from '@/components/skeletons/MessagesSkeleton';
 import { Search, Smile, Paperclip, Send } from "lucide-react"
 
 const MessagesList = ({ user, recieverName, messagesLoading, updateChat, message, setMessage, messagesList, handleSendMsg }) => {

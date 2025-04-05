@@ -4,6 +4,7 @@ import PetCard from "@/components/ui/PetCard";
 import PetFilters from "@/components/pagesComponents/animals-listing/PetFilters";
 import { useEffect, useState } from "react";
 import { getPetsByFilter } from "@/lib/appwrite/pets";
+import PetCardSkeleton from "@/components/skeletons/PetCardSkeleton";
 
 export default function Home() {
   const [pets, setPets] = useState([]);
@@ -74,7 +75,7 @@ export default function Home() {
           {/* Pet Cards */}
           <div className="flex flex-wrap gap-6 ">
             {loading ? (
-              <h1>Loading...</h1>
+              <PetCardSkeleton/>
             ) : error ? (
               <h1>Error: {error}</h1>
             ) : pets.length ? (

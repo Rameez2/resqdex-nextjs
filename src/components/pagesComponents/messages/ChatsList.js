@@ -2,7 +2,7 @@ import { useUser } from '@/context/userContext';
 import { fetchMyChats } from '@/lib/appwrite/messages';
 import { Avatar } from "@/components/ui/avatar"
 import React, { useEffect, useState } from 'react';
-import ChatSkeleton from '@/components/skeletons/messages/ChatSkeleton';
+import ChatSkeleton from '@/components/skeletons/ChatSkeleton';
 import { client } from '@/lib/appwrite/appwrite';
 
 const ChatsList = ({ setRecieverId, chats, setChats, setRecieverName }) => {

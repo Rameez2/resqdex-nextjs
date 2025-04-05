@@ -1,5 +1,5 @@
 "use client"
-import PostsSkeleton from '@/components/skeletons/posts/PostsSkeleton';
+import PostsSkeleton from '@/components/skeletons/PostsSkeleton';
 import { getPosts } from '@/lib/appwrite/posts';
 import { getUserById } from '@/lib/appwrite/user';
 import { useRouter } from 'next/navigation';
