@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useUser } from "@/context/userContext";
 import { approveOrganization, getAllUsers } from "@/lib/appwrite/admin";
 import ButtonSpinner from "@/components/atoms/buttonSpinner";
+import MoreDetails from "./moreDetails/MoreDetails";
 
 const UsersManagement = () => {
     const [orgDetails, setOrgDetails] = useState([]);
@@ -61,14 +62,16 @@ const UsersManagement = () => {
     );
 
     function showMoreInfoModel(moreInfoId) {
+        console.log('model',moreInfoId);
+        
         setSelectedMoreInfo(moreInfoId);
         setShowMoreDetails(true);
-    }
-
-    function closeModal() {
+      }
+    
+      function closeModal() {
         setShowMoreDetails(false);
         setSelectedMoreInfo(null);
-    }
+      }
 
     return (
         <>
@@ -236,6 +239,7 @@ const UsersManagement = () => {
 
                     </tbody>
                 </table>
+                {showMoreDetails ? <MoreDetails setShowMoreDetails={setShowMoreDetails} detailsProp={selectedMoreInfo}/> : ''}
             </div>
         </>
     );

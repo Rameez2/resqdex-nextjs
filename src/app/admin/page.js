@@ -1,7 +1,7 @@
 "use client"
 import React, { useState } from 'react';
-import PetsManagment from '@/components/pagesComponents/admin/PetsManagment';
-import UsersManagment from '@/components/pagesComponents/admin/UsersManagment';
+import PetsManagment from '@/components/pagesComponents/admin/petsManage/PetsManagment';
+import UsersManagment from '@/components/pagesComponents/admin/usersManage/UsersManagment';
 import withAdminAuth from '@/lib/middlewares/adminProtection';
 
 const Page = () => {
