@@ -9,8 +9,6 @@ export const fetchCurrentUser = async () => {
     const response = await databases.listDocuments(
         process.env.NEXT_PUBLIC_DB_ID,  // Database ID
         process.env.NEXT_PUBLIC_USERS_ID, // Users Collection ID
-        // "6799c8c6002ec035cc8c", // DB_ID
-        // "6799c8e30016e6194427", // Users Collection ID
         [Query.equal("userId", userId)] // Query by userId field
     );
 

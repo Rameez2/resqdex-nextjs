@@ -11,19 +11,20 @@ import { useSearchParams } from "next/navigation";
 import withAuth from "@/lib/middlewares/withAuth"
 
 const MessaesComp = () => {
-  const [message, setMessage] = useState('');
-  const [messagesList, setMessagesList] = useState([]);
-  const [messagesLoading, setMessagesLoading] = useState(false);
-  const [recieverId, setRecieverId] = useState('');
-  const [recieverName, setRecieverName] = useState('');
-  const [chats, setChats] = useState([]);
+  const [message, setMessage] = useState(''); // Message Input
+  const [messagesList, setMessagesList] = useState([]); // Messages List
+  const [messagesLoading, setMessagesLoading] = useState(false); // Messages Screen Loading
+  const [recieverId, setRecieverId] = useState(''); // recievers Id
+  const [recieverName, setRecieverName] = useState(''); // recievers Name
+  const [chats, setChats] = useState([]); // Chats List
   const [searchTerm, setSearchTerm] = useState(''); // New state for search term
 
   const searchParams = useSearchParams();
   const adopterId = searchParams.get("adopterId"); // Get adopterId from URL
-  const adopterName = searchParams.get("name");
-  const { user } = useUser();
+  const adopterName = searchParams.get("name"); // Get name from URL
+  const { user } = useUser(); // context user
 
+  // check if user is redirect from CONTACT Button
   useEffect(() => {
     if (adopterId && adopterName) {
       setRecieverId(adopterId);
@@ -31,27 +32,29 @@ const MessaesComp = () => {
     }
   }, [adopterId, adopterName]);
 
+  // use Effect When Page Load
   useEffect(() => {
+    // function to fetch latest messages
     async function fetchMessages() {
       try {
-        const sentMessages = await getMessages(user.$id, recieverId);
-        const receivedMessages = await getMessages(recieverId, user.$id);
-        const allMessages = [...sentMessages, ...receivedMessages];
-        allMessages.sort((a, b) => new Date(b.$createdAt) - new Date(a.$createdAt));
-        console.log('all messages', allMessages);
-
-        setMessagesList(allMessages);
+        const sentMessages = await getMessages(user.$id, recieverId); // messages i sent
+        const receivedMessages = await getMessages(recieverId, user.$id); // messages i recieved
+        const allMessages = [...sentMessages, ...receivedMessages]; // merge both (send & recieved) messages list
+        allMessages.sort((a, b) => new Date(b.$createdAt) - new Date(a.$createdAt)); // sort Messages by time
+        setMessagesList(allMessages); // update Messages List State
       } catch (error) {
-        console.log("Error getting messages:", error);
+        console.log("Error getting messages:", error); // error while fetching latest messages
       } finally {
-        setMessagesLoading(false);
+        setMessagesLoading(false); // stops Messages Loading after response || error
       }
     }
 
-    if (recieverId && user) fetchMessages();
+    // if recieverId & user is available, then fetch the Messages
+    if (recieverId && user) fetchMessages(); 
     
+    // Track of Messages RealTime
     const unsubscribe = client.subscribe(
-      "databases.6799c8c6002ec035cc8c.collections.679b5d920001b01e6659.documents",
+      `databases.${NEXT_PUBLIC_DB_ID}.collections.${NEXT_PUBLIC_MESSAGES_ID}.documents`,
       (response) => {
         fetchMessages();
       }
@@ -59,10 +62,12 @@ const MessaesComp = () => {
     return () => unsubscribe();
   }, [recieverId, user]);
   
+  // set Messages loading only when a chat is switched
   useEffect(() => {
     setMessagesLoading(true);
-  }, [recieverId]);
+  }, [recieverId]); // when chat is switched [recieverId] is changed
 
+  // handle sending message after input submit
   async function handleSendMsg() {
     try {
       updateChat(recieverId, message);
@@ -82,6 +87,7 @@ const MessaesComp = () => {
     }
   }
 
+  // update the ChatList (push newChat)
   function updateChat() {
     setChats((prevChatList) => {
       const updatedChatList = prevChatList.filter(chat => chat.otherUserId !== recieverId);

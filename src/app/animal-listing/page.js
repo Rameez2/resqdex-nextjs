@@ -1,6 +1,6 @@
 "use client"
 import { ChevronDown } from "lucide-react"
-import PetCard from "@/components/resuable/PetCard"
+import PetCard from "@/components/ui/PetCard"
 import PetFilters from "@/components/pagesComponents/animals-listing/PetFilters"
 import { useEffect, useState } from "react"
 import { getPetsByFilter } from "@/lib/appwrite/pets"

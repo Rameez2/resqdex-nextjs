@@ -5,7 +5,7 @@ export const sendMessage = async (senderId,recieverId,content) => {
     try {
         const document = await databases.createDocument(
           process.env.NEXT_PUBLIC_DB_ID,
-          "679b5d920001b01e6659",
+          process.env.NEXT_PUBLIC_MESSAGES_ID,
           ID.unique(), // Unique ID for the message
           {
             sender: senderId,  // Sender ID (can be the authenticated user's ID)
@@ -16,7 +16,7 @@ export const sendMessage = async (senderId,recieverId,content) => {
 
         const existingChats = await databases.listDocuments(
           process.env.NEXT_PUBLIC_DB_ID,
-          "67bc1de900275a704a81", // Your chats collection ID
+          process.env.NEXT_PUBLIC_CHATS_ID,
           [
             Query.contains("user_ids", senderId), // Check if sender exists in the array
             Query.contains("user_ids", recieverId), // Check if receiver exists in the array
@@ -31,7 +31,7 @@ export const sendMessage = async (senderId,recieverId,content) => {
     
           await databases.updateDocument(
             process.env.NEXT_PUBLIC_DB_ID,
-            "67bc1de900275a704a81",
+            process.env.NEXT_PUBLIC_CHATS_ID,
             chatId,
             {
               last_message: content,
@@ -44,7 +44,7 @@ export const sendMessage = async (senderId,recieverId,content) => {
           // 4. If chat doesn't exist, create a new chat document
           await databases.createDocument(
             process.env.NEXT_PUBLIC_DB_ID,
-            "67bc1de900275a704a81",
+            process.env.NEXT_PUBLIC_CHATS_ID,
             ID.unique(),
             {
               user_ids: [senderId, recieverId], // Store both user IDs
@@ -70,7 +70,7 @@ export const getMessages = async (senderId, recieverId) => {
   
       const messageDocuments = await databases.listDocuments(
         process.env.NEXT_PUBLIC_DB_ID,
-        "679b5d920001b01e6659",
+        process.env.NEXT_PUBLIC_MESSAGES_ID,
         [
           Query.equal('sender', senderId), // Filtering messages by senderId
           Query.equal('reciever', recieverId) // Filtering messages by recieverId
@@ -91,7 +91,7 @@ export const fetchMyChats = async (userId) => {
         
         // Query chats where your user ID is included in the userIds array
         const response = await databases.listDocuments(process.env.NEXT_PUBLIC_DB_ID
-            , "67bc1de900275a704a81", [
+            , process.env.NEXT_PUBLIC_CHATS_ID, [
             Query.contains("user_ids", userId), // Checks if userId exists in the userIds array
         ]);
 

@@ -47,10 +47,8 @@ export const registerUser = async (name, email, password, role) => {
       console.log("User registered successfully in Auth:", user);
       // Now create a additional_info document
       const newAddInfo = await databases.createDocument(
-        // process.env.REACT_APP_DB_ID,  // Database ID
         process.env.NEXT_PUBLIC_DB_ID, // DB_ID
         process.env.NEXT_PUBLIC_ADDITIONALINFO_ID, // DB_ID
-        // "67c2aab2002b74932550", // Personal Info Collection ID
         ID.unique(), // Unique Document ID
         { personal_info: ["dumy"] }
       );

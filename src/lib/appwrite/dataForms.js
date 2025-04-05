@@ -10,7 +10,7 @@ export const updateRecord = async (currentUserId,docId, formData) => {
         // 1. Fetch existing org/adopter document
         const existingDoc = await databases.getDocument(
             process.env.NEXT_PUBLIC_DB_ID,
-            "67c2aab2002b74932550", // Collection ID for org/adopter
+            process.env.NEXT_PUBLIC_ADDITIONALINFO_ID,
             docId
         );
 
@@ -34,18 +34,15 @@ export const updateRecord = async (currentUserId,docId, formData) => {
         // 4. Update the org/adopter document with merged data
         const response = await databases.updateDocument(
             process.env.NEXT_PUBLIC_DB_ID,
-            "67c2aab2002b74932550",
+            process.env.NEXT_PUBLIC_ADDITIONALINFO_ID,
             docId,
             mergedData
         );
 
-        // 5. Fetch current user from your 'users' collection
-        // const currentUser = await getCurrentUserData();  // Must return a doc with currentUser.$id
-
         // 6. Update that user's enum field to "Pending"
         await databases.updateDocument(
             process.env.NEXT_PUBLIC_DB_ID,
-            "6799c8e30016e6194427",     // <-- put the actual users collection ID here
+            process.env.NEXT_PUBLIC_USERS_ID,
             currentUserId,
             { status: "Pending" }          // <-- replace "status" with the exact enum attribute name
         );
