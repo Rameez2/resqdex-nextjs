@@ -13,7 +13,7 @@ const UploadPet = () => {
   const [petInfo, setPetInfo] = useState({
     name: '',
     age: 3,
-    specie: 'Other',
+    specie: '',
     breed: '',
     size: '',
     temperament: '',
@@ -32,24 +32,6 @@ const UploadPet = () => {
   const [showToast, setShowToast] = useState(false);
   const [error, setError] = useState(null);
   
-
-
-  // const handleChange = (e) => {
-  //   const { name, value, type, files } = e.target;
-
-  //   if (type === 'file') {
-  //     if (name === 'main_image') {
-  //       setMainImageFile(files[0]); // Directly update the mainImageFile state
-  //     } else if (name === 'images') {
-  //       setImageFiles(files); // Directly update the imageFiles state
-  //     }
-  //   } else {
-  //     setPetInfo((prevState) => ({
-  //       ...prevState,
-  //       [name]: name === 'age' ? parseInt(value, 10) || '' : value,
-  //     }));
-  //   }
-  // };
 
   const handleChange = (e) => {
     const { name, value, type, files } = e.target;

@@ -1,6 +1,5 @@
 const { Query, ID } = require("appwrite");
-const { databases, account } = require("./appwrite");
-
+const { databases} = require("./appwrite");
 
 export const getPetsByFilter = async (numberOfPets = 10, offset = 0, filters = {}) => {
     const queries = [];
@@ -48,80 +47,39 @@ export const getPetById = async (petId) => {
   return petResponse;
 }
 
-export const getMyPets = async () => {
-  // Step 1: Get current authenticated user
-  const currentUser = await account.get();
-
-  // Step 2: Fetch the user document from the users collection
-  const response = await databases.listDocuments(
-    process.env.NEXT_PUBLIC_DB_ID,  // Database ID
-    process.env.NEXT_PUBLIC_USERS_ID, // Users Collection ID
-    [Query.equal("userId", currentUser.$id)] // Query using userId
-  );
-
-  // Step 3: Ensure the user is an organization
-  const userDocument = response.documents[0];
-  if (userDocument.role !== 'Organization') {
-    throw new Error('Only organizations can see their pets.');
-  }
-
-  // Step 4: Fetch all pets (no filter)
+export const getMyPets = async (userId) => {
+  // Fetch all my pets only
   const petsResponse = await databases.listDocuments(
     process.env.NEXT_PUBLIC_DB_ID,   // Database ID
     process.env.NEXT_PUBLIC_ANIMALS_ID, // Animals Collection ID
-    [Query.equal('organization_id', userDocument.$id)] // Filter by organization_id
+    [Query.equal('organization_id', userId)] // Filter by organization_id
   );
-
-  // Step 5: Display the pets
   const pets = petsResponse.documents;
-
-  // You can now update your state or UI with the fetched pets
+  
+  // return the pets array
   return pets;
 };
 
-
 export const uploadPet = async (petData) => {
 
-  const url = process.env.NEXT_PUBLIC_PETS_API;
-  const jwtToken = await account.createJWT();
-
-  const response = await fetch("https://679b7ca8bcf48aaa6895.appwrite.global/pets", {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${jwtToken.jwt}`
-    },
-    body: JSON.stringify(petData)
-  });
-
-  const data = await response.json();
-
-
-  if (response.status !== 200) {
-    throw new Error(data.error);
-  }
-
-  return data;
-}
+  const response = await databases.createDocument(
+          process.env.NEXT_PUBLIC_DB_ID,
+          process.env.NEXT_PUBLIC_ANIMALS_ID,
+          ID.unique(),
+          {
+              ...petData, // Spread the pet data into the document
+          }
+      );
+      return response; // Return the created document response
+};
 
 export const deleteMyPet = async (petId) => {
-
-  const url = process.env.REACT_APP_PETS_API;
-  const jwtToken = await account.createJWT();
-
-  const response = await fetch("https://679b7ca8bcf48aaa6895.appwrite.global/pets", {
-    method: 'DELETE',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${jwtToken.jwt}`
-    },
-    body: JSON.stringify({ petId: petId })
-  });
-
-  const data = await response.json();
-
-  if (response.status !== 200) {
-    throw new Error(data.error);
-  }
-  return data;
-}
+  
+      // Delete the document from the specified collection
+      const response = await databases.deleteDocument(
+          process.env.NEXT_PUBLIC_DB_ID,        // Database ID
+          process.env.NEXT_PUBLIC_ANIMALS_ID,   // Collection ID
+          petId                                 // The pet document ID to be deleted
+      );
+      return response; // Return the response from the deletion (typically an empty object)
+};

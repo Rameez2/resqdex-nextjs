@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useUser } from "@/context/userContext";
-import { approveOrganization, getAllUsers } from "@/lib/appwrite/admin";
+import { changeUserStatus, getAllUsers } from "@/lib/appwrite/admin";
 import ButtonSpinner from "@/components/atoms/buttonSpinner";
 import MoreDetails from "./moreDetails/MoreDetails";
 
@@ -44,7 +44,7 @@ const UsersManagement = () => {
     async function changeStatus(id, status) {
         setLoadingStates((prev) => ({ ...prev, [id]: status }));
         try {
-            await approveOrganization(id, status);
+            await changeUserStatus(id, status);
             setOrgDetails((prev) =>
                 prev.map((org) => (org.$id === id ? { ...org, status } : org))
             );

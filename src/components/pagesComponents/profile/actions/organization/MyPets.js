@@ -1,6 +1,7 @@
 "use client";
 import ButtonSpinner from '@/components/atoms/buttonSpinner';
 import Toast from '@/components/atoms/Toast';
+import { useUser } from '@/context/userContext';
 import { storage } from '@/lib/appwrite/appwrite';
 import { deleteMyPet, getMyPets } from '@/lib/appwrite/pets';
 import Link from 'next/link';
@@ -13,11 +14,14 @@ const MyPets = () => {
     const [deletingPetId, setDeletingPetId] = useState(null);
     const [showToast, setShowToast] = useState(false);
 
+    const {user} = useUser();
+
     useEffect(() => {
-        (async () => {
+        if(user) (async () => {
             try {
                 setLoading(true);
-                const response = await getMyPets();
+                // const response = await getPetsByFilter(user.$id);
+                const response = await getMyPets(user.$id);
                 setPets(response);
             } catch (error) {
                 setError(error.message);

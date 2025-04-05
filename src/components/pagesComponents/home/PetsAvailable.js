@@ -14,9 +14,7 @@ const PetsAvailable = () => {
         (async () => {
             try {
                 const petsResponse = await getPetsByFilter();
-                const filteredPets = petsResponse.filter(pet => pet.post_by !== "Adopter");
-                console.log('got pets', filteredPets);
-                setPets(filteredPets);
+                setPets(petsResponse);
                 setLoading(false);
             } catch (error) {
                 console.log('Error while fetching pets', error.message);

@@ -1,4 +1,4 @@
-import { ID, Query } from "appwrite";
+import { ID } from "appwrite";
 import { account, databases } from "./appwrite"
 
 export const loginWithEmailAndPass = async (email, password) => {

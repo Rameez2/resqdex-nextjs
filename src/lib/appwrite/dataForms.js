@@ -1,6 +1,4 @@
-import { ID, Query } from "appwrite";
-import { account, databases } from "./appwrite";
-
+import { databases } from "./appwrite";
 
 export const updateRecord = async (currentUserId,docId, formData) => {
     try {
