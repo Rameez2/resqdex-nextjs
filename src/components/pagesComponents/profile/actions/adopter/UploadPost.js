@@ -1,7 +1,7 @@
 import ButtonSpinner from '@/components/atoms/buttonSpinner';
 import Toast from '@/components/atoms/Toast';
 import { useUser } from '@/context/userContext';
-import { adopterPost } from '@/lib/appwrite/posts';
+import { createPost } from '@/lib/appwrite/posts';
 import React, { useState } from 'react';
 
 const UploadPost = () => {
@@ -23,7 +23,7 @@ const UploadPost = () => {
                 throw new Error("User not Approved!");
             }
             console.log('handle submit runned');
-            await adopterPost({id:user.$id,content:content,name:user.name});
+            await createPost({id:user.$id,content:content,name:user.name},user.$id);
             setShowToast(true);  
         } catch (error) {
             console.log(error);

@@ -1,6 +1,6 @@
 "use client"
 import PostsSkeleton from '@/components/skeletons/PostsSkeleton';
-import { getPosts } from '@/lib/appwrite/posts';
+import { getAllPosts } from '@/lib/appwrite/posts';
 import { getUserById } from '@/lib/appwrite/user';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
@@ -16,7 +16,7 @@ const AdopterPost = () => {
         (async () => {
             try {
                 setLoading(true);
-                let response = await getPosts();
+                let response = await getAllPosts();
                 setPosts(response)
                 console.log(response);
                 
@@ -60,7 +60,7 @@ const AdopterPost = () => {
                         </div>
 
                         {/* Contact Button */}
-                        <div className="p-4 text-left" onClick={() => startInquiry(item.organization_id)}>
+                        <div className="p-4 text-left" onClick={() => startInquiry(item.ownerId)}>
                             <button className="px-6 py-2 bg-[#e17716] text-white rounded-md hover:bg-[#d66914] transition duration-300">
                                 Contact
                             </button>

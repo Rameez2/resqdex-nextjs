@@ -1,5 +1,5 @@
 import { useUser } from '@/context/userContext';
-import { deletePostById, getPostsByAdopterId } from '@/lib/appwrite/posts';
+import { deletePostById, getMyPosts } from '@/lib/appwrite/posts';
 import React, { useEffect, useState } from 'react';
 
 const MyPosts = () => {
@@ -15,7 +15,7 @@ const MyPosts = () => {
             try {
                 setLoading(true);
                 setError(null);
-                const response = await getPostsByAdopterId(user.$id);
+                const response = await getMyPosts(user.$id);
                 setPosts(response);
             } catch (error) {
                 setError(error.message);
@@ -54,6 +54,7 @@ const MyPosts = () => {
                         <li key={post.$id} className="bg-white p-4 rounded-lg shadow flex justify-between items-center">
                             <div>
                                 <p className="font-semibold">#{index + 1}</p>
+                                <h2 className="text-gray-700 font-bold">{post.name}</h2>
                                 <p className="text-gray-700">{post.content}</p>
                             </div>
                             <button
