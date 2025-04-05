@@ -12,7 +12,6 @@ export const getPetsByFilter = async (numberOfPets = 10, offset = 0, filters = {
       queries.push(Query.offset(offset));
     }
 
-
     // Apply filters dynamically (ignoring age and empty values)
     if (filters.breed && filters.breed.trim() !== "") {
       queries.push(Query.equal("breed", filters.breed));
@@ -35,10 +34,8 @@ export const getPetsByFilter = async (numberOfPets = 10, offset = 0, filters = {
     );
 
     const pets = petsResponse.documents;
-    // console.log("Filtered Pets:", pets);
     return pets;
 };
-
 
 export const getPetById = async (petId) => {
 
@@ -49,9 +46,7 @@ export const getPetById = async (petId) => {
   );
 
   return petResponse;
-
 }
-
 
 export const getMyPets = async () => {
   // Step 1: Get current authenticated user
@@ -79,7 +74,6 @@ export const getMyPets = async () => {
 
   // Step 5: Display the pets
   const pets = petsResponse.documents;
-  console.log('My Uploaded Pets:', pets);
 
   // You can now update your state or UI with the fetched pets
   return pets;
@@ -87,7 +81,6 @@ export const getMyPets = async () => {
 
 
 export const uploadPet = async (petData) => {
-  console.log('uploading...', petData);
 
   const url = process.env.NEXT_PUBLIC_PETS_API;
   const jwtToken = await account.createJWT();
@@ -103,7 +96,6 @@ export const uploadPet = async (petData) => {
 
   const data = await response.json();
 
-  // console.log('dataaa res:',response.status);
 
   if (response.status !== 200) {
     throw new Error(data.error);
@@ -113,7 +105,6 @@ export const uploadPet = async (petData) => {
 }
 
 export const deleteMyPet = async (petId) => {
-  console.log('deetlting...');
 
   const url = process.env.REACT_APP_PETS_API;
   const jwtToken = await account.createJWT();
@@ -128,7 +119,6 @@ export const deleteMyPet = async (petId) => {
   });
 
   const data = await response.json();
-  console.log('del res', data);
 
   if (response.status !== 200) {
     throw new Error(data.error);

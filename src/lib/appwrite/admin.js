@@ -22,7 +22,6 @@ export const approveOrganization = async (orgId,status) => {
 
       const url = process.env.NEXT_PUBLIC_PETS_API;
       const jwtToken = await account.createJWT();
-          // console.log('chaning status',jwtToken.jwt);
           
           const response = await fetch("https://679b8e4754abf196901a.appwrite.global/admin/status", {
             method: 'PUT',
@@ -34,7 +33,7 @@ export const approveOrganization = async (orgId,status) => {
           });
 
         const data = await response.json();
-        console.log('statsu res',data);
+        console.log('status change response:',data);
 
         if (response.status !== 200) {
           throw new Error(data.error);
@@ -47,7 +46,7 @@ export const approveOrganization = async (orgId,status) => {
 export const adminDeletePetById = async (petId) => {
     const url = process.env.NEXT_PUBLIC_PETS_API;
     const jwtToken = await account.createJWT();
-        console.log('deleting pet',jwtToken.jwt);
+        console.log('deleting pet...',jwtToken.jwt);
         
         const response = await fetch("https://679b8e4754abf196901a.appwrite.global/admin/pets", {
           method: 'DELETE',

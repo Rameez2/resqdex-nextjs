@@ -24,7 +24,6 @@ export const sendMessage = async (senderId,recieverId,content) => {
         );
 
         if (existingChats.documents.length > 0) {
-          console.log('chat already exists');
           
           // 3. If chat exists, update last_message and last_message_time
           const chatId = existingChats.documents[0].$id;
@@ -39,7 +38,6 @@ export const sendMessage = async (senderId,recieverId,content) => {
             }
           );
         } else {
-          console.log('chat dont exists,creating new chat');
 
           // 4. If chat doesn't exist, create a new chat document
           await databases.createDocument(
@@ -53,7 +51,6 @@ export const sendMessage = async (senderId,recieverId,content) => {
           );
         }
 
-        console.log("Message sent and chat updated/created successfully!");
       } catch (error) {
         console.error('Error sending message:', error);
       }
@@ -87,8 +84,6 @@ export const getMessages = async (senderId, recieverId) => {
 // Function to fetch all chats for a specific user
 export const fetchMyChats = async (userId) => {
     try {
-        console.log('chat fetch started',userId);
-        
         // Query chats where your user ID is included in the userIds array
         const response = await databases.listDocuments(process.env.NEXT_PUBLIC_DB_ID
             , process.env.NEXT_PUBLIC_CHATS_ID, [
@@ -117,8 +112,6 @@ export const fetchMyChats = async (userId) => {
                 lastMessageTime: chat.lastMessageTime,
             });
         }
-
-        console.log('chats', chats);
 
         return chats;
     } catch (error) {

@@ -37,7 +37,7 @@ const ChatsList = ({ setRecieverId, chats, setChats, setRecieverName }) => {
     if(user && user.$id) getChats();
 
     const unsubscribe = client.subscribe(
-      `databases.${NEXT_PUBLIC_DB_ID}.collections.${NEXT_PUBLIC_CHATS_ID}.documents`,
+      `databases.${process.env.NEXT_PUBLIC_DB_ID}.collections.${process.env.NEXT_PUBLIC_CHATS_ID}.documents`,
       (response) => {
         getChats();
       }

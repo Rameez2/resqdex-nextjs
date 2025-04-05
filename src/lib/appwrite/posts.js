@@ -2,7 +2,6 @@ import { ID, Query } from "appwrite";
 import { databases } from "./appwrite";
 
 export const adopterPost = async (data) => {
-    console.log('creating post....');
 
     const postData = {
         name: data.name,
@@ -29,7 +28,6 @@ export const adopterPost = async (data) => {
             ID.unique(),                    // Generates a unique document ID
             postData
         );
-        console.log("POST created successfully:", response);
         return response;
     } catch (error) {
         console.error("Error upload post:", error);

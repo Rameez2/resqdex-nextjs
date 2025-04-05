@@ -4,9 +4,6 @@ import { account, databases } from "./appwrite";
 
 export const updateRecord = async (currentUserId,docId, formData) => {
     try {
-        console.log('DOC ID:', docId);
-        console.log('FORM DATA:', formData);
-
         // 1. Fetch existing org/adopter document
         const existingDoc = await databases.getDocument(
             process.env.NEXT_PUBLIC_DB_ID,

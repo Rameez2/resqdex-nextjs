@@ -15,12 +15,11 @@ export const fetchCurrentUser = async () => {
     // Check if the user document exists
     if (response.documents.length === 0) {
         // throw new Error("User data not found in the database.");
-        console.log("User data not found in the database.");
+        console.error("User data not found in the database.");
 
     }
 
     const userData = response.documents[0]; // Get the first document (should be unique)
-    // console.log("User Data from Database:", userData);
     return userData;
 }
 
