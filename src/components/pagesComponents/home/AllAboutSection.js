@@ -18,7 +18,7 @@ export default function AllAboutSection() {
             </p>
             <Link
               href="#"
-              className="inline-block rounded-md bg-[#e17716] px-8 py-3 text-lg font-medium text-white transition-colors hover:bg-[#f2b47b]"
+              className="inline-block rounded-md bg-primary px-8 py-3 text-lg font-medium text-white transition-colors hover:bg-[#f2b47b]"
             >
               Learn More
             </Link>

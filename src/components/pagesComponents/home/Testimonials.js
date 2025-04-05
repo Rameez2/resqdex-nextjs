@@ -76,7 +76,7 @@ export default function Testimonials() {
 
     return (
         <div className="container mx-auto px-4 py-16">
-            <h2 className="text-center text-[#e17716] text-5xl font-bold mb-16">Testimonials</h2>
+            <h2 className="text-center text-primary text-5xl font-bold mb-16">Testimonials</h2>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                 {testimonialsData.slice(currentIndex, currentIndex + itemsPerPage).map((testimonial, index) => (
@@ -105,7 +105,7 @@ export default function Testimonials() {
                 {Array.from({ length: totalPages }, (_, index) => (
                     <div
                         key={index}
-                        className={`w-3 h-3 rounded-full cursor-pointer transition-all duration-300 ${currentIndex / itemsPerPage === index ? 'bg-[#e17716] scale-110' : 'bg-[#d9d9d9]'}`}
+                        className={`w-3 h-3 rounded-full cursor-pointer transition-all duration-300 ${currentIndex / itemsPerPage === index ? 'bg-primary scale-110' : 'bg-[#d9d9d9]'}`}
                         onClick={() => handleDotClick(index)}
                     ></div>
                 ))}

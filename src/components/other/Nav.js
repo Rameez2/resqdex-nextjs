@@ -20,21 +20,21 @@ const Nav = () => {
   }
 
   return (
-    <div>
+    <div className="border-b border-primary">
       {/* Header */}
       <header className="container mx-auto px-4 py-4 flex items-center justify-between">
         <div className="text-3xl font-bold">Logo</div>
         <nav className="hidden md:flex items-center space-x-8 font-bold">
-          <Link href="/" className="text-[#000000] hover:text-[#e17716]">
+          <Link href="/" className="text-[#000000] hover:text-primary">
             Home
           </Link>
-          <Link href="/about-us" className="text-[#000000] hover:text-[#e17716]">
+          <Link href="/about-us" className="text-[#000000] hover:text-primary">
             About Us
           </Link>
-          <Link href="/animal-listing" className="text-[#000000] hover:text-[#e17716]">
+          <Link href="/animal-listing" className="text-[#000000] hover:text-primary">
             Animal Listing
           </Link>
-          <Link href="contact-us" className="text-[#000000] hover:text-[#e17716]">
+          <Link href="contact-us" className="text-[#000000] hover:text-primary">
             Contact Us
           </Link>
         </nav>
@@ -61,24 +61,24 @@ const Nav = () => {
               : ''
                }
               <Link href="/messages">
-                <MessageSquare className="w-9 h-9 text-[#e17716]" />
+                <MessageSquare className="w-9 h-9 text-primary" />
               </Link>
               <Link href="/profile">
-                <CircleUser className="w-9 h-9 text-[#e17716]" />
+                <CircleUser className="w-9 h-9 text-primary" />
               </Link>
-              <button onClick={handleLogOut}>LogOUt</button>
+              <button onClick={handleLogOut} className="text-primary">LogOUt</button>
             </>
             :
             <>
 
               <Link href="/login">
-                <button className="bg-[#e17716] text-white px-6 py-2 rounded-md hover:bg-[#e17716]/90 transition-colors">
+                <button className="bg-primary text-white px-6 py-2 rounded-md hover:bg-primary/90 transition-colors">
                   Login
                 </button>
               </Link>
               <Link href="/signup">
 
-                <button className="border border-[#e17716] text-[#e17716] px-6 py-2 rounded-md hover:bg-[#e17716]/10 transition-colors">
+                <button className="border border-primary text-primary px-6 py-2 rounded-md hover:bg-primary/10 transition-colors">
                   Sign Up
                 </button>
               </Link>
@@ -88,7 +88,7 @@ const Nav = () => {
       </header>
 
       {/* Secondary Navigation */}
-      {/* <div className="bg-[#e17716] py-4">
+      {/* <div className="bg-primary py-4">
         <div className="container mx-auto px-4 flex flex-wrap items-center justify-around">
           <div className="flex flex-wrap items-center space-x-4 md:space-x-8">
             <button className="text-white flex items-center">

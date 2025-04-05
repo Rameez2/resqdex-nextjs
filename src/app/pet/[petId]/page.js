@@ -113,7 +113,7 @@ export default function PetAdoption() {
             <div className="bg-[#ffffff] rounded-lg p-6 mb-6 relative">
               <div className="flex justify-between items-start">
                 <div>
-                  <h3 className="text-[#e17716] font-medium mb-1">Introduction</h3>
+                  <h3 className="text-primary font-medium mb-1">Introduction</h3>
                   <h2 className="text-3xl font-bold mb-4">{petDetails.name}</h2>
                 </div>
                 <button className="p-2 rounded-full bg-[#fff5ef]">
@@ -130,15 +130,15 @@ export default function PetAdoption() {
                 <h3 className="text-[#55514f] font-medium mb-4">General Info</h3>
                 <div className="grid grid-cols-3 gap-4 border-b border-[#eeeeee] pb-6">
                   <div>
-                    <h4 className="text-[#e17716] text-xl font-medium">Name</h4>
+                    <h4 className="text-primary text-xl font-medium">Name</h4>
                     <p className="font-medium">{petDetails.name}</p>
                   </div>
                   <div>
-                    <h4 className="text-[#e17716] text-xl font-medium">Gender</h4>
+                    <h4 className="text-primary text-xl font-medium">Gender</h4>
                     <p className="font-medium">{petDetails.gender}</p>
                   </div>
                   <div>
-                    <h4 className="text-[#e17716] text-xl font-medium">Age</h4>
+                    <h4 className="text-primary text-xl font-medium">Age</h4>
                     <p className="font-medium">{petDetails.age}</p>
                   </div>
                 </div>
@@ -173,18 +173,18 @@ export default function PetAdoption() {
           <div className="md:col-span-1">
             <div className="bg-[#ffffff] rounded-lg p-6 mb-6">
               <div className="flex items-center gap-4 mb-4">
-                <div className="w-16 h-16 rounded-full overflow-hidden">
+                <div className="min-w-20 min-h-20 rounded-full overflow-hidden">
                   <img
                     src={storage.getFileView('6799fb94000edc47b27d', petDetails.main_image)}
                     alt={petDetails.name}
-                    width={80} height={80} className="rounded-full w-20 h-20 border-2 border-white shadow-sm object-cover"
+                    width={80} height={80} className="rounded-full min-w-20 min-h-20 border-2 border-white shadow-sm object-cover"
                   />
                 </div>
                 <div>
                   <h3 className="font-medium">Considering {petDetails.name} for adoption?</h3>
                 </div>
                 <button className="ml-auto">
-                  <Share className="h-5 w-5 text-[#3f3f3f] cursor-pointer hover:text-[#e17716]" />
+                  <Share className="h-5 w-5 text-[#3f3f3f] cursor-pointer hover:text-primary" />
                 </button>
               </div>
 
@@ -206,8 +206,8 @@ export default function PetAdoption() {
               </div>
 
               <div className="space-y-3">
-                <Button className="w-full bg-[#e17716] hover:bg-[#e17716]/90 text-white" onClick={() => startInquiry(petDetails.organization_id)}>Start Inquiry</Button>
-                <Button variant="outline" className="w-full border-[#e17716] text-[#e17716] hover:bg-[#fff5ef]">
+                <Button className="w-full bg-primary hover:bg-primary/90 text-white" onClick={() => startInquiry(petDetails.organization_id)}>Start Inquiry</Button>
+                <Button variant="outline" className="w-full border-primary text-primary hover:bg-[#fff5ef]">
                   Sponsor
                 </Button>
               </div>
@@ -220,7 +220,7 @@ export default function PetAdoption() {
               <div className="absolute -left-1 bottom-1/4 w-2 h-2 rounded-full bg-[#d9d9d9]"></div>
               <div className="absolute -right-1 bottom-1/4 w-2 h-2 rounded-full bg-[#d9d9d9]"></div>
 
-              <h2 className="text-xl font-medium text-[#e17716] mb-6">Personality and Traits</h2>
+              <h2 className="text-xl font-medium text-primary mb-6">Personality and Traits</h2>
 
               <div className="space-y-6">
                 <div>

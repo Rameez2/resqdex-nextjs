@@ -362,7 +362,7 @@ const UploadPet = () => {
 
 
   <div className="flex">
-    <button className="bg-[#E17716] text-white px-4 py-2 rounded-md w-full max-w-xs mx-auto">
+    <button className="bg-primary text-white px-4 py-2 rounded-md w-full max-w-xs mx-auto">
       {loading && <ButtonSpinner />}
       Upload Pet
     </button>

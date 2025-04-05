@@ -8,7 +8,7 @@ export default function AnimalCategories() {
         <div className="absolute left-0 top-1/2 -translate-y-1/2 w-[40%] aspect-square rounded-full bg-cream z-0"></div>
 
         <div className="relative z-10 container mx-auto">
-          <h1 className="text-[#e17716] text-4xl md:text-5xl lg:text-6xl font-bold mb-20 text-center">
+          <h1 className="text-primary text-4xl md:text-5xl lg:text-6xl font-bold mb-20 text-center">
             Explore Vast Categories of Animals
           </h1>
 
@@ -16,7 +16,7 @@ export default function AnimalCategories() {
             {/* Cat Category */}
             <div className="flex flex-col items-center">
               <div className="mb-4">
-                <Cat className="w-16 h-16 text-[#e17716]" />
+                <Cat className="w-16 h-16 text-primary" />
               </div>
               <h3 className="text-black text-2xl font-medium">Cats</h3>
             </div>
@@ -24,7 +24,7 @@ export default function AnimalCategories() {
             {/* Dog Category */}
             <div className="flex flex-col items-center">
               <div className="mb-4">
-                <Dog className="w-16 h-16 text-[#e17716]" />
+                <Dog className="w-16 h-16 text-primary" />
               </div>
               <h3 className="text-black text-2xl font-medium">Dogs</h3>
             </div>
@@ -32,14 +32,14 @@ export default function AnimalCategories() {
             {/* Other Animals Category */}
             <div className="flex flex-col items-center">
               <div className="mb-4">
-              <PawPrint className="w-16 h-16 text-[#e17716]" />
+              <PawPrint className="w-16 h-16 text-primary" />
               </div>
               <h3 className="text-black text-2xl font-medium">Other Animal</h3>
             </div>
           </div>
 
           <div className="flex justify-center md:justify-center">
-            <button className="cursor-pointer bg-[#e17716] text-white px-6 py-3 rounded-full flex items-center gap-2 text-lg font-medium hover:bg-primary/90 transition-colors">
+            <button className="cursor-pointer bg-primary text-white px-6 py-3 rounded-full flex items-center gap-2 text-lg font-medium hover:bg-primary/90 transition-colors">
               Explore All Categories
               <ArrowRight className="h-5 w-5" />
             </button>

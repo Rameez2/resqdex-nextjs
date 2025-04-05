@@ -33,7 +33,7 @@ export default function ContactPage() {
 
             <div className="space-y-4">
               <div className="flex items-start gap-4">
-                <MapPin className="mt-1 h-5 w-5 text-[#e17716]" />
+                <MapPin className="mt-1 h-5 w-5 text-primary" />
                 <div>
                   <p className="font-medium text-[#011334]">1055 Arthur ave Elk Groot, 67.</p>
                   <p className="font-medium text-[#011334]">New Palmas South Carolina.</p>
@@ -41,12 +41,12 @@ export default function ContactPage() {
               </div>
 
               <div className="flex items-center gap-4">
-                <Phone className="h-5 w-5 text-[#e17716]" />
+                <Phone className="h-5 w-5 text-primary" />
                 <p className="font-medium text-[#011334]">+1 234 678 9108 99</p>
               </div>
 
               <div className="flex items-center gap-4">
-                <Mail className="h-5 w-5 text-[#e17716]" />
+                <Mail className="h-5 w-5 text-primary" />
                 <p className="font-medium text-[#011334]">Contact@reqdexx.com</p>
               </div>
             </div>
@@ -61,14 +61,14 @@ export default function ContactPage() {
                     <input
                       type="text"
                       placeholder="John"
-                      className="w-full rounded-lg border border-[#bdbdbd] p-3 focus:border-[#e17716] focus:outline-none"
+                      className="w-full rounded-lg border border-[#bdbdbd] p-3 focus:border-primary focus:outline-none"
                     />
                   </div>
                   <div>
                     <input
                       type="text"
                       placeholder="Last Name*"
-                      className="w-full rounded-lg border border-[#bdbdbd] p-3 focus:border-[#e17716] focus:outline-none"
+                      className="w-full rounded-lg border border-[#bdbdbd] p-3 focus:border-primary focus:outline-none"
                     />
                   </div>
                 </div>
@@ -77,7 +77,7 @@ export default function ContactPage() {
                   <input
                     type="email"
                     placeholder="Email*"
-                    className="w-full rounded-lg border border-[#bdbdbd] p-3 focus:border-[#e17716] focus:outline-none"
+                    className="w-full rounded-lg border border-[#bdbdbd] p-3 focus:border-primary focus:outline-none"
                   />
                 </div>
 
@@ -85,7 +85,7 @@ export default function ContactPage() {
                   <input
                     type="tel"
                     placeholder="Phone Number*"
-                    className="w-full rounded-lg border border-[#bdbdbd] p-3 focus:border-[#e17716] focus:outline-none"
+                    className="w-full rounded-lg border border-[#bdbdbd] p-3 focus:border-primary focus:outline-none"
                   />
                 </div>
 
@@ -93,13 +93,13 @@ export default function ContactPage() {
                   <textarea
                     placeholder="Your message..."
                     rows={5}
-                    className="w-full rounded-lg border border-[#bdbdbd] p-3 focus:border-[#e17716] focus:outline-none"
+                    className="w-full rounded-lg border border-[#bdbdbd] p-3 focus:border-primary focus:outline-none"
                   ></textarea>
                 </div>
 
                 <button
                   type="submit"
-                  className="w-full rounded-lg bg-[#e17716] py-3 text-center font-medium text-white transition-colors hover:bg-[#d06a10]"
+                  className="w-full rounded-lg bg-primary py-3 text-center font-medium text-white transition-colors hover:bg-[#d06a10]"
                 >
                   Send Message
                 </button>

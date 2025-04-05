@@ -53,7 +53,7 @@ function SignUpForm() {
               type="text"
               placeholder="Your Name"
               onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
-              className="w-full rounded-md border border-[#d8dadc] px-4 py-3 text-black outline-none focus:border-[#e17716] focus:ring-1 focus:ring-[#e17716]"
+              className="w-full rounded-md border border-[#d8dadc] px-4 py-3 text-black outline-none focus:border-primary focus:ring-1 focus:ring-primary"
             />
           </div>
 
@@ -66,7 +66,7 @@ function SignUpForm() {
               type="email"
               placeholder="example@gmail.com"
               onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
-              className="w-full rounded-md border border-[#d8dadc] px-4 py-3 text-black outline-none focus:border-[#e17716] focus:ring-1 focus:ring-[#e17716]"
+              className="w-full rounded-md border border-[#d8dadc] px-4 py-3 text-black outline-none focus:border-primary focus:ring-1 focus:ring-primary"
             />
           </div>
 
@@ -81,7 +81,7 @@ function SignUpForm() {
                 placeholder="must be 8 characters"
                 onChange={(e) => setFormData(prev => ({ ...prev, password: e.target.value }))}
 
-                className="w-full rounded-md border border-[#d8dadc] px-4 py-3 text-black outline-none focus:border-[#e17716] focus:ring-1 focus:ring-[#e17716]"
+                className="w-full rounded-md border border-[#d8dadc] px-4 py-3 text-black outline-none focus:border-primary focus:ring-1 focus:ring-primary"
               />
               <button
                 type="button"
@@ -100,7 +100,7 @@ function SignUpForm() {
             <div className="relative">
               <select
                 onChange={(e) => setFormData(prev => ({ ...prev, role: e.target.value }))}
-                className="w-full rounded-md border border-[#d8dadc] px-4 py-3 text-black outline-none focus:border-[#e17716] focus:ring-1 focus:ring-[#e17716]"
+                className="w-full rounded-md border border-[#d8dadc] px-4 py-3 text-black outline-none focus:border-primary focus:ring-1 focus:ring-primary"
               >
                 <option value="Adopter">Adopter</option>
                 <option value="Organization">Organization</option>
@@ -111,7 +111,7 @@ function SignUpForm() {
           <button
             type="submit"
             onClick={handleSubmit}
-            className="w-full rounded-md bg-[#e17716] py-3 font-medium text-white hover:bg-[#d06a14] transition-colors"
+            className="w-full rounded-md bg-primary py-3 font-medium text-white hover:bg-primary/80 transition-colors"
           >
           {loading ? <>
             <ButtonSpinner/>
@@ -123,7 +123,7 @@ function SignUpForm() {
 
           <div className="text-center text-sm">
             Already have an account?{" "}
-            <Link href="/login" className="text-[#e17716] hover:underline">
+            <Link href="/login" className="text-primary hover:underline">
               Log in
             </Link>
           </div>

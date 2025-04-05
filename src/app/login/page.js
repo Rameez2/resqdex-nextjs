@@ -55,7 +55,7 @@ function LoginUpForm() {
               type="email"
               placeholder="rameez@gmail.com"
               onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value}))}
-              className="w-full rounded-md border border-[#d8dadc] px-4 py-3 text-black outline-none focus:border-[#e17716] focus:ring-1 focus:ring-[#e17716]"
+              className="w-full rounded-md border border-[#d8dadc] px-4 py-3 text-black outline-none focus:border-primary focus:ring-1 focus:ring-primary"
             />
           </div>
           
@@ -70,7 +70,7 @@ function LoginUpForm() {
                 type={showPassword ? "text" : "password"}
                 placeholder="password"
                 onChange={(e) => setFormData(prev => ({ ...prev, password: e.target.value}))}
-                className="w-full rounded-md border border-[#d8dadc] px-4 py-3 text-black outline-none focus:border-[#e17716] focus:ring-1 focus:ring-[#e17716]"
+                className="w-full rounded-md border border-[#d8dadc] px-4 py-3 text-black outline-none focus:border-primary focus:ring-1 focus:ring-primary"
               />
               <button
                 type="button"
@@ -84,7 +84,7 @@ function LoginUpForm() {
 
           <button
             type="submit"
-            className="w-full rounded-md bg-[#e17716] py-3 font-medium text-white hover:bg-[#d06a14] transition-colors"
+            className="w-full rounded-md bg-primary py-3 font-medium text-white hover:bg-primary/80 transition-colors"
             onClick={handleLogin}
           >
           {loading ? <>
@@ -97,9 +97,9 @@ function LoginUpForm() {
           </button>
 
           <div className="text-center text-sm">
-            Already have an account?{" "}
-            <Link href="/signup" className="text-[#e17716] hover:underline">
-                Register
+            Don't have an account?{" "}
+            <Link href="/signup" className="text-primary hover:underline">
+                Sign Up
             </Link>
           </div>
         </div>

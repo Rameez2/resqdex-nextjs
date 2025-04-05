@@ -41,7 +41,7 @@ const PetsAvailable = () => {
 
     return (
         <div>
-            <h2 className="text-center text-[#e17716] text-3xl font-bold mb-10">Pets Available For Adoption</h2>
+            <h2 className="text-center text-primary text-3xl font-bold mb-10">Pets Available For Adoption</h2>
 
             <div className="flex justify-end gap-2 pr-5 mb-3">
             <div onClick={() => scroll('left')}>

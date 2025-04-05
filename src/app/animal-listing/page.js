@@ -40,12 +40,12 @@ export default function Home() {
 
           {/* Sort Options */}
           <div className="mb-8">
-            <p className="text-[#e17716] font-medium mb-2">Sort By</p>
+            <p className="text-primary font-medium mb-2">Sort By</p>
             <div className="relative max-w-[250px]">
               <select className="w-full bg-white border border-gray-200 p-3 rounded-md appearance-none pr-10">
                 <option>Nearest</option>
               </select>
-              <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 text-[#e17716] h-5 w-5" />
+              <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 text-primary h-5 w-5" />
             </div>
           </div>
 

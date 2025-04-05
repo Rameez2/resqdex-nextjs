@@ -51,15 +51,15 @@ const AboutStories = () => {
                 <div className="w-full md:w-1/2">
                     <div className="flex justify-between items-center mb-4">
                         <div>
-                            <h3 className="text-[#e17716] text-xl font-medium mb-2">Success Stories</h3>
+                            <h3 className="text-primary text-xl font-medium mb-2">Success Stories</h3>
                             <h2 className="text-4xl font-bold">Uniting Pets</h2>
                         </div>
                         <div className="flex gap-2">
-                            <button className="w-10 h-10 rounded-full border border-[#e17716] flex items-center justify-center">
-                                <ChevronLeft className="w-5 h-5 text-[#e17716] cursor-pointer" onClick={prevStory} />
+                            <button className="w-10 h-10 rounded-full border border-primary flex items-center justify-center">
+                                <ChevronLeft className="w-5 h-5 text-primary cursor-pointer" onClick={prevStory} />
                             </button>
-                            <button className="w-10 h-10 rounded-full border border-[#e17716] flex items-center justify-center">
-                                <ChevronRight className="w-5 h-5 text-[#e17716] cursor-pointer" onClick={nextStory} />
+                            <button className="w-10 h-10 rounded-full border border-primary flex items-center justify-center">
+                                <ChevronRight className="w-5 h-5 text-primary cursor-pointer" onClick={nextStory} />
                             </button>
                         </div>
                     </div>
@@ -75,7 +75,7 @@ const AboutStories = () => {
                                 <div
                                     key={index}
                                     onClick={() => setCurrentStoryIndex(index)}
-                                    className={`w-2 h-2 rounded-full cursor-pointer ${currentStoryIndex === index ? "bg-[#e17716]" : "bg-[#d9d9d9]"}`}
+                                    className={`w-2 h-2 rounded-full cursor-pointer ${currentStoryIndex === index ? "bg-primary" : "bg-[#d9d9d9]"}`}
                                 ></div>
                             ))}
                         </div>

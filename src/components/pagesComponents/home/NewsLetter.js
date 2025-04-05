@@ -4,6 +4,7 @@ import { useState } from "react"
 import { Instagram, Youtube, Facebook, Twitter } from "lucide-react"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Input } from "@/components/ui/input"
+import SocialLinks from "@/components/atoms/SocialLinks"
 
 export default function NewsLetter() {
   const [email, setEmail] = useState("")
@@ -14,12 +15,12 @@ export default function NewsLetter() {
     <div className="flex items-center justify-center min-h-screen bg-white p-4">
       <div className="w-full max-w-4xl rounded-[32px] bg-[#FFCBA4] p-8 md:p-12">
         <div className="inline-block mb-6">
-          <div className="border border-black rounded-full px-6 py-2">
-            <span className="text-black font-medium">Newsletter</span>
+          <div className="border border-primary rounded-full px-6 py-2">
+            <span className="text-primary font-medium">Newsletter</span>
           </div>
         </div>
 
-        <h2 className="text-3xl md:text-4xl font-bold text-black mb-8">Stay in Loop</h2>
+        <h2 className="text-3xl md:text-4xl font-bold text-primary mb-8">Stay in Loop</h2>
 
         <div className="flex flex-col md:flex-row md:items-center gap-6 md:gap-10">
           <div className="flex-1">
@@ -58,7 +59,7 @@ export default function NewsLetter() {
               </div>
               <div className="mt-6">
                 <button
-                  className="bg-black text-white rounded-full px-8 py-3 font-medium hover:opacity-90 transition-opacity cursor-pointer"
+                  className="bg-primary text-white rounded-full px-8 py-3 font-medium hover:opacity-90 transition-opacity cursor-pointer"
                   type="button"
                 >
                   Subscribe
@@ -68,22 +69,23 @@ export default function NewsLetter() {
           </div>
 
           <div className="flex gap-4">
-            <a href="#" className="bg-black rounded-full p-2 hover:opacity-80 transition-opacity">
+            <SocialLinks/>
+            {/* <a href="#" className="bg-primary rounded-full p-2 hover:opacity-80 transition-opacity">
               <Instagram className="h-6 w-6 text-white" />
               <span className="sr-only">Instagram</span>
             </a>
-            <a href="#" className="bg-black rounded-full p-2 hover:opacity-80 transition-opacity">
+            <a href="#" className="bg-primary rounded-full p-2 hover:opacity-80 transition-opacity">
               <Youtube className="h-6 w-6 text-white" />
               <span className="sr-only">YouTube</span>
             </a>
-            <a href="#" className="bg-black rounded-full p-2 hover:opacity-80 transition-opacity">
+            <a href="#" className="bg-primary rounded-full p-2 hover:opacity-80 transition-opacity">
               <Facebook className="h-6 w-6 text-white" />
               <span className="sr-only">Facebook</span>
             </a>
-            <a href="#" className="bg-black rounded-full p-2 hover:opacity-80 transition-opacity">
+            <a href="#" className="bg-primary rounded-full p-2 hover:opacity-80 transition-opacity">
               <Twitter className="h-6 w-6 text-white" />
               <span className="sr-only">Twitter</span>
-            </a>
+            </a> */}
           </div>
         </div>
       </div>

@@ -32,7 +32,7 @@ function SidebarNavigation() {
   return (
     <div className="flex h-screen">
       {/* Sidebar */}
-      <div className="w-60 border-r border-[#e17716] bg-white flex flex-col">
+      <div className="w-60 border-r border-primary bg-white flex flex-col">
         {/* Logo */}
         <div className="p-6">
           <h1 className="text-xl font-bold">Logo</h1>
@@ -83,7 +83,7 @@ function SidebarNavigation() {
         <div className="p-6 mt-auto">
           <button
           onClick={handleLogOut}
-           className="flex items-center justify-center w-full px-4 py-2 text-white bg-[#e17716] rounded-md hover:bg-[#e17716]/90">
+           className="flex items-center justify-center w-full px-4 py-2 text-white bg-primary rounded-md hover:bg-primary/90">
             <LogOut className="w-5 h-5 mr-2" />
             Log Out
           </button>

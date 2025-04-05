@@ -31,7 +31,7 @@ export default function SearchBanner() {
               key={tab}
               onClick={() => setActiveTab(tab)}
               className={`text-base font-medium px-2 py-1 ${
-                activeTab === tab ? "border-b-2 border-[#e17716]" : "text-white-200"
+                activeTab === tab ? "border-b-2 border-primary" : "text-white-200"
               }`}
             >
               {tab}
@@ -85,7 +85,7 @@ export default function SearchBanner() {
               <option value="50miles">Within 50 miles</option>
             </select>
           </div>
-          <button className="bg-[#e17716] text-white px-4 py-3 rounded-md flex items-center gap-2">
+          <button className="bg-primary text-white px-4 py-3 rounded-md flex items-center gap-2">
             <Search size={20} />
             <span>Find Pet</span>
           </button>

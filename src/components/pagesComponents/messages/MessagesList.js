@@ -38,7 +38,7 @@ const MessagesList = ({ user, updateChat, message, setMessage, messagesList, han
                         messagesList.length ? messagesList.map((item) => (
 
                             <div key={item.$id} className={`flex flex-col max-w-[70%] ${item.sender === user.$id ? "items-end ml-auto" : "items-start"}`}>
-                                <div className={`${item.sender === user.$id ? "bg-[#e17716] text-white" : "bg-[#e7e7e7] text-[#333333]"} rounded-2xl py-3 px-4`}>
+                                <div className={`${item.sender === user.$id ? "bg-primary text-white" : "bg-[#e7e7e7] text-[#333333]"} rounded-2xl py-3 px-4`}>
                                     <p>{item.content}</p>
                                 </div>
                                 <span className="text-xs text-[#7c7c7c] mt-1">{formatMessageTime(item.$createdAt)}</span>
@@ -67,7 +67,7 @@ const MessagesList = ({ user, updateChat, message, setMessage, messagesList, han
                     </button> */}
                     <button
                         onClick={handleSendMsg}
-                        className="bg-[#f24e1e] text-white p-3 rounded-full ml-2">
+                        className="bg-primary text-white p-3 rounded-full ml-2">
                         <Send size={20} />
                     </button>
                 </div>

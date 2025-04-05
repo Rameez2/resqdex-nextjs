@@ -12,7 +12,7 @@ const PetFilters = () => {
                 <select className="w-full bg-[#f4f4f4] p-3 rounded-md appearance-none pr-10">
                   <option>Select breed</option>
                 </select>
-                <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 text-[#e17716] h-5 w-5" />
+                <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 text-primary h-5 w-5" />
               </div>
             </div>
 
@@ -25,7 +25,7 @@ const PetFilters = () => {
                   <option>Dog</option>
                   <option>Horse</option>
                 </select>
-                <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 text-[#e17716] h-5 w-5" />
+                <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 text-primary h-5 w-5" />
               </div>
             </div>
 
@@ -35,7 +35,7 @@ const PetFilters = () => {
                 <select className="w-full bg-[#f4f4f4] p-3 rounded-md appearance-none pr-10">
                   <option>Select age</option>
                 </select>
-                <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 text-[#e17716] h-5 w-5" />
+                <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 text-primary h-5 w-5" />
               </div>
             </div>
 
@@ -45,7 +45,7 @@ const PetFilters = () => {
                 <select className="w-full bg-[#f4f4f4] p-3 rounded-md appearance-none pr-10">
                   <option>Select size</option>
                 </select>
-                <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 text-[#e17716] h-5 w-5" />
+                <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 text-primary h-5 w-5" />
               </div>
             </div>
 
@@ -55,7 +55,7 @@ const PetFilters = () => {
                 <select className="w-full bg-[#f4f4f4] p-3 rounded-md appearance-none pr-10">
                   <option>Select gender</option>
                 </select>
-                <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 text-[#e17716] h-5 w-5" />
+                <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 text-primary h-5 w-5" />
               </div>
             </div>
 
