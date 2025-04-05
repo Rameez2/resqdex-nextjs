@@ -36,7 +36,7 @@ export const sendMessage = async (senderId,recieverId,content) => {
             chatId,
             {
               last_message: content,
-              // last_message_time: timestamp,
+              lastMessageTime: new Date().toISOString(),
             }
           );
         } else {
@@ -116,7 +116,7 @@ export const fetchMyChats = async (userId) => {
                 otherUserId: otherUserId,
                 otherUserName: otherUser.name, // Assuming there's a 'name' field in users collection
                 lastMessage: chat.last_message,
-                lastMessageTime: chat.$createdAt,
+                lastMessageTime: chat.lastMessageTime,
             });
         }
 

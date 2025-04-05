@@ -51,7 +51,7 @@ const PetsAvailable = () => {
                 <ArrowButton />
             </div>
             </div>
-            <div ref={scrollContainerRef} className="flex gap-4 overflow-x-auto pb-4 px-4 scrollbar-hide" style={{scrollbarWidth:'none'}}>
+            <div ref={scrollContainerRef} className="flex gap-4 overflow-x-auto pb-4 pt-4 px-4 scrollbar-hide" style={{scrollbarWidth:'none'}}>
                 <div className="flex gap-4">
                     {loading ? <h1>Loading</h1>
                         : error ? <h1>Error : {error}</h1> :

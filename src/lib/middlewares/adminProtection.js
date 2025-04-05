@@ -2,6 +2,7 @@
 import { useEffect } from "react";
 import { useUser } from "@/context/userContext";
 import { useRouter } from "next/navigation";
+import PageLoader from "@/components/skeletons/PageLoader";
 
 // Higher Order Component (HOC) for admin route protection
 const withAdminAuth = (WrappedComponent) => {
@@ -21,7 +22,7 @@ const withAdminAuth = (WrappedComponent) => {
 
     // Show loading state while checking user authentication
     if (loading) {
-      return <p>Loading...</p>;
+      return <PageLoader/>;
     }
 
     // Prevent rendering if user is being redirected

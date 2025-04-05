@@ -1,4 +1,5 @@
 "use client";
+import PageLoader from "@/components/skeletons/PageLoader";
 import { useUser } from "@/context/userContext";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -17,7 +18,7 @@ const authRouteProtect = (WrappedComponent) => {
     }, [user, loading, router]);
 
     if (loading || redirecting) {
-      return <p>Loading...</p>;  // Prevent rendering during redirection
+      return <PageLoader/>;  // Prevent rendering during redirection
     }
 
     return <WrappedComponent {...props} />;

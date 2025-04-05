@@ -3,7 +3,6 @@ const { databases, account } = require("./appwrite");
 
 
 export const getPetsByFilter = async (numberOfPets = 10, offset = 0, filters = {}) => {
-  try {
     const queries = [];
 
     if (numberOfPets !== undefined) {
@@ -38,10 +37,6 @@ export const getPetsByFilter = async (numberOfPets = 10, offset = 0, filters = {
     const pets = petsResponse.documents;
     // console.log("Filtered Pets:", pets);
     return pets;
-  } catch (error) {
-    console.error("Error fetching pets:", error.message);
-    throw error;
-  }
 };
 
 

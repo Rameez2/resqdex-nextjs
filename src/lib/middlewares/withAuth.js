@@ -1,4 +1,5 @@
 "use client";
+import PageLoader from "@/components/skeletons/PageLoader";
 import { useUser } from "@/context/userContext";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";  // Import useEffect
@@ -19,7 +20,7 @@ const withAuth = (WrappedComponent) => {
     }, [user, loading, router]); // Runs when user or loading state changes
 
     if (loading) {
-      return <p>Loading...</p>;
+      return <PageLoader/>;
     }
 
     if (!user) {

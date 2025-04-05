@@ -14,7 +14,7 @@ import withAuth from "@/lib/middlewares/withAuth"
 const MessaesComp = () => {
   const [message, setMessage] = useState('');
   const [messagesList, setMessagesList] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [messagesLoading, setMessagesLoading] = useState(false);
   const [recieverId, setRecieverId] = useState('');
   const [recieverName, setRecieverName] = useState('');
   const [chats, setChats] = useState([]);
@@ -35,10 +35,7 @@ const MessaesComp = () => {
   useEffect(() => {
     async function fetchMessages() {
       try {
-        // Only show the loader if there are no messages loaded yet
-        if (messagesList.length === 0) {
-          setLoading(true);
-        }
+        // setMessagesLoading(true);
         const sentMessages = await getMessages(user.$id, recieverId);
         const receivedMessages = await getMessages(recieverId, user.$id);
         const allMessages = [...sentMessages, ...receivedMessages];
@@ -49,11 +46,10 @@ const MessaesComp = () => {
       } catch (error) {
         console.log("Error getting messages:", error);
       } finally {
-        setLoading(false);
+        setMessagesLoading(false);
       }
     }
-    
-    
+    // if recieverId & user both are loaded, then fetch messages
     if (recieverId && user) fetchMessages();
     
     const unsubscribe = client.subscribe(
@@ -65,6 +61,11 @@ const MessaesComp = () => {
     return () => unsubscribe();
   }, [recieverId, user]);
   
+  // Show Messages loader between chats switch only
+  useEffect(() => {
+    setMessagesLoading(true);
+  }, [recieverId]);
+
   async function handleSendMsg() {
     try {
       updateChat(recieverId, message);
@@ -118,7 +119,6 @@ const MessaesComp = () => {
           <h2 className="text-xl font-semibold text-[#333333]">Organization</h2>
         </div>
 
-
         <ChatsList chats={chats} setChats={setChats} setRecieverId={setRecieverId} setRecieverName={setRecieverName} />
 
       </div>
@@ -132,7 +132,7 @@ const MessaesComp = () => {
               <img src="/messages-demo.jpeg" alt="Avatar" className="rounded-full" />
             </Avatar> */}
             <div>
-              <h2 className="text-xl font-semibold text-[#333333]">{recieverName}</h2>
+              <h2 className="text-xl font-semibold text-[#333333]">{recieverName || 'Select a chat'}</h2>
               {/* <p className="text-sm text-[#7c7c7c]">Online - Last seen, 2:02pm</p> */}
             </div>
           </div>
@@ -157,7 +157,7 @@ const MessaesComp = () => {
         </div>
 
         {/* Chat messages */}
-        <MessagesList user={user} message={message} setMessage={setMessage} handleSendMsg={handleSendMsg} recieverId={recieverId} messagesList={messagesList} setMessagesList={setMessagesList} />
+        <MessagesList messagesLoading={messagesLoading} user={user} recieverName={recieverName} message={message} setMessage={setMessage} handleSendMsg={handleSendMsg} recieverId={recieverId} messagesList={messagesList} setMessagesList={setMessagesList} />
 
       </div>
     </div>

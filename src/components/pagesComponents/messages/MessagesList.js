@@ -4,7 +4,7 @@ import { Search, Smile, Paperclip, Send } from "lucide-react"
 // import { useUser } from '@/context/userContext';
 
 
-const MessagesList = ({ user, updateChat, message, setMessage, messagesList, handleSendMsg }) => {
+const MessagesList = ({ user,recieverName,messagesLoading, updateChat, message, setMessage, messagesList, handleSendMsg }) => {
 
     // const { user } = useUser();
 
@@ -34,9 +34,8 @@ const MessagesList = ({ user, updateChat, message, setMessage, messagesList, han
             {/* Chat messages */}
             <div className="flex-1 overflow-auto p-4">
                 <div className="space-y-4 flex flex-col-reverse">
-                    {
+                    {   !recieverName ? <h2 className='text-center'>Select a Chat</h2>: messagesLoading ? <MessagesSkeleton/>:
                         messagesList.length ? messagesList.map((item) => (
-
                             <div key={item.$id} className={`flex flex-col max-w-[70%] ${item.sender === user.$id ? "items-end ml-auto" : "items-start"}`}>
                                 <div className={`${item.sender === user.$id ? "bg-primary text-white" : "bg-[#e7e7e7] text-[#333333]"} rounded-2xl py-3 px-4`}>
                                     <p>{item.content}</p>

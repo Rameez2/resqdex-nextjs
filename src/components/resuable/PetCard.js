@@ -6,10 +6,12 @@ import { storage } from "@/lib/appwrite/appwrite";
 
 const PetCard = ({ petName, breedName, petId, imageId }) => {
   return (
-    <div className="bg-white rounded-lg overflow-hidden border border-gray-100 relative w-[280px] h-[280px] flex-shrink-0">
+    <div className="bg-white rounded-lg overflow-hidden relative w-[280px] h-[280px] flex-shrink-0 hover:scale-105 transition-transform duration-300 ease-in-out"
+    style={{boxShadow:'rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px'}}
+    >
       {/* Heart button for "favorite" */}
       <button
-        className="absolute top-4 right-4 text-gray-500 hover:text-red-500 transition-colors z-10 pointer-cursor"
+        className="absolute top-4 right-4 text-gray-500 hover:text-red-500 transition-colors z-10 cursor-pointer"
         aria-label="Add to favorites"
       >
         <Heart className="h-7 w-7" />
@@ -34,7 +36,7 @@ const PetCard = ({ petName, breedName, petId, imageId }) => {
         {/* Link to pet details */}
         <Link
           href={`/pet/${petId}`}
-          className="transform transition-transform duration-300 hover:rotate-[40deg] hover:scale-110"
+          className="transform transition-transform duration-300 hover:rotate-[40deg]"
         >
           <ArrowButton />
         </Link>

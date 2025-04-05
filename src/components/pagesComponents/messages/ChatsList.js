@@ -17,10 +17,8 @@ const ChatsList = ({ setRecieverId, chats, setChats, setRecieverName }) => {
         try {
           const response = await fetchMyChats(user.$id);
           console.log('caht response', response);
-          // setChats(response)
           // Sort the chats array by lastMessageTime in descending order
           const sortedChats = response.sort((a, b) => {
-            // Parse the lastMessageTime to ensure it's treated as a date
             const timeA = new Date(a.lastMessageTime);
             const timeB = new Date(b.lastMessageTime);
             return timeB - timeA; // descending order

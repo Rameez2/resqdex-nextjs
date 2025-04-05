@@ -85,7 +85,7 @@ export default function SearchBanner() {
               <option value="50miles">Within 50 miles</option>
             </select>
           </div>
-          <button className="bg-primary text-white px-4 py-3 rounded-md flex items-center gap-2">
+          <button className="bg-primary text-white px-4 py-3 rounded-md flex items-center gap-2 cursor-pointer">
             <Search size={20} />
             <span>Find Pet</span>
           </button>
