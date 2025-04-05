@@ -56,6 +56,18 @@ const PetFilters = ({ updateFilter }) => {
           </div>
         </div>
 
+        <div>
+          <h3 className="text-lg font-medium mb-2">Gender</h3>
+          <div className="relative">
+            <select className="w-full bg-[#f4f4f4] p-3 rounded-md appearance-none pr-10" onChange={(e) => updateFilter("gender", e.target.value)}>
+              <option value="">Shelter of Rescue</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+            </select>
+            <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 text-primary h-5 w-5" />
+          </div>
+        </div>
+
       </div>
     </div>
   );
