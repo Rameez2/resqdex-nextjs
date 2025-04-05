@@ -8,33 +8,7 @@ import { client } from '@/lib/appwrite/appwrite';
 const ChatsList = ({ setRecieverId, chats, setChats, setRecieverName }) => {
 
   const [chatLoading, setChatLoading] = useState(true);
-
   const { user } = useUser();
-
-  // useEffect(() => {
-  //   if (user && user.$id) {
-  //     (async () => {
-  //       try {
-  //         const response = await fetchMyChats(user.$id);
-  //         console.log('caht response', response);
-  //         // Sort the chats array by lastMessageTime in descending order
-  //         const sortedChats = response.sort((a, b) => {
-  //           const timeA = new Date(a.lastMessageTime);
-  //           const timeB = new Date(b.lastMessageTime);
-  //           return timeB - timeA; // descending order
-  //         });
-
-  //         setChats(sortedChats);
-  //       } catch (error) {
-  //         console.log('chat error', error);
-  //       }
-  //       finally {
-  //         setChatLoading(false);
-  //       }
-  //     })();
-  //   }
-  // }, [user]);
-
 
   useEffect(() => {
 
@@ -59,29 +33,6 @@ const ChatsList = ({ setRecieverId, chats, setChats, setRecieverName }) => {
     }
 
 
-    // if (user && user.$id) {
-
-    //   (async () => {
-    //     try {
-    //       const response = await fetchMyChats(user.$id);
-    //       console.log('caht response', response);
-    //       // Sort the chats array by lastMessageTime in descending order
-    //       const sortedChats = response.sort((a, b) => {
-    //         const timeA = new Date(a.lastMessageTime);
-    //         const timeB = new Date(b.lastMessageTime);
-    //         return timeB - timeA; // descending order
-    //       });
-
-    //       setChats(sortedChats);
-    //     } catch (error) {
-    //       console.log('chat error', error);
-    //     }
-    //     finally {
-    //       setChatLoading(false);
-    //     }
-    //   })();
-    // }
-
     console.log('<<<<<<<<<<<<<<<<<<<<<<<<<<<<< CHAT CHANGES >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
     if(user && user.$id) getChats();
 
@@ -95,17 +46,6 @@ const ChatsList = ({ setRecieverId, chats, setChats, setRecieverName }) => {
 
   }, [user]);
 
-  // useEffect(() => {
-  //   console.log('<<<<<<<<<<<<<<<<<<<<<<<<<<<<< CHAT CHANGES >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
-    
-  //   const unsubscribe = client.subscribe(
-  //     "databases.6799c8c6002ec035cc8c.collections.67bc1de900275a704a81.documents",
-  //     (response) => {
-  //       fetchMessages();
-  //     }
-  //   );
-  //   return () => unsubscribe();
-  // }, []);
 
 
   function formatChatTime(dateString) {
