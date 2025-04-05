@@ -68,14 +68,18 @@ const MessaesComp = () => {
 
   async function handleSendMsg() {
     try {
+      // update Chats locally, to show direct response
       updateChat(recieverId, message);
-      // const newMessage = {
-      //   senderId: user.$id,
-      //   receiverId: recieverId,
-      //   content: message,
-      //   $createdAt: new Date().toISOString(), // Mock createdAt timestamp
-      // };
-      // setMessagesList((prevMessages) => [newMessage, ...prevMessages]);
+      // update Messages locally, to show direct response
+      const newMessage = {
+        sender: user.$id,
+        receiverId: recieverId,
+        content: message,
+        $createdAt: new Date().toISOString(), // Mock createdAt timestamp
+      };
+      console.log('new msg',newMessage);
+      
+      setMessagesList((prevMessages) => [newMessage, ...prevMessages]);
       setMessage('');
       await sendMessage(user.$id, recieverId, message);
     } catch (error) {

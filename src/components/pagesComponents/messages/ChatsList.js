@@ -3,6 +3,7 @@ import { fetchMyChats } from '@/lib/appwrite/messages';
 import { Avatar } from "@/components/ui/avatar"
 import React, { useEffect, useState } from 'react';
 import ChatSkeleton from '@/components/skeletons/messages/ChatSkeleton';
+import { client } from '@/lib/appwrite/appwrite';
 
 const ChatsList = ({ setRecieverId, chats, setChats, setRecieverName }) => {
 
@@ -10,30 +11,101 @@ const ChatsList = ({ setRecieverId, chats, setChats, setRecieverName }) => {
 
   const { user } = useUser();
 
-  useEffect(() => {
-    if (user && user.$id) {
-      (async () => {
-        console.log('userid caht', user.$id);
-        try {
-          const response = await fetchMyChats(user.$id);
-          console.log('caht response', response);
-          // Sort the chats array by lastMessageTime in descending order
-          const sortedChats = response.sort((a, b) => {
-            const timeA = new Date(a.lastMessageTime);
-            const timeB = new Date(b.lastMessageTime);
-            return timeB - timeA; // descending order
-          });
+  // useEffect(() => {
+  //   if (user && user.$id) {
+  //     (async () => {
+  //       try {
+  //         const response = await fetchMyChats(user.$id);
+  //         console.log('caht response', response);
+  //         // Sort the chats array by lastMessageTime in descending order
+  //         const sortedChats = response.sort((a, b) => {
+  //           const timeA = new Date(a.lastMessageTime);
+  //           const timeB = new Date(b.lastMessageTime);
+  //           return timeB - timeA; // descending order
+  //         });
 
-          setChats(sortedChats);
-        } catch (error) {
-          console.log('chat error', error);
-        }
-        finally {
-          setChatLoading(false);
-        }
-      })();
+  //         setChats(sortedChats);
+  //       } catch (error) {
+  //         console.log('chat error', error);
+  //       }
+  //       finally {
+  //         setChatLoading(false);
+  //       }
+  //     })();
+  //   }
+  // }, [user]);
+
+
+  useEffect(() => {
+
+    const getChats = async () => {
+      try {
+        const response = await fetchMyChats(user.$id);
+        console.log('caht response', response);
+        // Sort the chats array by lastMessageTime in descending order
+        const sortedChats = response.sort((a, b) => {
+          const timeA = new Date(a.lastMessageTime);
+          const timeB = new Date(b.lastMessageTime);
+          return timeB - timeA; // descending order
+        });
+
+        setChats(sortedChats);
+      } catch (error) {
+        console.log('chat error', error);
+      }
+      finally {
+        setChatLoading(false);
+      }
     }
+
+
+    // if (user && user.$id) {
+
+    //   (async () => {
+    //     try {
+    //       const response = await fetchMyChats(user.$id);
+    //       console.log('caht response', response);
+    //       // Sort the chats array by lastMessageTime in descending order
+    //       const sortedChats = response.sort((a, b) => {
+    //         const timeA = new Date(a.lastMessageTime);
+    //         const timeB = new Date(b.lastMessageTime);
+    //         return timeB - timeA; // descending order
+    //       });
+
+    //       setChats(sortedChats);
+    //     } catch (error) {
+    //       console.log('chat error', error);
+    //     }
+    //     finally {
+    //       setChatLoading(false);
+    //     }
+    //   })();
+    // }
+
+    console.log('<<<<<<<<<<<<<<<<<<<<<<<<<<<<< CHAT CHANGES >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
+    if(user && user.$id) getChats();
+
+    const unsubscribe = client.subscribe(
+      "databases.6799c8c6002ec035cc8c.collections.67bc1de900275a704a81.documents",
+      (response) => {
+        getChats();
+      }
+    );
+    return () => unsubscribe();
+
   }, [user]);
+
+  // useEffect(() => {
+  //   console.log('<<<<<<<<<<<<<<<<<<<<<<<<<<<<< CHAT CHANGES >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
+    
+  //   const unsubscribe = client.subscribe(
+  //     "databases.6799c8c6002ec035cc8c.collections.67bc1de900275a704a81.documents",
+  //     (response) => {
+  //       fetchMessages();
+  //     }
+  //   );
+  //   return () => unsubscribe();
+  // }, []);
 
 
   function formatChatTime(dateString) {

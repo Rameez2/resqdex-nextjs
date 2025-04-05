@@ -1,7 +1,6 @@
 import { ID, Query } from "appwrite";
 import { databases } from "./appwrite"
 
-
 export const sendMessage = async (senderId,recieverId,content) => {
     try {
         const document = await databases.createDocument(
@@ -50,7 +49,6 @@ export const sendMessage = async (senderId,recieverId,content) => {
             {
               user_ids: [senderId, recieverId], // Store both user IDs
               last_message: content,
-              // last_message_time: timestamp,
             }
           );
         }

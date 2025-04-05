@@ -30,7 +30,7 @@ function SidebarNavigation() {
   }
 
   return (
-    <div className="flex h-screen">
+    <div className="flex h-[90vh]">
       {/* Sidebar */}
       <div className="w-60 border-r border-primary bg-white flex flex-col">
         {/* Logo */}
@@ -91,9 +91,7 @@ function SidebarNavigation() {
       </div>
 
       {/* Main Content */}
-      <div className="flex-1 bg-[#fbf5f0]">{/* Content goes here */}
-      {/* <GeneralSettings/> */}
-      {/* <SecurityComp/> */}
+      <div className="flex-1 bg-[#fbf5f0] overflow-hidden overflow-y-auto">{/* Content goes here */}
       {
         activeTab === "general" ? <GeneralSettings/> : 
         activeTab === "security" ? <SecurityComp/> :
