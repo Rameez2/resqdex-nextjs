@@ -46,29 +46,30 @@ const MessagesList = ({ user, recieverName, messagesLoading, updateChat, message
                 </div>
             </div>
             {/* Message Input */}
-
-            <div className="p-4 border-t border-[#e7e7e7]">
-                <div className="flex items-center bg-[#eff6fc] rounded-full p-2">
-                    {/* <button className="p-2 text-[#7c7c7c]">
+            {recieverName && (
+                <div className="p-4 border-t border-[#e7e7e7]">
+                    <div className="flex items-center bg-[#eff6fc] rounded-full p-2">
+                        {/* <button className="p-2 text-[#7c7c7c]">
                         <Paperclip size={20} />
                     </button> */}
-                    <input
-                        type="text"
-                        value={message}
-                        onChange={(e) => setMessage(e.target.value)}
-                        placeholder="Type your message here..."
-                        className="flex-1 bg-transparent border-none focus:outline-none px-2 text-[#333333]"
-                    />
-                    {/* <button className="p-2 text-[#7c7c7c]">
+                        <input
+                            type="text"
+                            value={message}
+                            onChange={(e) => setMessage(e.target.value)}
+                            placeholder="Type your message here..."
+                            className="flex-1 bg-transparent border-none focus:outline-none px-2 text-[#333333]"
+                        />
+                        {/* <button className="p-2 text-[#7c7c7c]">
                         <Smile size={20} />
                     </button> */}
-                    <button
-                        onClick={handleSendMsg}
-                        className="bg-primary text-white p-3 rounded-full ml-2">
-                        <Send size={20} />
-                    </button>
+                        <button
+                            onClick={handleSendMsg}
+                            className="bg-primary text-white p-3 rounded-full ml-2">
+                            <Send size={20} />
+                        </button>
+                    </div>
                 </div>
-            </div>
+            )}
         </>
     );
 }

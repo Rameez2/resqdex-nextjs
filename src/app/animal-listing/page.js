@@ -6,11 +6,12 @@ import { useEffect, useState } from "react"
 import { getPetsByFilter } from "@/lib/appwrite/pets"
 
 export default function Home() {
-
+  
+  const [pets, setPets] = useState([]);
+  const [filters, setFilters] = useState({});
+  const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [pets, setPets] = useState([]);
-  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     (async () => {
@@ -27,13 +28,36 @@ export default function Home() {
     })();
   }, []);
 
+
+  useEffect(() => {
+    (async () => {
+      try {
+        setLoading(true);
+        const petsResponse = await getPetsByFilter(10, 0, filters); // limit,offset,filters
+        setPets(petsResponse);
+      } catch (error) {
+        console.log('filter error while fetching pets',error.message);
+      } finally {
+        setLoading(false);
+      }
+    })()
+  }, [filters]);
+
+  const updateFilter = (field, value) => {
+    
+    setFilters((prevFilters) => ({
+      ...prevFilters,
+      [field]: value
+    }));
+
+  };
+
   return (
     <div className="min-h-screen bg-[#fbf5f0]">
       {/* Main Content */}
       <main className="w-full pl-4 py-8 flex flex-col md:flex-row gap-8">
         {/* Filters Sidebar */}
-        <PetFilters />
-
+        <PetFilters updateFilter={updateFilter} />
         {/* Pet Listings */}
         <div className="w-full md:w-3/4">
           <h1 className="text-4xl font-bold mb-8">Listing Of Animal Nearby</h1>
@@ -56,7 +80,7 @@ export default function Home() {
               : error ? <h1>Error : {error}</h1> :
                 (
                   <>
-                    {pets ? pets.map((pet, index) => (
+                    {pets.length ? pets.map((pet, index) => (
                       <PetCard
                         key={index}
                         petName={pet.name}
