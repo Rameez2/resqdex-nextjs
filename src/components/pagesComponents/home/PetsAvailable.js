@@ -1,7 +1,7 @@
 "use client";
 import PetCard from '@/components/ui/PetCard';
 import React, { useEffect, useState, useRef } from 'react';
-import ArrowButton from '@/components/atoms/ArrowButton';
+import ArrowButton from '@/components/ui/ArrowButton';
 import { getPetsByFilter } from '@/lib/appwrite/pets';
 import PetCardSkeleton from '@/components/skeletons/PetCardSkeleton';
 

@@ -1,6 +1,6 @@
 import { Heart } from "lucide-react";
 import Link from "next/link";
-import ArrowButton from "../atoms/ArrowButton";
+import ArrowButton from "../ui/ArrowButton";
 
 const PetCardSkeleton = () => {
     return (

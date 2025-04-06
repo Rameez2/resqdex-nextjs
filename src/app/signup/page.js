@@ -4,15 +4,16 @@ import { Eye, EyeOff } from "lucide-react"
 import Link from "next/link"
 import { registerUser } from "@/lib/appwrite/auth";
 import authRouteProtect from '@/lib/middlewares/authRouteProtect';
-import ButtonSpinner from "@/components/atoms/buttonSpinner";
-import Toast from "@/components/atoms/Toast";
+import ButtonSpinner from "@/components/ui/buttonSpinner";
+import Toast from "@/components/ui/Toast";
 import { useUser } from "@/context/userContext";
 
 function SignUpForm() {
 
   const {setUser} = useUser();
   const [showPassword, setShowPassword] = useState(false);
-  const [showToast,setShowToast] = useState(false);
+    const [toast,setToast] = useState(null);
+
   const [loading,setLoading] = useState(false);
   const [error,setError] = useState(null);
   const [formData, setFormData] = useState({
@@ -25,13 +26,13 @@ function SignUpForm() {
   async function handleSubmit() {
     try {
       setLoading(true);
+      setToast(null);
       const newUser = await registerUser(formData.name, formData.email, formData.password, formData.role);
-      setShowToast(true);
+      setToast({ message: "Sign Up success!", type: "success" });
       setUser(newUser);
     } catch (error) {
       console.log(error);
-      
-      setError(error.message);
+      setToast({ message: error.message, type: "error" });
     }
     finally {
       setLoading(false);
@@ -129,8 +130,8 @@ function SignUpForm() {
           </div>
         </div>
       </div>
-      {error && <Toast content='Error Occured' type='error' closeTime={5000}/>}
-      {showToast && <Toast content='Signup Successfull!' closeTime={5000}/>}
+      {toast && <Toast content={toast.message} type={toast.type} />}
+
     </div>
   )
 }

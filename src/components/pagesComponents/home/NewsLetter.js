@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
-import SocialLinks from "@/components/atoms/SocialLinks";
+import SocialLinks from "@/components/ui/SocialLinks";
 
 export default function NewsLetter() {
   const [email, setEmail] = useState("");

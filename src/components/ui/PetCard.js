@@ -1,7 +1,7 @@
 import Image from "next/image"
 import Link from "next/link"
 import { Heart } from "lucide-react"
-import ArrowButton from "../atoms/ArrowButton";
+import ArrowButton from "./ArrowButton";
 import { storage } from "@/lib/appwrite/appwrite";
 
 const PetCard = ({ petName, breedName, petId, imageId }) => {

@@ -1,5 +1,5 @@
-import ButtonSpinner from '@/components/atoms/buttonSpinner';
-import Toast from '@/components/atoms/Toast';
+import ButtonSpinner from '@/components/ui/buttonSpinner';
+import Toast from '@/components/ui/Toast';
 import { useUser } from '@/context/userContext';
 import { createPost } from '@/lib/appwrite/posts';
 import React, { useState } from 'react';
@@ -7,9 +7,8 @@ import React, { useState } from 'react';
 const UploadPost = () => {
 
     const [content,setContent] = useState('');
-    const [showToast,setShowToast] = useState(false);
+    const [toast,setToast] = useState(null);
     const [loading,setLoading] = useState(false);
-    const [error,setError] = useState(null);
 
     const {user} = useUser();
 
@@ -17,17 +16,17 @@ const UploadPost = () => {
         e.preventDefault();
         try {
             setLoading(true);
-            setShowToast(false);
-            setError(null);
+            setToast(null);
             if(user.status !== "Approved") {
                 throw new Error("User not Approved!");
             }
             console.log('handle submit runned');
             await createPost({id:user.$id,content:content,name:user.name},user.$id);
-            setShowToast(true);  
+            setToast({ message: "Post create success!", type: "success" });
+  
         } catch (error) {
             console.log(error);
-            setError(error.message);
+            setToast({ message: error.message, type: "error" });
         }
         finally {
             setLoading(false);
@@ -65,8 +64,7 @@ const UploadPost = () => {
             </button>
           </div>
         </form>
-        {error && <Toast content={error} type="error" />}
-        {showToast && <Toast content='Post Uploaded Successfully!' />}
+        {toast && <Toast content={toast.message} type={toast.type} />}
       </div>
   
     );

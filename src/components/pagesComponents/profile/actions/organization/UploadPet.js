@@ -1,6 +1,6 @@
 "use client";
-import ButtonSpinner from '@/components/atoms/buttonSpinner';
-import Toast from '@/components/atoms/Toast';
+import ButtonSpinner from '@/components/ui/buttonSpinner';
+import Toast from '@/components/ui/Toast';
 import { useUser } from '@/context/userContext';
 import { storage } from '@/lib/appwrite/appwrite';
 import { uploadPet } from '@/lib/appwrite/pets';
@@ -13,7 +13,7 @@ const UploadPet = () => {
   const [petInfo, setPetInfo] = useState({
     name: '',
     age: 3,
-    specie: '',
+    specie: 'Other',
     breed: '',
     size: '',
     temperament: '',
@@ -29,7 +29,7 @@ const UploadPet = () => {
   const [mainImagePreview, setMainImagePreview] = useState(null);
   const [additionalImagePreviews, setAdditionalImagePreviews] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [showToast, setShowToast] = useState(false);
+  const [toast, setToast] = useState(false);
   const [error, setError] = useState(null);
   
 
@@ -84,8 +84,8 @@ const UploadPet = () => {
     setLoading(true);
 
     try {
-      setError(null);
-      setShowToast(false);
+
+      setToast(false);
       // Upload main image
       let mainImgId = await uploadImage(mainImageFile);
       // Upload additional images
@@ -105,7 +105,8 @@ const UploadPet = () => {
         ? await updatePetById(petId, petData)
         : await uploadPet(petData);
 
-      setShowToast(true);
+        setToast({ message: "Pet Upload success!", type: "success" });
+
       // Reset form states after submission
       setPetInfo({
         name: '',
@@ -126,7 +127,8 @@ const UploadPet = () => {
       setImageFiles([]);
     } catch (error) {
       console.error('Error:', error);
-      setError(error.message);
+      setToast({ message: error.message, type: "success" });
+
     } finally {
       setLoading(false);
     }
@@ -351,12 +353,8 @@ const UploadPet = () => {
   </div>
 </form>
 
+{toast && <Toast content={toast.message} type={toast.type} />}
 
-      {showToast ? (
-        <Toast content='Pet Uploaded Successfully!' type='success' />
-      ) : ''}
-
-      {error && <Toast content={error} type="error" />}
     </div>
   );
 };

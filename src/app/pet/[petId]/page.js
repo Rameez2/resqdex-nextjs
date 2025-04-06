@@ -8,6 +8,7 @@ import { getPetById } from "@/lib/appwrite/pets";
 import { useRouter } from "next/navigation";
 import { getUserById } from "@/lib/appwrite/user";
 import { storage } from "@/lib/appwrite/appwrite";
+import PageLoader from "@/components/skeletons/PageLoader";
 
 export default function PetAdoption() {
   const { petId } = useParams();
@@ -48,8 +49,6 @@ export default function PetAdoption() {
 
   async function startInquiry(orgId) {
     try {
-      // console.log('NEW INQUIRY');
-      // console.log('org id,',orgId);
       const doc = await getUserById(orgId);
 
       router.push(`/messages?adopterId=${doc.$id}&name=${doc.name}`);
@@ -59,7 +58,7 @@ export default function PetAdoption() {
   }
 
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <PageLoader/>;
   if (error) return <h1>NO PET FOUND</h1>;
 
   return (

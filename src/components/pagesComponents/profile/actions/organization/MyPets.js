@@ -1,6 +1,6 @@
 "use client";
-import ButtonSpinner from '@/components/atoms/buttonSpinner';
-import Toast from '@/components/atoms/Toast';
+import ButtonSpinner from '@/components/ui/buttonSpinner';
+import Toast from '@/components/ui/Toast';
 import { useUser } from '@/context/userContext';
 import { storage } from '@/lib/appwrite/appwrite';
 import { deleteMyPet, getMyPets } from '@/lib/appwrite/pets';
@@ -87,9 +87,11 @@ const MyPets = () => {
                                         />
                                     </td>
 
-                                    <Link href={`/pet/${item.$id}`}>
-                                        <td className="px-6 py-4">{item.name}</td>
-                                    </Link>
+                                    <td className="px-6 py-4">
+                                        <Link href={`/pet/${item.$id}`}>
+                                            {item.name}
+                                        </Link>
+                                    </td>
                                     <td className="px-6 py-4">{item.specie}</td>
                                     <td className="px-6 py-4">{item.gender}</td>
                                     <td className="px-6 py-4 flex justify-center items-center space-x-4">

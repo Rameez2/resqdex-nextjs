@@ -7,6 +7,8 @@ const MyPosts = () => {
     const [loading, setLoading] = useState(false);
     const [deleteLoading, setDeleteLoading] = useState({}); // Track delete loading per post
     const [error, setError] = useState(null);
+    const [toast,setToast] = useState(null);
+    
 
     const { user } = useUser();
 
@@ -33,9 +35,11 @@ const MyPosts = () => {
                 throw new Error("User not Approved!");
             }
             await deletePostById(postId); // API call to delete post
+            setToast({ message: "Post delete success!", type: "success" });
             setPosts((prevPosts) => prevPosts.filter((post) => post.$id !== postId)); // Remove from UI
         } catch (error) {
             alert('Failed to delete post: ' + error.message); // Handle error
+            setToast({ message: error.message, type: "error" });
         } finally {
             setDeleteLoading((prev) => ({ ...prev, [postId]: false })); // Stop loading
         }
@@ -74,6 +78,8 @@ const MyPosts = () => {
             ) : (
                 !loading && <p className="text-center text-gray-500">No posts found.</p>
             )}
+        {toast && <Toast content={toast.message} type={toast.type} />}
+
         </div>
     );
 };

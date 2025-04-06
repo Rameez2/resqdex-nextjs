@@ -1,5 +1,5 @@
-import ButtonSpinner from "@/components/atoms/buttonSpinner";
-import Toast from "@/components/atoms/Toast";
+import ButtonSpinner from "@/components/ui/buttonSpinner";
+import Toast from "@/components/ui/Toast";
 import { useUser } from "@/context/userContext";
 import { updateRecord } from "@/lib/appwrite/dataForms";
 import withAuth from "@/lib/middlewares/withAuth";

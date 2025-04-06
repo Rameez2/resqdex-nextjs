@@ -2,8 +2,8 @@
 import React, { useReducer, useState } from "react";
 import { updateRecord } from "@/lib/appwrite/dataForms";
 import { useUser } from "@/context/userContext";
-import ButtonSpinner from "@/components/atoms/buttonSpinner";
-import Toast from "@/components/atoms/Toast";
+import ButtonSpinner from "@/components/ui/buttonSpinner";
+import Toast from "@/components/ui/Toast";
 
 // ----------------- INITIAL STATE -----------------
 const initialState = {
@@ -75,7 +75,7 @@ const formReducer = (state, action) => {
 const AdopterQuestionnaire = ({ isOpen, onClose, onSubmit }) => {
   const [formData, dispatch] = useReducer(formReducer, initialState);
   const [submitLoading, setSubmitLoading] = useState(false);
-  const [showTost, setShowToast] = useState(false);
+  const [toast, setToast] = useState(null);
   const { user, setUser } = useUser();
 
   if (!isOpen) return null;
@@ -87,19 +87,21 @@ const AdopterQuestionnaire = ({ isOpen, onClose, onSubmit }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      setToast(null);
       setSubmitLoading(true);
       const updatedDoc = await updateRecord(user.$id, user.more_info, formData, "adopter");
-      setShowToast(true);
+      setToast({ message: "Application Submit Success!", type: "success" });
 
       user.status = "Pending";
       setUser(user);
       // onClose();
       setTimeout(() => {
         onClose();
-      }, 2000);
+      }, 1000);
       if (onSubmit) onSubmit(updatedDoc);
     } catch (error) {
       console.error("Error updating the record:", error);
+      setToast({ message: error.message, type: "error" });
     } finally {
       setSubmitLoading(false);
     }
@@ -256,7 +258,7 @@ const AdopterQuestionnaire = ({ isOpen, onClose, onSubmit }) => {
           </button>
         </form>
       </div>
-      {showTost && <Toast content='Application submit success!' />}
+      {toast && <Toast content={toast.message} type={toast.type} />}
     </div>
   );
 };

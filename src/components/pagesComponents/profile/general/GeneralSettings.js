@@ -7,8 +7,8 @@ import { Input } from "@/components/ui/input"
 import ProfileSection from "../ProfileSection"
 import { useUser } from "@/context/userContext"
 import { updateUserData } from "@/lib/appwrite/user"
-import Toast from "@/components/atoms/Toast"
-import ButtonSpinner from "@/components/atoms/buttonSpinner"
+import Toast from "@/components/ui/Toast"
+import ButtonSpinner from "@/components/ui/buttonSpinner"
 import AdopterQuestionnaire from "../Dataforms/AdopterQuestionnaire"
 // import OrganizationQuestionnaire from "../Dataforms/OrganizationQuestionnaire"
 
@@ -19,8 +19,7 @@ export default function GeneralSettings() {
   const [userData, setUserData] = useState("");
   const [name, setName] = useState("");
   const [updateLoading, setUpdateLoading] = useState(false);
-  const [showToast, setShowToast] = useState(false);
-  const [error, setError] = useState(false);
+  const [toast, setToast] = useState(null);
   
   const [isAdopterOpen, setIsAdopterOpen] = useState(false);
 
@@ -43,12 +42,19 @@ export default function GeneralSettings() {
     console.log('updating');
 
     try {
+      setToast(null);
       setUpdateLoading(true);
       await updateUserData(user.$id, { email: email, name: name });
-      setShowToast(true);
+      setToast({ message: "Data update success!", type: "success" });
+      setUser(prevUser => ({
+        ...prevUser,
+        email:email,
+        name:name
+      }));
     } catch (error) {
       console.log('error updating data:', error);
-      setError(error.message);
+      setToast({ message: error.message, type: "error" });
+
     }
     finally {
       setUpdateLoading(false);
@@ -150,8 +156,8 @@ export default function GeneralSettings() {
           </div>
         </div>
       </div>
-      {error && <Toast content={error} type="error" />}
-      {showToast && <Toast content='data updated' />}
+      {toast && <Toast content={toast.message} type={toast.type} />}
+
 
             {/* <OrganizationQuestionnaire/> */}
 

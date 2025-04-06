@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { X } from 'lucide-react'; // Importing the close (X) icon from lucide-react
 import AdopterDetails from './AdopterDetails';
 import OrganizationDetails from './OrganizationDetails';
-import ButtonSpinner from '@/components/atoms/buttonSpinner';
+import ButtonSpinner from '@/components/ui/buttonSpinner';
 
 const MoreDetails = ({ detailsProp, setShowMoreDetails }) => {
     const [details, setDetails] = useState(null);

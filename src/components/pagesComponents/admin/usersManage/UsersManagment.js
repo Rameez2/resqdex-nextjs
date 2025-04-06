@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useUser } from "@/context/userContext";
 import { changeUserStatus, getAllUsers } from "@/lib/appwrite/admin";
-import ButtonSpinner from "@/components/atoms/buttonSpinner";
+import ButtonSpinner from "@/components/ui/buttonSpinner";
 import MoreDetails from "./moreDetails/MoreDetails";
 
 const UsersManagement = () => {

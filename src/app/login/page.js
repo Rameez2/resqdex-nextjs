@@ -6,8 +6,8 @@ import { loginWithEmailAndPass, logOutUser } from "@/lib/appwrite/auth"
 import { fetchCurrentUser } from "@/lib/appwrite/user"
 import { useUser } from "@/context/userContext"
 import authRouteProtect from '@/lib/middlewares/authRouteProtect';
-import Toast from "@/components/atoms/Toast"
-import ButtonSpinner from "@/components/atoms/buttonSpinner"
+import Toast from "@/components/ui/Toast"
+import ButtonSpinner from "@/components/ui/buttonSpinner"
 
 function LoginUpForm() {
   const [showPassword, setShowPassword] = useState(false);

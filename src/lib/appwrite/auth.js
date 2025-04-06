@@ -65,3 +65,15 @@ export const registerUser = async (name, email, password, role) => {
   await loginWithEmailAndPass(email, password);
   return newUser; // Return both objects for further use
 };
+
+
+export const updateUserPassword = async (oldPassword, newPassword) => {
+  // Check if the user is logged in
+  const session = await checkSession();
+  // If the user is logged in, proceed with updating the password
+  if (session) {
+    return await account.updatePassword(oldPassword, newPassword);
+  } else {
+    throw new Error('User is not logged in');
+  }
+}
