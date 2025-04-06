@@ -14,10 +14,10 @@ const MyPets = () => {
     const [deletingPetId, setDeletingPetId] = useState(null);
     const [showToast, setShowToast] = useState(false);
 
-    const {user} = useUser();
+    const { user } = useUser();
 
     useEffect(() => {
-        if(user) (async () => {
+        if (user) (async () => {
             try {
                 setLoading(true);
                 // const response = await getPetsByFilter(user.$id);
@@ -93,11 +93,11 @@ const MyPets = () => {
                                     <td className="px-6 py-4">{item.specie}</td>
                                     <td className="px-6 py-4">{item.gender}</td>
                                     <td className="px-6 py-4 flex justify-center items-center space-x-4">
-                                    <button
+                                        <button
                                             className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 flex items-center justify-center w-20"
                                             disabled={deletingPetId === item.$id}
                                         >
-                                        Edit
+                                            Edit
                                         </button>
 
                                         <button

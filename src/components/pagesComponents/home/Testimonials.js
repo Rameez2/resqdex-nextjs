@@ -75,8 +75,10 @@ export default function Testimonials() {
     };
 
     return (
-        <div className="container mx-auto px-4 py-16">
-            <h2 className="text-center text-primary text-5xl font-bold mb-16">Testimonials</h2>
+        <div className="container mx-auto px-4 py-16" aria-labelledby="testimonials-heading">
+            <h2 id="testimonials-heading" className="text-center text-primary text-5xl font-bold mb-16">
+                Testimonials
+            </h2>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                 {testimonialsData.slice(currentIndex, currentIndex + itemsPerPage).map((testimonial, index) => (
@@ -84,16 +86,15 @@ export default function Testimonials() {
                         <div className="relative -mb-16 z-10">
                             <Image
                                 src={testimonial.image}
-                                alt={testimonial.name}
+                                alt={`${testimonial.name}'s photo`}
                                 width={120}
                                 height={120}
                                 className="rounded-full w-30 h-30 border-2 border-white shadow-sm object-cover"
+                                priority={index === 0}  // Prioritize first testimonial image
                             />
                         </div>
                         <div className="bg-[#fff6f1] rounded-lg p-8 pt-20 text-center">
-                            <p className="text-[#000000] mb-6">
-                                {testimonial.text}
-                            </p>
+                            <p className="text-[#000000] mb-6">{testimonial.text}</p>
                             <p className="text-[#a8a8a8] text-xl">{testimonial.name}</p>
                         </div>
                     </div>
@@ -101,11 +102,15 @@ export default function Testimonials() {
             </div>
 
             {/* Pagination Dots */}
-            <div className="flex justify-center mt-8 gap-2">
+            <div className="flex justify-center mt-8 gap-2" aria-label="Testimonial Pagination">
                 {Array.from({ length: totalPages }, (_, index) => (
                     <div
                         key={index}
-                        className={`w-3 h-3 rounded-full cursor-pointer transition-all duration-300 ${currentIndex / itemsPerPage === index ? 'bg-primary scale-110' : 'bg-[#d9d9d9]'}`}
+                        role="button"
+                        aria-label={`Go to page ${index + 1}`}
+                        className={`w-3 h-3 rounded-full cursor-pointer transition-all duration-300 ${
+                            currentIndex / itemsPerPage === index ? 'bg-primary scale-110' : 'bg-[#d9d9d9]'
+                        }`}
                         onClick={() => handleDotClick(index)}
                     ></div>
                 ))}

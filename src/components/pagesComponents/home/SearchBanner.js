@@ -1,104 +1,111 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { Search } from "lucide-react"
+import { useState } from "react";
+import { Search } from "lucide-react";
 
 export default function SearchBanner() {
-  const [activeTab, setActiveTab] = useState("Cats")
+  const [activeTab, setActiveTab] = useState("Cats");
 
   return (
-    // search-banner-img.jpeg
-    <div className="min-h-screen bg-white flex flex-col bg-cover bg-center text-white mb-5"
-      style={{
-    backgroundImage: 'url("/search-banner-img.jpeg")', 
-  }}
+    <section
+      className="min-h-screen bg-white flex flex-col bg-cover bg-center text-white mb-5"
+      style={{ backgroundImage: 'url("/search-banner-img.jpeg")' }}
+      aria-label="Pet Search Banner Section with Background Image"
     >
-      {/* Main content */}
       <div className="flex-1 flex flex-col items-center justify-center max-w-4xl mx-auto w-full px-4 py-12">
-        {/* Heading and description */}
-        <div className="text-center mb-10">
+        <header className="text-center mb-10">
           <h1 className="text-4xl font-bold mb-4">Find Your Perfect Pet</h1>
           <p className="max-w-2xl mx-auto">
             Discover your new best friend from thousands of adoptable pets. Use our search tools to find the perfect
             companion for your home.
           </p>
-        </div>
+        </header>
 
         {/* Tabs */}
-        <div className="flex justify-center gap-8 mb-8">
+        <nav role="tablist" aria-label="Animal Category Tabs" className="flex justify-center gap-8 mb-8">
           {["Cats", "Dogs", "Others"].map((tab) => (
             <button
               key={tab}
-              onClick={() => setActiveTab(tab)}
+              role="tab"
+              aria-selected={activeTab === tab}
               className={`text-base font-medium px-2 py-1 ${
-                activeTab === tab ? "border-b-2 border-primary" : "text-white-200"
+                activeTab === tab ? "border-b-2 border-primary" : "text-white/70"
               }`}
+              onClick={() => setActiveTab(tab)}
             >
               {tab}
             </button>
           ))}
-        </div>
+        </nav>
 
-        {/* Search fields */}
-        <div className="flex w-full max-w-2xl gap-4 mb-8">
-          <div className="flex-1 relative">
+        {/* Search Form */}
+        <form className="flex w-full max-w-2xl gap-4 mb-8 flex-col sm:flex-row" role="search" aria-label="Pet Search Form">
+          {/* Breed */}
+          <div className="flex-1">
+            <label htmlFor="breed" className="sr-only">Breed</label>
             <select
+              id="breed"
               defaultValue=""
-              className="w-full p-3 border border-gray-200 rounded-md text-gray-500 focus:outline-none appearance-none bg-white"
+              className="w-full p-3 border border-gray-200 rounded-md text-gray-500 bg-white focus:outline-none"
             >
-              <option value="" disabled>
-                Breed
-              </option>
+              <option value="" disabled>Breed</option>
               <option value="any">Any</option>
               <option value="siamese">Siamese</option>
               <option value="persian">Persian</option>
               <option value="maine-coon">Maine Coon</option>
             </select>
           </div>
-          <div className="w-px bg-gray-200 self-stretch"></div>
-          <div className="flex-1 relative">
+
+          {/* Age */}
+          <div className="flex-1">
+            <label htmlFor="age" className="sr-only">Age</label>
             <select
+              id="age"
               defaultValue=""
-              className="w-full p-3 border border-gray-200 rounded-md text-gray-500 focus:outline-none appearance-none bg-white"
+              className="w-full p-3 border border-gray-200 rounded-md text-gray-500 bg-white focus:outline-none"
             >
-              <option value="" disabled>
-                Age
-              </option>
+              <option value="" disabled>Age</option>
               <option value="baby">Baby</option>
               <option value="young">Young</option>
               <option value="adult">Adult</option>
               <option value="senior">Senior</option>
             </select>
           </div>
-          <div className="w-px bg-gray-200 self-stretch"></div>
-          <div className="flex-1 relative">
+
+          {/* Location */}
+          <div className="flex-1">
+            <label htmlFor="location" className="sr-only">Location</label>
             <select
+              id="location"
               defaultValue=""
-              className="w-full p-3 border border-gray-200 rounded-md text-gray-500 focus:outline-none appearance-none bg-white"
+              className="w-full p-3 border border-gray-200 rounded-md text-gray-500 bg-white focus:outline-none"
             >
-              <option value="" disabled>
-                Location
-              </option>
+              <option value="" disabled>Location</option>
               <option value="nearby">Nearby</option>
               <option value="10miles">Within 10 miles</option>
               <option value="25miles">Within 25 miles</option>
               <option value="50miles">Within 50 miles</option>
             </select>
           </div>
-          <button className="bg-primary text-white px-4 py-3 rounded-md flex items-center gap-2 cursor-pointer">
+
+          <button
+            type="submit"
+            className="bg-primary text-white px-4 py-3 rounded-md flex items-center gap-2"
+            aria-label="Find pets matching your criteria"
+          >
             <Search size={20} />
             <span>Find Pet</span>
           </button>
-        </div>
+        </form>
 
-        {/* Additional text */}
+        {/* Supporting Text */}
         <div className="text-center max-w-2xl">
           <p>Thousands of loving pets are looking for their forever homes. Start your search today!</p>
         </div>
       </div>
 
-      {/* Wavy bottom decoration */}
-      <div className="w-full h-32 relative overflow-hidden mt-auto">
+      {/* Wavy Decoration */}
+      <div className="w-full h-32 relative overflow-hidden mt-auto" aria-hidden="true">
         <div className="absolute bottom-0 w-full">
           <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full">
             <path
@@ -112,7 +119,6 @@ export default function SearchBanner() {
           </svg>
         </div>
       </div>
-    </div>
-  )
+    </section>
+  );
 }
-

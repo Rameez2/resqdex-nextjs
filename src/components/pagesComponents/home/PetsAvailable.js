@@ -3,6 +3,7 @@ import PetCard from '@/components/ui/PetCard';
 import React, { useEffect, useState, useRef } from 'react';
 import ArrowButton from '@/components/atoms/ArrowButton';
 import { getPetsByFilter } from '@/lib/appwrite/pets';
+import PetCardSkeleton from '@/components/skeletons/PetCardSkeleton';
 
 const PetsAvailable = () => {
     const [loading, setLoading] = useState(true);
@@ -13,7 +14,7 @@ const PetsAvailable = () => {
     useEffect(() => {
         (async () => {
             try {
-                const petsResponse = await getPetsByFilter();
+                const petsResponse = await getPetsByFilter(7,0); // numberOfPets, offset, filters
                 setPets(petsResponse);
                 setLoading(false);
             } catch (error) {
@@ -51,7 +52,7 @@ const PetsAvailable = () => {
             </div>
             <div ref={scrollContainerRef} className="flex gap-4 overflow-x-auto pb-4 pt-4 px-4 scrollbar-hide" style={{scrollbarWidth:'none'}}>
                 <div className="flex gap-4">
-                    {loading ? <h1>Loading</h1>
+                    {loading ? <PetCardSkeleton/>
                         : error ? <h1>Error : {error}</h1> :
                             (
                                 <>

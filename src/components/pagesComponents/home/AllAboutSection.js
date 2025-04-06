@@ -1,5 +1,5 @@
-import Image from "next/image"
-import Link from "next/link"
+import Image from "next/image";
+import Link from "next/link";
 
 export default function AllAboutSection() {
   return (
@@ -7,22 +7,20 @@ export default function AllAboutSection() {
       <div className="mx-auto max-w-7xl">
         <div className="flex flex-col items-center lg:flex-row lg:items-start lg:justify-between">
           {/* Left Content */}
-          <div className="mb-12 max-w-xl lg:mb-0 lg:max-w-lg">
-            <h1 className="mb-6 text-5xl font-bold text-[#000000]">All About ResQDexx</h1>
+          <section className="mb-12 max-w-xl lg:mb-0 lg:max-w-lg">
+            <h2 className="mb-6 text-5xl font-bold text-[#000000]">All About ResQDexx</h2>
             <p className="mb-8 text-lg leading-relaxed text-[#000000]">
-              Lorem ipsum dolor sit amet consectetur. Sed risus lectus tempus metus. Sed sapien egestas quisque at in eu
-              eu nec. Justo donec aliquet bibendum felis odio laoreet fermentum libero sed. Est pharetra eu at nibh
-              adipiscing erat hac. Lorem ipsum dolor sit amet consectetur. Sed risus lectus tempus metus. Sed sapien
-              egestas quisque at in eu eu nec. Justo donec aliquet bibendum felis odio laoreet fermentum libero sed. Est
-              pharetra eu at nibh adipiscing erat hac.
+              ResQDexx is a global platform dedicated to simplifying the pet adoption journey. We connect rescue shelters and
+              loving homes to provide forever families for animals in need. With tools for filtering, connecting, and learning,
+              ResQDexx ensures your next best friend is just a few clicks away.
             </p>
             <Link
-              href="#"
+              href="/about"
               className="inline-block rounded-md bg-primary px-8 py-3 text-lg font-medium text-white transition-colors hover:bg-[#f2b47b]"
             >
               Learn More
             </Link>
-          </div>
+          </section>
 
           {/* Right Content with Circle Background */}
           <div className="relative">
@@ -31,44 +29,38 @@ export default function AllAboutSection() {
               <div className="overflow-hidden rounded-2xl">
                 <Image
                   src="/about-dog.jpeg"
-                  alt="People with dog in park"
+                  alt="Family playing with adopted golden retriever"
                   width={300}
                   height={400}
-                  className="h-full w-full object-cover"
-                  style={{height:'300px'}}
+                  className="h-[300px] w-full object-cover"
+                  priority
                 />
               </div>
               <div className="overflow-hidden rounded-2xl">
                 <Image
                   src="/about-dog.jpeg"
-                  alt="Person with small dogs"
+                  alt="Volunteer walking dogs in rescue park"
                   width={300}
                   height={400}
-                  className="h-full w-full object-cover"
-                  style={{height:'300px'}}
-
+                  className="h-[300px] w-full object-cover"
                 />
               </div>
               <div className="overflow-hidden rounded-2xl">
                 <Image
                   src="/about-dog.jpeg"
-                  alt="Dalmatian standing"
+                  alt="Dalmatian standing happily at shelter"
                   width={300}
                   height={400}
-                  className="h-full w-full object-cover"
-                  style={{height:'300px'}}
-
+                  className="h-[300px] w-full object-cover"
                 />
               </div>
               <div className="overflow-hidden rounded-2xl">
                 <Image
                   src="/about-dog.jpeg"
-                  alt="Person holding cat"
+                  alt="Woman holding rescued kitten with smile"
                   width={300}
                   height={400}
-                  className="h-full w-full object-cover"
-                  style={{height:'300px'}}
-
+                  className="h-[300px] w-full object-cover"
                 />
               </div>
             </div>
@@ -76,6 +68,5 @@ export default function AllAboutSection() {
         </div>
       </div>
     </main>
-  )
+  );
 }
-

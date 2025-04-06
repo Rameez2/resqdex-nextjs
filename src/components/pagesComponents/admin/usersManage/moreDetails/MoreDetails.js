@@ -1,4 +1,4 @@
-import { approveOrganization, getMoreDetails } from '@/lib/appwrite/admin';
+import { changeUserStatus, getMoreDetails } from '@/lib/appwrite/admin';
 import React, { useState, useEffect } from 'react';
 import { X } from 'lucide-react'; // Importing the close (X) icon from lucide-react
 import AdopterDetails from './AdopterDetails';
@@ -32,7 +32,7 @@ const MoreDetails = ({ detailsProp, setShowMoreDetails }) => {
         try {
             setStatusLoading(newStatus);
             console.log('Changing status for', detailsProp.$id, 'to', newStatus);
-            await approveOrganization(detailsProp.$id, newStatus);
+            await changeUserStatus(detailsProp.$id, newStatus);
             setStatus(newStatus);
             console.log('Status changed successfully!');
         } catch (err) {
