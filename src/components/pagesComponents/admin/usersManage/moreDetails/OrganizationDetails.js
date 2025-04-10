@@ -1,114 +1,177 @@
-import React from 'react';
+import { changeUserStatus, getMoreDetails } from '@/lib/appwrite/admin';
+import React, { useEffect, useState } from 'react';
+import { X } from 'lucide-react';
+import ButtonSpinner from '@/components/ui/buttonSpinner';
+import Toast from '@/components/ui/Toast';
 
-const OrganizationDetails = ({ Info }) => {
-    if (!Info) {
-        return <div className="p-4 text-center">No organization details available.</div>;
+const OrganizationDetails = ({ user, setSelectedMoreInfo }) => {
+  const [statusLoading, setStatusLoading] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [Info, setInfo] = useState(null);
+  const [toast,setToast] = useState(null);
+
+  useEffect(() => {
+    if (!user?.more_info) return;
+
+    (async () => {
+      try {
+        setLoading(true);
+        const detailsResponse = await getMoreDetails(user.more_info);
+        setInfo(detailsResponse);
+        console.log('info set', detailsResponse);
+      } catch (err) {
+        console.error("Error fetching details:", err);
+      } finally {
+        setLoading(false);
+      }
+    })();
+  }, [user?.more_info]);
+
+  const changeStatus = async (newStatus) => {
+    try {
+        setToast(null);
+      setStatusLoading(newStatus);
+      await changeUserStatus(user.$id, newStatus);
+      setToast({ message: `Status change to ${newStatus}`, type: "success" });
+    } catch (err) {
+      console.error("Error updating status:", err);
+      setToast({ message: error.message, type: "error" });
+    } finally {
+      setStatusLoading(null);
     }
+  };
 
+  const overlayClasses = "fixed inset-0 z-[9999] bg-black/30 flex items-center justify-center";
+  const containerClasses = "w-full max-w-5xl bg-[#fff5ef] border border-[#ffdfc1] rounded-lg p-8 relative max-h-[90vh] overflow-y-auto scrollbar-hidden";
+  const sectionTitle = "text-[#e17716] text-xl font-semibold mb-4";
+  const listStyle = "list-disc ml-6 text-[#000000] space-y-2";
+
+  const buttonContainerClasses = "mt-5 flex justify-center gap-3";
+  const buttonClasses = "py-2 px-5 rounded-md border-none text-lg cursor-pointer min-w-[120px]";
+  const approveButtonClasses = "bg-green-500 text-white";
+  const rejectButtonClasses = "bg-red-500 text-white";
+
+  if (loading) {
     return (
-        <div
-            className="p-6 bg-white rounded-lg shadow-lg overflow-auto max-h-screen"
-            style={{
-                boxShadow:
-                    'rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px',
-            }}
-        >
-            <h1 className="text-2xl font-bold mb-6 text-center">Organization Details</h1>
-
-            <div className="flex flex-wrap gap-6">
-
-                {/* Personal Information */}
-                <div className="flex-1 min-w-[250px] mb-6">
-                    <h2 className="text-xl font-semibold mb-3">Personal Information</h2>
-                    <ul className="list-disc ml-6">
-                        {Info.personal_info.map((item, idx) => (
-                            <li key={idx} className="mb-2">{item}</li>
-                        ))}
-                    </ul>
-                </div>
-
-                {/* Mission and Vision */}
-                <div className="flex-1 min-w-[250px] mb-6">
-                    <h2 className="text-xl font-semibold mb-3">Mission and Vision</h2>
-                    <ul className="list-disc ml-6">
-                        {Info.mission_and_vision.map((item, idx) => (
-                            <li key={idx} className="mb-2">{item}</li>
-                        ))}
-                    </ul>
-                </div>
-
-                {/* Services */}
-                <div className="flex-1 min-w-[250px] mb-6">
-                    <h2 className="text-xl font-semibold mb-3">Services</h2>
-                    <ul className="list-disc ml-6">
-                        {Info.services.map((item, idx) => (
-                            <li key={idx} className="mb-2">{item}</li>
-                        ))}
-                    </ul>
-                </div>
-
-                {/* Legal and Compliance */}
-                <div className="flex-1 min-w-[250px] mb-6">
-                    <h2 className="text-xl font-semibold mb-3">Legal and Compliance</h2>
-                    <ul className="list-disc ml-6">
-                        {Info.legal_and_compliance.map((item, idx) => (
-                            <li key={idx} className="mb-2">{item}</li>
-                        ))}
-                    </ul>
-                </div>
-
-                {/* Partnership and Collaborations */}
-                <div className="flex-1 min-w-[250px] mb-6">
-                    <h2 className="text-xl font-semibold mb-3">Partnership and Collaborations</h2>
-                    <ul className="list-disc ml-6">
-                        {Info.partnership_and_collabs.map((item, idx) => (
-                            <li key={idx} className="mb-2">{item}</li>
-                        ))}
-                    </ul>
-                </div>
-
-                {/* Adoption Process */}
-                <div className="flex-1 min-w-[250px] mb-6">
-                    <h2 className="text-xl font-semibold mb-3">Adoption Process</h2>
-                    <ul className="list-disc ml-6">
-                        {Info.adoption_process.map((item, idx) => (
-                            <li key={idx} className="mb-2">{item}</li>
-                        ))}
-                    </ul>
-                </div>
-
-                {/* Feedback and Impact */}
-                <div className="flex-1 min-w-[250px] mb-6">
-                    <h2 className="text-xl font-semibold mb-3">Feedback and Impact</h2>
-                    <ul className="list-disc ml-6">
-                        {Info.feedback_and_impact.map((item, idx) => (
-                            <li key={idx} className="mb-2">{item}</li>
-                        ))}
-                    </ul>
-                </div>
-
-                {/* Operations and Staffing */}
-                <div className="flex-1 min-w-[250px] mb-6">
-                    <h2 className="text-xl font-semibold mb-3">Operations and Staffing</h2>
-                    <p className="ml-6">{Info.operations_and_staffing}</p>
-                </div>
-
-                {/* Funding and Financials */}
-                <div className="flex-1 min-w-[250px] mb-6">
-                    <h2 className="text-xl font-semibold mb-3">Funding and Financials</h2>
-                    <p className="ml-6">{Info.funding_and_financials}</p>
-                </div>
-
-                {/* Additional Info */}
-                <div className="flex-1 min-w-[250px] mb-6">
-                    <h2 className="text-xl font-semibold mb-3">Additional Info</h2>
-                    <p className="ml-6">{Info.additional_info}</p>
-                </div>
-
-
-            </div>
-        </div>
+      <div className={overlayClasses}>
+        <div className="text-white text-lg">Loading Info ...</div>
+      </div>
     );
+  }
+
+  return (
+    <div className={overlayClasses}>
+      <div className={containerClasses}>
+        {/* Close icon */}
+        <div className="absolute top-3 right-3 cursor-pointer" onClick={() => setSelectedMoreInfo(false)}>
+          <X className="text-gray-600" size={24} />
+        </div>
+
+        <h1 className="text-[#e17716] text-4xl font-bold text-center mb-2">Organization Details</h1>
+
+        <div className="grid md:grid-cols-2 gap-8">
+          <div>
+            <h2 className={sectionTitle}>Personal Information</h2>
+            <ul className={listStyle}>
+              {Info.personal_info.map((item, idx) => (
+                <li key={idx}>{item}</li>
+              ))}
+            </ul>
+          </div>
+
+          <div>
+            <h2 className={sectionTitle}>Mission and Vision</h2>
+            <ul className={listStyle}>
+              {Info.mission_and_vision.map((item, idx) => (
+                <li key={idx}>{item}</li>
+              ))}
+            </ul>
+          </div>
+
+          <div>
+            <h2 className={sectionTitle}>Services</h2>
+            <ul className={listStyle}>
+              {Info.services.map((item, idx) => (
+                <li key={idx}>{item}</li>
+              ))}
+            </ul>
+          </div>
+
+          <div>
+            <h2 className={sectionTitle}>Legal and Compliance</h2>
+            <ul className={listStyle}>
+              {Info.legal_and_compliance.map((item, idx) => (
+                <li key={idx}>{item}</li>
+              ))}
+            </ul>
+          </div>
+
+          <div>
+            <h2 className={sectionTitle}>Partnership and Collaborations</h2>
+            <ul className={listStyle}>
+              {Info.partnership_and_collabs.map((item, idx) => (
+                <li key={idx}>{item}</li>
+              ))}
+            </ul>
+          </div>
+
+          <div>
+            <h2 className={sectionTitle}>Adoption Process</h2>
+            <ul className={listStyle}>
+              {Info.adoption_process.map((item, idx) => (
+                <li key={idx}>{item}</li>
+              ))}
+            </ul>
+          </div>
+
+          <div>
+            <h2 className={sectionTitle}>Feedback and Impact</h2>
+            <ul className={listStyle}>
+              {Info.feedback_and_impact.map((item, idx) => (
+                <li key={idx}>{item}</li>
+              ))}
+            </ul>
+          </div>
+
+          <div>
+            <h2 className={sectionTitle}>Operations and Staffing</h2>
+            <p className="ml-6 text-[#000000]">{Info.operations_and_staffing}</p>
+          </div>
+
+          <div>
+            <h2 className={sectionTitle}>Funding and Financials</h2>
+            <p className="ml-6 text-[#000000]">{Info.funding_and_financials}</p>
+          </div>
+
+          <div>
+            <h2 className={sectionTitle}>Additional Info</h2>
+            <p className="ml-6 text-[#000000]">{Info.additional_info}</p>
+          </div>
+        </div>
+
+        <div className={buttonContainerClasses}>
+          <button
+            onClick={() => changeStatus("Approved")}
+            disabled={statusLoading !== null}
+            className={`${buttonClasses} ${approveButtonClasses}`}
+          >
+            {statusLoading === "Approved" && <ButtonSpinner />}
+            Approve
+          </button>
+          <button
+            onClick={() => changeStatus("Rejected")}
+            disabled={statusLoading !== null}
+            className={`${buttonClasses} ${rejectButtonClasses}`}
+          >
+            {statusLoading === "Rejected" && <ButtonSpinner />}
+            Reject
+          </button>
+        </div>
+      </div>
+      {toast && <Toast content={toast.message} type={toast.type} />}
+
+    </div>
+  );
 };
 
 export default OrganizationDetails;

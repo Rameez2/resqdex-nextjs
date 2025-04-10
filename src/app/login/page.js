@@ -53,7 +53,7 @@ function LoginUpForm() {
             <input
               id="email"
               type="email"
-              placeholder="rameez@gmail.com"
+              placeholder="example@gmail.com"
               onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value}))}
               className="w-full rounded-md border border-[#d8dadc] px-4 py-3 text-black outline-none focus:border-primary focus:ring-1 focus:ring-primary"
             />

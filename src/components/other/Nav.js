@@ -22,19 +22,19 @@ const Nav = () => {
   return (
     <div className="border-b border-primary">
       {/* Header */}
-      <header className="container mx-auto px-4 py-4 flex items-center justify-between">
+      <header className="container mx-auto px-4 py-4 flex items-center justify-between gap-2">
         <div className="text-3xl font-bold">Logo</div>
-        <nav className="hidden md:flex items-center space-x-8 font-bold">
+        <nav className="hidden md:flex items-center space-x-8 font-bold whitespace-nowrap">
           <Link href="/" className="text-[#000000] hover:text-primary">
             Home
           </Link>
-          <Link href="/about-us" className="text-[#000000] hover:text-primary">
+          <Link href="/about-us" className="text-[#000000] hover:text-primary whitespace-nowrap">
             About Us
           </Link>
-          <Link href="/animal-listing" className="text-[#000000] hover:text-primary">
+          <Link href="/animal-listing" className="text-[#000000] hover:text-primary whitespace-nowrap">
             Animal Listing
           </Link>
-          <Link href="contact-us" className="text-[#000000] hover:text-primary">
+          <Link href="contact-us" className="text-[#000000] hover:text-primary whitespace-nowrap">
             Contact Us
           </Link>
         </nav>
@@ -49,7 +49,7 @@ const Nav = () => {
               </>:
               user.status === "Apply" ? <>
               <Link href="/profile">
-              <span className="bg-yellow-100 text-yellow-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-sm dark:bg-yellow-900 dark:text-yellow-300 cursor-pointer">Get Verified</span>
+              <span className="bg-yellow-100 text-yellow-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-sm dark:bg-yellow-900 dark:text-yellow-300 cursor-pointer whitespace-nowrap">Get Verified</span>
               </Link>
               </>: 
               user.status === "Pending" ? <span className="bg-gray-100 text-gray-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-sm dark:bg-gray-700 dark:text-gray-300">Pending</span>

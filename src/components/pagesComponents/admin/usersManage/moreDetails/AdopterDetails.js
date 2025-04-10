@@ -1,95 +1,187 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { X } from 'lucide-react';
+import ButtonSpinner from '@/components/ui/buttonSpinner';
+import { changeUserStatus, getMoreDetails } from '@/lib/appwrite/admin';
+import Toast from '@/components/ui/Toast';
 
-const AdopterDetails = ({ Info }) => {
-  if (!Info) {
-    return <div className="p-4 text-center">No adopter details available.</div>;
+const AdopterDetails = ({ user, setSelectedMoreInfo }) => {
+  const [statusLoading, setStatusLoading] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [Info, setInfo] = useState(null);
+  const [toast,setToast] = useState(null);
+  
+
+// FETCH ADOPTER DETAILS
+useEffect(() => {
+  if (!user?.more_info) return;
+
+  (async () => {
+    try {
+      setLoading(true);
+      const detailsResponse = await getMoreDetails(user.more_info);
+      setInfo(detailsResponse);
+      console.log('info set', detailsResponse);
+    } catch (err) {
+      console.error("Error fetching details:", err);
+
+    } finally {
+      setLoading(false);
+    }
+  })();
+}, [user?.more_info]);
+
+
+  
+
+  const changeStatus = async (newStatus) => {
+    try {
+      setToast(null)
+      setStatusLoading(newStatus);
+      console.log('Changing status for', Info.$id, 'to', newStatus);
+      await changeUserStatus(user.$id, newStatus);
+      setToast({ message: `Status change to ${newStatus}`, type: "success" });
+
+      console.log('Status changed successfully!');
+    } catch (err) {
+      console.error("Error updating status:", err);
+      setToast({ message: error.message, type: "error" });
+
+    } finally {
+      setStatusLoading(null);
+    }
+  };
+
+  const buttonContainerClasses = "mt-5 flex justify-center gap-3";
+  const buttonClasses = "py-2 px-5 rounded-md border-none text-lg cursor-pointer min-w-[120px]";
+  const approveButtonClasses = "bg-green-500 text-white";
+  const rejectButtonClasses = "bg-red-500 text-white";
+
+  const overlayClasses = "fixed inset-0 z-[9999] bg-black/30 flex items-center justify-center";
+  const containerClasses = "w-full max-w-5xl bg-[#fff5ef] border border-[#ffdfc1] rounded-lg p-8 relative max-h-[90vh] overflow-y-auto scrollbar-hidden";
+
+  if (loading) {
+    return (
+      <div className={overlayClasses}>
+        <div className="text-white text-lg">Loading Info ...</div>
+      </div>
+    );
   }
 
   return (
-    <div className="p-6 bg-white rounded-lg shadow-lg overflow-auto max-h-screen"
-         style={{ boxShadow: 'rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px' }}>
-      <h1 className="text-2xl font-bold mb-6 text-center">Adopter Details</h1>
-
-      {/* Flex Container for Information Sections */}
-      <div className="flex flex-wrap gap-6">
-        
-        {/* Personal Information */}
-        <div className="flex-1 min-w-[250px] mb-6">
-          <h2 className="text-xl font-semibold mb-3">Personal Information</h2>
-          <ul className="list-disc ml-6">
-            {Info.personal_info.map((item, idx) => (
-              <li key={idx} className="mb-2">{item}</li>
-            ))}
-          </ul>
+    <div className={overlayClasses}>
+      <div className={containerClasses}>
+        {/* Close icon */}
+        <div className="absolute top-3 right-3 cursor-pointer" onClick={() => setSelectedMoreInfo(false)}>
+          <X className="text-gray-600" size={24} />
         </div>
 
-        {/* Household Information */}
-        <div className="flex-1 min-w-[250px] mb-6">
-          <h2 className="text-xl font-semibold mb-3">Household Information</h2>
-          <ul className="list-disc ml-6">
-            {Info.household_info.map((item, idx) => (
-              <li key={idx} className="mb-2">{item}</li>
-            ))}
-          </ul>
+        <h1 className="text-[#e17716] text-4xl font-bold text-center mb-2">Adopter Details</h1>
+
+        <div className="grid md:grid-cols-2 gap-8">
+          {/* Personal Information */}
+          <div>
+            <h2 className="text-[#e17716] text-xl font-semibold mb-4">Personal Information</h2>
+            <ul className="list-disc ml-6 text-[#000000] space-y-2">
+              {Info.personal_info.map((item, idx) => (
+                <li key={idx}>{item}</li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Household Information */}
+          <div>
+            <h2 className="text-[#e17716] text-xl font-semibold mb-4">Household Information</h2>
+            <ul className="list-disc ml-6 text-[#000000] space-y-2">
+              {Info.household_info.map((item, idx) => (
+                <li key={idx}>{item}</li>
+              ))}
+            </ul>
+          </div>
         </div>
 
-        {/* Experience with Pets */}
-        <div className="flex-1 min-w-[250px] mb-6">
-          <h2 className="text-xl font-semibold mb-3">Experience with Pets</h2>
-          <ul className="list-disc ml-6">
-            {Info.experience_with_pets.map((item, idx) => (
-              <li key={idx} className="mb-2">{item}</li>
-            ))}
-          </ul>
+        <div className="grid md:grid-cols-2 gap-8 mt-6">
+          {/* Experience with Pets */}
+          <div>
+            <h2 className="text-[#e17716] text-xl font-semibold mb-4">Experience with Pets</h2>
+            <ul className="list-disc ml-6 text-[#000000] space-y-2">
+              {Info.experience_with_pets.map((item, idx) => (
+                <li key={idx}>{item}</li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Adoption Intentions */}
+          <div>
+            <h2 className="text-[#e17716] text-xl font-semibold mb-4">Adoption Intentions</h2>
+            <ul className="list-disc ml-6 text-[#000000] space-y-2">
+              {Info.adoption_intentions.map((item, idx) => (
+                <li key={idx}>{item}</li>
+              ))}
+            </ul>
+          </div>
         </div>
 
-        {/* Adoption Intentions */}
-        <div className="flex-1 min-w-[250px] mb-6">
-          <h2 className="text-xl font-semibold mb-3">Adoption Intentions</h2>
-          <ul className="list-disc ml-6">
-            {Info.adoption_intentions.map((item, idx) => (
-              <li key={idx} className="mb-2">{item}</li>
-            ))}
-          </ul>
+        <div className="grid md:grid-cols-2 gap-8 mt-6">
+          {/* Lifestyle Commitment */}
+          <div>
+            <h2 className="text-[#e17716] text-xl font-semibold mb-4">Lifestyle Commitment</h2>
+            <ul className="list-disc ml-6 text-[#000000] space-y-2">
+              {Info.lifestyle_commitment.map((item, idx) => (
+                <li key={idx}>{item}</li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Financial Considerations */}
+          <div>
+            <h2 className="text-[#e17716] text-xl font-semibold mb-4">Financial Considerations</h2>
+            <ul className="list-disc ml-6 text-[#000000] space-y-2">
+              {Info.financial_considerations.map((item, idx) => (
+                <li key={idx}>{item}</li>
+              ))}
+            </ul>
+          </div>
         </div>
 
-        {/* Lifestyle Commitment */}
-        <div className="flex-1 min-w-[250px] mb-6">
-          <h2 className="text-xl font-semibold mb-3">Lifestyle Commitment</h2>
-          <ul className="list-disc ml-6">
-            {Info.lifestyle_commitment.map((item, idx) => (
-              <li key={idx} className="mb-2">{item}</li>
-            ))}
-          </ul>
+        <div className="grid md:grid-cols-2 gap-8 mt-6">
+          {/* References */}
+          <div>
+            <h2 className="text-[#e17716] text-xl font-semibold mb-4">References</h2>
+            <ul className="list-disc ml-6 text-[#000000] space-y-2">
+              {Info.references.map((item, idx) => (
+                <li key={idx}>{item}</li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Additional Information */}
+          <div>
+            <h2 className="text-[#e17716] text-xl font-semibold mb-4">Additional Information</h2>
+            <p className="ml-6 text-[#000000]">{Info.additional_info}</p>
+          </div>
         </div>
 
-        {/* Financial Considerations */}
-        <div className="flex-1 min-w-[250px] mb-6">
-          <h2 className="text-xl font-semibold mb-3">Financial Considerations</h2>
-          <ul className="list-disc ml-6">
-            {Info.financial_considerations.map((item, idx) => (
-              <li key={idx} className="mb-2">{item}</li>
-            ))}
-          </ul>
+        <div className={buttonContainerClasses}>
+          <button
+            onClick={() => changeStatus("Approved")}
+            disabled={statusLoading !== null}
+            className={`${buttonClasses} ${approveButtonClasses}`}
+          >
+            {statusLoading === "Approved" && <ButtonSpinner />}
+            Approve
+          </button>
+          <button
+            onClick={() => changeStatus("Rejected")}
+            disabled={statusLoading !== null}
+            className={`${buttonClasses} ${rejectButtonClasses}`}
+          >
+            {statusLoading === "Rejected" && <ButtonSpinner />}
+            Reject
+          </button>
         </div>
-
-        {/* References */}
-        <div className="flex-1 min-w-[250px] mb-6">
-          <h2 className="text-xl font-semibold mb-3">References</h2>
-          <ul className="list-disc ml-6">
-            {Info.references.map((item, idx) => (
-              <li key={idx} className="mb-2">{item}</li>
-            ))}
-          </ul>
-        </div>
-        
-        {/* Additional Information */}
-        <div className="flex-1 min-w-[250px] mb-6">
-          <h2 className="text-xl font-semibold mb-3">Additional Information</h2>
-          <p className="ml-6">{Info.additional_info}</p>
-        </div>
-
       </div>
+      {toast && <Toast content={toast.message} type={toast.type} />}
+
     </div>
   );
 };

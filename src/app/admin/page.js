@@ -12,7 +12,7 @@ const Page = () => {
     };
 
     return (
-        <div className='m-10'>
+        <div className='p-10 bg-[#fbf5f0]'>
 
             {/* Tab Buttons */}
             <div className="flex space-x-4 mb-6">
