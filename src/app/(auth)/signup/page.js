@@ -10,12 +10,12 @@ import { useUser } from "@/context/userContext";
 
 function SignUpForm() {
 
-  const {setUser} = useUser();
+  const { setUser } = useUser();
   const [showPassword, setShowPassword] = useState(false);
-    const [toast,setToast] = useState(null);
-
-  const [loading,setLoading] = useState(false);
-  const [error,setError] = useState(null);
+  const [toast, setToast] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [agreed, setAgreed] = useState(false); // new state for agreement
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -24,6 +24,13 @@ function SignUpForm() {
   })
 
   async function handleSubmit() {
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{6,}$/;
+  
+    if (!passwordRegex.test(formData.password)) {
+      setToast({ message: "Password must be at least 6 characters long, contain 1 uppercase letter, 1 lowercase letter, 1 number, and 1 special character.", type: "error" });
+      return;
+    }
+  
     try {
       setLoading(true);
       setToast(null);
@@ -33,11 +40,11 @@ function SignUpForm() {
     } catch (error) {
       console.log(error);
       setToast({ message: error.message, type: "error" });
-    }
-    finally {
+    } finally {
       setLoading(false);
     }
   }
+  
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-[#fbf5f0] pr-5 pl-5">
@@ -45,6 +52,7 @@ function SignUpForm() {
         <h1 className="mb-6 text-3xl font-bold text-black" onClick={() => console.log(formData)}>Sign up</h1>
 
         <div className="space-y-6">
+          {/* Name */}
           <div className="space-y-2">
             <label htmlFor="name" className="block text-sm font-medium text-black">
               Name
@@ -58,6 +66,7 @@ function SignUpForm() {
             />
           </div>
 
+          {/* Email */}
           <div className="space-y-2">
             <label htmlFor="email" className="block text-sm font-medium text-black">
               Email
@@ -71,6 +80,7 @@ function SignUpForm() {
             />
           </div>
 
+          {/* Password */}
           <div className="space-y-2">
             <label htmlFor="password" className="block text-sm font-medium text-black">
               Create a password
@@ -81,7 +91,6 @@ function SignUpForm() {
                 type={showPassword ? "text" : "password"}
                 placeholder="must be 8 characters"
                 onChange={(e) => setFormData(prev => ({ ...prev, password: e.target.value }))}
-
                 className="w-full rounded-md border border-[#d8dadc] px-4 py-3 text-black outline-none focus:border-primary focus:ring-1 focus:ring-primary"
               />
               <button
@@ -94,12 +103,14 @@ function SignUpForm() {
             </div>
           </div>
 
+          {/* Role */}
           <div className="space-y-2">
-            <label htmlFor="confirmPassword" className="block text-sm font-medium text-black">
+            <label htmlFor="role" className="block text-sm font-medium text-black">
               Role
             </label>
             <div className="relative">
               <select
+                id="role"
                 onChange={(e) => setFormData(prev => ({ ...prev, role: e.target.value }))}
                 className="w-full rounded-md border border-[#d8dadc] px-4 py-3 text-black outline-none focus:border-primary focus:ring-1 focus:ring-primary"
               >
@@ -109,19 +120,43 @@ function SignUpForm() {
             </div>
           </div>
 
+          {/* Agreement Checkbox */}
+          <div className="flex items-center space-x-2">
+            <input
+              id="agreement"
+              type="checkbox"
+              checked={agreed}
+              onChange={() => setAgreed(prev => !prev)}
+              className="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary"
+            />
+            <label htmlFor="agreement" className="text-sm text-black">
+              I agree to the{" "}
+              <Link href="/agreement" className="text-primary underline">
+                terms and conditions
+              </Link>.
+            </label>
+          </div>
+
+
+          {/* Submit Button */}
           <button
             type="submit"
             onClick={handleSubmit}
-            className="w-full rounded-md bg-primary py-3 font-medium text-white hover:bg-primary/80 transition-colors"
+            disabled={!agreed || loading} // disabled if not agreed
+            className={`w-full rounded-md py-3 font-medium text-white transition-colors 
+              ${agreed ? "bg-primary hover:bg-primary/80" : "bg-gray-400 cursor-not-allowed"}`}
           >
-          {loading ? <>
-            <ButtonSpinner/>
-            Loading...
-          </> :
-            'Sign Up'
-          }
+            {loading ? (
+              <>
+                <ButtonSpinner />
+                Loading...
+              </>
+            ) : (
+              'Sign Up'
+            )}
           </button>
 
+          {/* Link to Login */}
           <div className="text-center text-sm">
             Already have an account?{" "}
             <Link href="/login" className="text-primary hover:underline">
@@ -130,8 +165,9 @@ function SignUpForm() {
           </div>
         </div>
       </div>
-      {toast && <Toast content={toast.message} type={toast.type} />}
 
+      {/* Toast Notification */}
+      {toast && <Toast content={toast.message} type={toast.type} />}
     </div>
   )
 }

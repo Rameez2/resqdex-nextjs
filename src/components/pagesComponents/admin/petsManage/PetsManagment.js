@@ -6,13 +6,13 @@ import { Search, Trash2 } from "lucide-react"
 import Toast from "@/components/ui/Toast"
 
 const PetsManagement = () => {
-  const [pets, setPets] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(null)
+  const [pets, setPets] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [deletingPetId, setDeletingPetId] = useState(null)
   const [searchTerm, setSearchTerm] = useState("");
-      const [toast,setToast] = useState(null);
-  
+  const [toast, setToast] = useState(null);
+
 
   useEffect(() => {
     const fetchPets = async () => {
@@ -103,11 +103,10 @@ const PetsManagement = () => {
                 <button
                   onClick={() => deletePet(pet.$id)}
                   disabled={deletingPetId === pet.$id}
-                  className={`flex items-center w-35 cursor-pointer gap-2 px-4 py-2 rounded text-white font-semibold transition ${
-                    deletingPetId === pet.$id
+                  className={`flex items-center w-35 cursor-pointer gap-2 px-4 py-2 rounded text-white font-semibold transition ${deletingPetId === pet.$id
                       ? "bg-gray-400 cursor-not-allowed"
                       : "bg-red-500 hover:bg-red-600"
-                  }`}
+                    }`}
                 >
                   <Trash2 className="h-4 w-4" />
                   {deletingPetId === pet.$id ? "Deleting..." : "Delete"}

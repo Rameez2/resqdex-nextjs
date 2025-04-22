@@ -6,16 +6,16 @@ import withAuth from "@/lib/middlewares/withAuth";
 import React, { useReducer, useState } from "react";
 
 const initialState = {
-  personal_info: ["org", "org", "org@gmail.com", "org", "org"],
-  operations_and_staffing: "org",
-  funding_and_financials: "org",
-  additional_info: "org",
-  mission_and_vision: ["org", "org", "org"],
-  services: ["org", "org", "org"],
-  legal_and_compliance: ["org", "org", "org"],
-  partnership_and_collabs: ["org", "org"],
-  adoption_process: ["org", "org"],
-  feedback_and_impact: ["org", "org"],
+  personal_info: ["", "", "org@gmail.com", "", ""],
+  operations_and_staffing: "",
+  funding_and_financials: "",
+  additional_info: "",
+  mission_and_vision: ["", "", ""],
+  services: ["", "", ""],
+  legal_and_compliance: ["", "", ""],
+  partnership_and_collabs: ["", ""],
+  adoption_process: ["", ""],
+  feedback_and_impact: ["", ""],
 };
 
 const orgReducer = (state, action) => {

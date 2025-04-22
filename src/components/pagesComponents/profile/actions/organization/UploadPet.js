@@ -7,22 +7,26 @@ import { uploadPet } from '@/lib/appwrite/pets';
 import { ID } from 'appwrite';
 import { ImageIcon } from 'lucide-react';
 import React, { useState } from 'react';
+import PetCategories from './upload/PetCategories';
 
 const UploadPet = () => {
   const { user } = useUser();
+
+  
   const [petInfo, setPetInfo] = useState({
-    name: '',
-    age: 3,
+    name: 'Pebbles',
+    age: 4,
     specie: 'Other',
-    breed: '',
-    size: '',
-    temperament: '',
-    contact: '',
-    gender: 'Male',
-    location: '',
-    bio: '',
-    rescue_story: '',
+    breed: 'Rabbit',
+    size: 'Small',
+    temperament: 'Sweet, Quiet',
+    contact: 'pebbles.rescue@smallfriends.org',
+    gender: 'Female',
+    location: 'Denver, CO',
+    bio: 'Pebbles is a gentle rabbit who enjoys snacking on greens and being petted softly.',
+    rescue_story: 'Pebbles was rescued from a backyard breeding operation and is now healthy, spayed, and looking for her forever home.',
   });
+  
 
   const [mainImageFile, setMainImageFile] = useState(null);
   const [imageFiles, setImageFiles] = useState([]); // State for multiple images
@@ -169,7 +173,8 @@ const UploadPet = () => {
       />
     </div>
 
-    <div className="flex-1 min-w-[160px] max-w-sm">
+    <PetCategories handleChange={handleChange} petInfo={petInfo}/>
+    {/* <div className="flex-1 min-w-[160px] max-w-sm">
       <label className="block text-sm text-gray-700 mb-1">Specie:</label>
       <select
         name="specie"
@@ -195,7 +200,7 @@ const UploadPet = () => {
         placeholder="e.g. Persian"
         required
       />
-    </div>
+    </div> */}
 
     <div className="flex-1 min-w-[180px] max-w-sm">
       <label className="block text-sm text-gray-700 mb-1">Size:</label>

@@ -66,7 +66,7 @@ const Nav = () => {
               <Link href="/profile">
                 <CircleUser className="w-9 h-9 text-primary" />
               </Link>
-              <button onClick={handleLogOut} className="text-primary">LogOUt</button>
+              <button onClick={handleLogOut} className="text-primary">Logout</button>
             </>
             :
             <>
