@@ -1,94 +1,95 @@
 import React from 'react';
+import { breedsData } from '../../../../../../../public/data/breeds';
 
 const PetCategories = ({ handleChange, petInfo }) => {
 
     // Define species and breed options in a dynamic structure
-    const speciesData = {
-        Dog: [
-            'Affenpinscher', 'Afghan Hound', 'Airedale Terrier', 'Abash', 'Akita', 'Alaskan Malamute',
-            'American Bulldog', 'American Bully', 'American Eskimo Dog', 'American Foxhound',
-            'American Hairless Terrier', 'American Water Spaniel', 'Anatolian Shepherd', 'Appenzell Mountain Dog',
-            'Ausiedoodle', 'Australian Cattle Dog/ Blue Heeler', 'Australian Kelpie', 'Australian Shepherd',
-            'Australian Terrier', 'Azawakh', 'Barbet', 'Basenji', 'Basset Hound', 'Bavarian Mountain Hound',
-            'Beagle', 'Beaglier', 'Bearded Collie', 'Beauceron', 'Bedlington Terrier', 'Belgian Shepherd/ Laekenois',
-            'Belgian Shepherd/ Malinois', 'Belgian Shepherd Sheepdog', 'Belgian Shepherd/ Tervuren', 'Bergamasco',
-            'Bernadoodle', 'Bernedoodle', 'Bernese Mountain Dog', 'Bichon Frise', 'Black and Tan Coonhound',
-            'Black Labrador Retriever', 'Black Mouth Cur', 'Black Russian Terrier', 'Bloodhound', 'Blue Lacy',
-            'Bluetick Coonhound', 'Boerboel', 'Bolognese', 'Borador', 'Border Collie', 'Border Terrier', 'Borzoi',
-            'Boston Terrier', 'Bouvier des Flandres', 'Boxer', 'Boykin Spaniel', 'Bracco Italiano', 'Briard',
-            'Brittany Spaniel', 'Brussels Griffon', 'Bull Terrier', 'Bulldog', 'Bullmastiff', 'Cairn Terrier',
-            'Canaan Dog', 'Canadian Eskimo Dog', 'Cane Corse', 'Cardigan Welsh Corgi', 'Carolina Dog',
-            'Catahoula Leopard Dog', 'Cattle Dog', 'Caucasian Sheepdog/ Caucasian Ovtcharka',
-            'Cavalier King Charles Spaniel', 'Cavapoo', 'Cesky Terrier', 'Chesapeake Bay Retriever', 'Chihuahua',
-            'Chinese Crested Dog', 'Chinese Foo Dog', 'Chinook', 'Chiweenie', 'Chocolate Labrador Retriever',
-            'Chorkie', 'Chow Chow', 'Chug', 'Cirneco dell’Etna', 'Clumber Spaniel', 'Cockapoo', 'Cocker Spaniel',
-            'Collie', 'Coonhound', 'Corgi', 'Coton de Tulear', 'Curly’ Coated Retriever', 'Dachshund',
-            'Dachshund (Long Haired)', 'Dachshund (Miniature Long Haired)', 'Dalmatian', 'Dandie Dismount Terrier',
-            'Doberman Pinscher', 'Dogo Argentino', 'Dogue de Bordeaux', 'Dutch Shepherd', 'English Bulldog',
-            'English Cocker Spaniel', 'English Coonhound', 'English Foxhound', 'English Pointer', 'English Setter',
-            'English Shepherd', 'English Springer Spaniel', 'English Toy Spaniel', 'Entlebucher', 'Eskimo Dog',
-            'Estrela Mountain Dog', 'Eurasier', 'Feist', 'Field Spaniel', 'Fila Brasileiro', 'Finnish Lapphund',
-            'Finnish Spitz', 'Flat-Coated Retriever', 'Fox Terrier', 'Foxhound', 'French Bulldog',
-            'Galgo Spanish Greyhound', 'German Longhaired Pointer', 'German Pinscher', 'German Shepherd Dog',
-            'German Shorthaired Pointer', 'German Spitz', 'German Wirehaired Pointer', 'Giant Schnauzer',
-            'Glen of Imaal Terrier', 'Goldador', 'Golden Retriever', 'Goldendoodle', 'Gordon Setter', 'Great Dane',
-            'Great Pyrenees', 'Greater Swiss Mountain Dog', 'Greyhound', 'Hamiltonstovare', 'Harrier', 'Havanese',
-            'Hound', 'Hovawart', 'Husky', 'Ibizan Hound', 'Icelandic Sheepdog', 'Illyrian Sheepdog', 'Irish Setter',
-            'Irish Terrier', 'Irish Water Spaniel', 'Irish Waterhound', 'Italian Greyhound', 'Jack Russell Terrrier',
-            'Japanese Akita', 'Japanese Chin', 'Japanese Spitz', 'Jindo', 'Kai Dog', 'Karelian Bear Dog', 'Keeshond',
-            'Kerry Blue Terrier', 'Kishu', 'Klee Kai', 'Komondor', 'Kooikerhoundje', 'Kuvasz', 'Kyi Leo', 'Labradoodle',
-            'Lagotto Romagnolo', 'Lakeland Terrier', 'Lancashire Heeler', 'Leonberger', 'Lhasa Apso', 'Lawchen',
-            'Lurcher', 'Malshi', 'Maltese', 'Maltipoo', 'Manchester Terrier', 'Maremma Sheepdog', 'Mastiff', 'McNab',
-            'Miniature Bull Terrier', 'Miniature Dachshund', 'Miniature Pinscher', 'Miniature Poodle',
-            'Miniature Schnauzer', 'Mixed Breed', 'Morkie', 'Mountain Cur', 'Mountain Dog', 'Munsterlander',
-            'Neapolitan Mastiff', 'New Guinea Singing Dog', 'Newfoundland Dog', 'Norfolk Terrier', 'Norwegian Buhund',
-            'Norwegian Elkhound', 'Norwegian Lundehund', 'Norwich Terrier', 'Nova Scotia Duck Tolling Retriever',
-            'Old English Sheepdog', 'Otterhound', 'Papillon', 'Parson Russell Terrier', 'Patterdale Terrier/ Fell Terrier',
-            'Pekingese', 'Pembroke Welsh Corgi', 'Peruvian Inca Orchid', 'Petit Basset Griffon Vendeen',
-            'Pharaoh Hound', 'Picardy Sheepdog', 'Pit Bull Terrier', 'Plott Hound', 'Pointer',
-            'Polish Lowland Sheepdog', 'Pomapoo', 'Pomeranian', 'Pomsky', 'Poodle', 'Poodle (Toy)', 'Portuguese Podengo',
-            'Portuguese Water Dog', 'Presa Canario', 'Pug', 'Puggle', 'Puli', 'Pumi', 'Pyrenean Shepherd', 'Rat Terrier',
-            'Redbone Coonhound', 'Retriever', 'Rhodesian Ridgeback', 'Rottweiler', 'Rough Collie', 'Russian Toy Dog',
-            'Saint Bernard', 'Saluki', 'Samoyed', 'Sarplaninac', 'Schipperke', 'Schnauzer', 'Schnoodle',
-            'Scottish Deerhound', 'Scottish Terrier', 'Setter', 'Share-Pei', 'Sheep Dog', 'Sheepadoodle', 'Shepherd',
-            'Shetland Sheepdog/ Sheltie', 'Shiba Inu', 'Shih poo', 'Shih Tzu', 'Shollie', 'Shorkie', 'Siberian Husky',
-            'Silky Terrier', 'Skye Terrier', 'Slooughi', 'Smooth Collie', 'Smooth Fox Terrier',
-            'South Russian Ovtcharka', 'Spaniel', 'Spanish Water Dog', 'Spinone Italiano', 'Spitz',
-            'Staffordshire Bull Terrier', 'Standard Poodle', 'Standard Schnauzer', 'Sussex Spaniel', 'Swedish Lapphund',
-            'Swedish Vailhund', 'Tennessee Treeing Brindle', 'Terrier', 'Thai Ridgeback', 'Tibetan Mastiff',
-            'Tibetan Spaniel', 'Tibetan Terrier', 'Tosa Inu', 'Toy Fox Terrier', 'Toy Manchester Terrier',
-            'Treeing Walker Coonhound', 'Turkish Kangal', 'Vizsla', 'Weimaraner', 'Welsh Springer Spaniel',
-            'Welsh Terrier', 'West Highlander White Terrier/ West', 'Wheaten Terrier', 'Whippet', 'White German Shepherd',
-            'Wire Fox Terrier', 'Wirehaired Dachshund', 'Wirehaired Pointing Griffon', 'Wirehaired Terrier',
-            'Wirehaired Vizsla', 'Xoloitzcuintli/ Mexican Hairless', 'Yellow Labrador Retriever', 'Yorkie Poo',
-            'Yorkshire Terrier', 'Zuchon'
-        ],
-        Cat: [
-            'Abyssinian', 'American Bobtail', 'American Curl', 'American Shorthair', 'American Wirehair',
-            'Applpehead Siamese', 'Asian Cat', 'Australian Mist', 'Balinese', 'Bengal', 'Birman', 'Bombay',
-            'British Longhair', 'British Shorthair', 'Burmese', 'Burmilla', 'Calico', 'Canadian Hairless',
-            'Chartreux', 'Chausie', 'Cornish Rex', 'Cymric', 'Devon Rex', 'Dilute Calico', 'Dilute Tortoiseshell',
-            'Domestic Long Hair', 'Domestic Medium Hair', 'Domestic Short Hair', 'Donskoy/ Russian Hairless',
-            'Egyptian Mau', 'Exotic Shorthair', 'Extra-Toes Cat/ Hemingway Polydactyl', 'Havana', 'Highlander',
-            'Highland Fold', 'Himalayan', 'Japanese Bobtail', 'Javanese', 'Khao Manee/ Diamond Eye', 'Korat',
-            'LaPerm', 'Lykoi', 'Maine Coon', 'Manx', 'Minuet', 'Munchkin', 'Nibelung', 'Norwegian Forest Cat',
-            'Ocicat', 'Oriental Long Hair', 'Oriental Short Hair', 'Oriental Tabby', 'Persian', 'Pixiebob',
-            'Ragamuffin', 'Ragdoll', 'Russian Blue', 'Savannah', 'Scottish Fold', 'Selkirk Rex', 'Serengeti',
-            'Siamese', 'Siberian', 'Silver', 'Singapura', 'Snowshoe', 'Somali', 'Sphynx/Hairless Cat', 'Tabby',
-            'Tiger', 'Tontines', 'Tontines', 'Tortoiseshell', 'Toyger', 'Turkish Angora', 'Turkish Van',
-            'Tuxedo', 'York Chocolate'
-        ],
-        Horse: [
-            'Andalusian', 'Appaloosa', 'Arabian', 'Belgian', 'Clydesdale', 'Connemara', 'Curly Horse', 'Donkey',
-            'Draft', 'Fjord', 'Fresian', 'Gaited', 'Grade', 'Gypsy Vänner', 'Halflinger', 'Icelandic horse',
-            'Lipizzan', 'Miniature Horse', 'Miniature Donkey', 'Missouri Foxtrotter', 'Morgan', 'Mule', 'Mustang',
-            'Paint/Pinto', 'Paso Fino', 'Percheron', 'Peruvian Paso', 'Pony', 'Quaterhorse', 'Rocky Mountain Horse',
-            'Saddlebred', 'Shetland Pony', 'Standardbred', 'Tennessee Walker', 'Thoroughbred', 'Warmblood',
-            'Welsh Pony'
-        ],
-        Other: ['Birds', 'Exotics', 'Reptiles', 'Fish', 'Pocket pals', 'Rabbits', 'Ferrets']
+    // const speciesData = {
+    //     Dog: [
+    //         'Affenpinscher', 'Afghan Hound', 'Airedale Terrier', 'Abash', 'Akita', 'Alaskan Malamute',
+    //         'American Bulldog', 'American Bully', 'American Eskimo Dog', 'American Foxhound',
+    //         'American Hairless Terrier', 'American Water Spaniel', 'Anatolian Shepherd', 'Appenzell Mountain Dog',
+    //         'Ausiedoodle', 'Australian Cattle Dog/ Blue Heeler', 'Australian Kelpie', 'Australian Shepherd',
+    //         'Australian Terrier', 'Azawakh', 'Barbet', 'Basenji', 'Basset Hound', 'Bavarian Mountain Hound',
+    //         'Beagle', 'Beaglier', 'Bearded Collie', 'Beauceron', 'Bedlington Terrier', 'Belgian Shepherd/ Laekenois',
+    //         'Belgian Shepherd/ Malinois', 'Belgian Shepherd Sheepdog', 'Belgian Shepherd/ Tervuren', 'Bergamasco',
+    //         'Bernadoodle', 'Bernedoodle', 'Bernese Mountain Dog', 'Bichon Frise', 'Black and Tan Coonhound',
+    //         'Black Labrador Retriever', 'Black Mouth Cur', 'Black Russian Terrier', 'Bloodhound', 'Blue Lacy',
+    //         'Bluetick Coonhound', 'Boerboel', 'Bolognese', 'Borador', 'Border Collie', 'Border Terrier', 'Borzoi',
+    //         'Boston Terrier', 'Bouvier des Flandres', 'Boxer', 'Boykin Spaniel', 'Bracco Italiano', 'Briard',
+    //         'Brittany Spaniel', 'Brussels Griffon', 'Bull Terrier', 'Bulldog', 'Bullmastiff', 'Cairn Terrier',
+    //         'Canaan Dog', 'Canadian Eskimo Dog', 'Cane Corse', 'Cardigan Welsh Corgi', 'Carolina Dog',
+    //         'Catahoula Leopard Dog', 'Cattle Dog', 'Caucasian Sheepdog/ Caucasian Ovtcharka',
+    //         'Cavalier King Charles Spaniel', 'Cavapoo', 'Cesky Terrier', 'Chesapeake Bay Retriever', 'Chihuahua',
+    //         'Chinese Crested Dog', 'Chinese Foo Dog', 'Chinook', 'Chiweenie', 'Chocolate Labrador Retriever',
+    //         'Chorkie', 'Chow Chow', 'Chug', 'Cirneco dell’Etna', 'Clumber Spaniel', 'Cockapoo', 'Cocker Spaniel',
+    //         'Collie', 'Coonhound', 'Corgi', 'Coton de Tulear', 'Curly’ Coated Retriever', 'Dachshund',
+    //         'Dachshund (Long Haired)', 'Dachshund (Miniature Long Haired)', 'Dalmatian', 'Dandie Dismount Terrier',
+    //         'Doberman Pinscher', 'Dogo Argentino', 'Dogue de Bordeaux', 'Dutch Shepherd', 'English Bulldog',
+    //         'English Cocker Spaniel', 'English Coonhound', 'English Foxhound', 'English Pointer', 'English Setter',
+    //         'English Shepherd', 'English Springer Spaniel', 'English Toy Spaniel', 'Entlebucher', 'Eskimo Dog',
+    //         'Estrela Mountain Dog', 'Eurasier', 'Feist', 'Field Spaniel', 'Fila Brasileiro', 'Finnish Lapphund',
+    //         'Finnish Spitz', 'Flat-Coated Retriever', 'Fox Terrier', 'Foxhound', 'French Bulldog',
+    //         'Galgo Spanish Greyhound', 'German Longhaired Pointer', 'German Pinscher', 'German Shepherd Dog',
+    //         'German Shorthaired Pointer', 'German Spitz', 'German Wirehaired Pointer', 'Giant Schnauzer',
+    //         'Glen of Imaal Terrier', 'Goldador', 'Golden Retriever', 'Goldendoodle', 'Gordon Setter', 'Great Dane',
+    //         'Great Pyrenees', 'Greater Swiss Mountain Dog', 'Greyhound', 'Hamiltonstovare', 'Harrier', 'Havanese',
+    //         'Hound', 'Hovawart', 'Husky', 'Ibizan Hound', 'Icelandic Sheepdog', 'Illyrian Sheepdog', 'Irish Setter',
+    //         'Irish Terrier', 'Irish Water Spaniel', 'Irish Waterhound', 'Italian Greyhound', 'Jack Russell Terrrier',
+    //         'Japanese Akita', 'Japanese Chin', 'Japanese Spitz', 'Jindo', 'Kai Dog', 'Karelian Bear Dog', 'Keeshond',
+    //         'Kerry Blue Terrier', 'Kishu', 'Klee Kai', 'Komondor', 'Kooikerhoundje', 'Kuvasz', 'Kyi Leo', 'Labradoodle',
+    //         'Lagotto Romagnolo', 'Lakeland Terrier', 'Lancashire Heeler', 'Leonberger', 'Lhasa Apso', 'Lawchen',
+    //         'Lurcher', 'Malshi', 'Maltese', 'Maltipoo', 'Manchester Terrier', 'Maremma Sheepdog', 'Mastiff', 'McNab',
+    //         'Miniature Bull Terrier', 'Miniature Dachshund', 'Miniature Pinscher', 'Miniature Poodle',
+    //         'Miniature Schnauzer', 'Mixed Breed', 'Morkie', 'Mountain Cur', 'Mountain Dog', 'Munsterlander',
+    //         'Neapolitan Mastiff', 'New Guinea Singing Dog', 'Newfoundland Dog', 'Norfolk Terrier', 'Norwegian Buhund',
+    //         'Norwegian Elkhound', 'Norwegian Lundehund', 'Norwich Terrier', 'Nova Scotia Duck Tolling Retriever',
+    //         'Old English Sheepdog', 'Otterhound', 'Papillon', 'Parson Russell Terrier', 'Patterdale Terrier/ Fell Terrier',
+    //         'Pekingese', 'Pembroke Welsh Corgi', 'Peruvian Inca Orchid', 'Petit Basset Griffon Vendeen',
+    //         'Pharaoh Hound', 'Picardy Sheepdog', 'Pit Bull Terrier', 'Plott Hound', 'Pointer',
+    //         'Polish Lowland Sheepdog', 'Pomapoo', 'Pomeranian', 'Pomsky', 'Poodle', 'Poodle (Toy)', 'Portuguese Podengo',
+    //         'Portuguese Water Dog', 'Presa Canario', 'Pug', 'Puggle', 'Puli', 'Pumi', 'Pyrenean Shepherd', 'Rat Terrier',
+    //         'Redbone Coonhound', 'Retriever', 'Rhodesian Ridgeback', 'Rottweiler', 'Rough Collie', 'Russian Toy Dog',
+    //         'Saint Bernard', 'Saluki', 'Samoyed', 'Sarplaninac', 'Schipperke', 'Schnauzer', 'Schnoodle',
+    //         'Scottish Deerhound', 'Scottish Terrier', 'Setter', 'Share-Pei', 'Sheep Dog', 'Sheepadoodle', 'Shepherd',
+    //         'Shetland Sheepdog/ Sheltie', 'Shiba Inu', 'Shih poo', 'Shih Tzu', 'Shollie', 'Shorkie', 'Siberian Husky',
+    //         'Silky Terrier', 'Skye Terrier', 'Slooughi', 'Smooth Collie', 'Smooth Fox Terrier',
+    //         'South Russian Ovtcharka', 'Spaniel', 'Spanish Water Dog', 'Spinone Italiano', 'Spitz',
+    //         'Staffordshire Bull Terrier', 'Standard Poodle', 'Standard Schnauzer', 'Sussex Spaniel', 'Swedish Lapphund',
+    //         'Swedish Vailhund', 'Tennessee Treeing Brindle', 'Terrier', 'Thai Ridgeback', 'Tibetan Mastiff',
+    //         'Tibetan Spaniel', 'Tibetan Terrier', 'Tosa Inu', 'Toy Fox Terrier', 'Toy Manchester Terrier',
+    //         'Treeing Walker Coonhound', 'Turkish Kangal', 'Vizsla', 'Weimaraner', 'Welsh Springer Spaniel',
+    //         'Welsh Terrier', 'West Highlander White Terrier/ West', 'Wheaten Terrier', 'Whippet', 'White German Shepherd',
+    //         'Wire Fox Terrier', 'Wirehaired Dachshund', 'Wirehaired Pointing Griffon', 'Wirehaired Terrier',
+    //         'Wirehaired Vizsla', 'Xoloitzcuintli/ Mexican Hairless', 'Yellow Labrador Retriever', 'Yorkie Poo',
+    //         'Yorkshire Terrier', 'Zuchon'
+    //     ],
+    //     Cat: [
+    //         'Abyssinian', 'American Bobtail', 'American Curl', 'American Shorthair', 'American Wirehair',
+    //         'Applpehead Siamese', 'Asian Cat', 'Australian Mist', 'Balinese', 'Bengal', 'Birman', 'Bombay',
+    //         'British Longhair', 'British Shorthair', 'Burmese', 'Burmilla', 'Calico', 'Canadian Hairless',
+    //         'Chartreux', 'Chausie', 'Cornish Rex', 'Cymric', 'Devon Rex', 'Dilute Calico', 'Dilute Tortoiseshell',
+    //         'Domestic Long Hair', 'Domestic Medium Hair', 'Domestic Short Hair', 'Donskoy/ Russian Hairless',
+    //         'Egyptian Mau', 'Exotic Shorthair', 'Extra-Toes Cat/ Hemingway Polydactyl', 'Havana', 'Highlander',
+    //         'Highland Fold', 'Himalayan', 'Japanese Bobtail', 'Javanese', 'Khao Manee/ Diamond Eye', 'Korat',
+    //         'LaPerm', 'Lykoi', 'Maine Coon', 'Manx', 'Minuet', 'Munchkin', 'Nibelung', 'Norwegian Forest Cat',
+    //         'Ocicat', 'Oriental Long Hair', 'Oriental Short Hair', 'Oriental Tabby', 'Persian', 'Pixiebob',
+    //         'Ragamuffin', 'Ragdoll', 'Russian Blue', 'Savannah', 'Scottish Fold', 'Selkirk Rex', 'Serengeti',
+    //         'Siamese', 'Siberian', 'Silver', 'Singapura', 'Snowshoe', 'Somali', 'Sphynx/Hairless Cat', 'Tabby',
+    //         'Tiger', 'Tontines', 'Tontines', 'Tortoiseshell', 'Toyger', 'Turkish Angora', 'Turkish Van',
+    //         'Tuxedo', 'York Chocolate'
+    //     ],
+    //     Horse: [
+    //         'Andalusian', 'Appaloosa', 'Arabian', 'Belgian', 'Clydesdale', 'Connemara', 'Curly Horse', 'Donkey',
+    //         'Draft', 'Fjord', 'Fresian', 'Gaited', 'Grade', 'Gypsy Vänner', 'Halflinger', 'Icelandic horse',
+    //         'Lipizzan', 'Miniature Horse', 'Miniature Donkey', 'Missouri Foxtrotter', 'Morgan', 'Mule', 'Mustang',
+    //         'Paint/Pinto', 'Paso Fino', 'Percheron', 'Peruvian Paso', 'Pony', 'Quaterhorse', 'Rocky Mountain Horse',
+    //         'Saddlebred', 'Shetland Pony', 'Standardbred', 'Tennessee Walker', 'Thoroughbred', 'Warmblood',
+    //         'Welsh Pony'
+    //     ],
+    //     Other: ['Birds', 'Exotics', 'Reptiles', 'Fish', 'Pocket pals', 'Rabbits', 'Ferrets']
 
-    };
+    // };
     return (
         <>
             <div className="flex-1 min-w-[160px] max-w-sm">
@@ -117,7 +118,7 @@ const PetCategories = ({ handleChange, petInfo }) => {
                     required
                 >
                     {/* Dynamically load breed options based on selected species */}
-                    {speciesData[petInfo.specie]?.map((breed, index) => (
+                    {breedsData[petInfo.specie]?.map((breed, index) => (
                         <option key={index} value={breed}>
                             {breed}
                         </option>

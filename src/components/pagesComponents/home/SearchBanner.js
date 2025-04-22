@@ -1,10 +1,17 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Search } from "lucide-react";
+import { breedsData } from "../../../../public/data/breeds";
 
 export default function SearchBanner() {
-  const [activeTab, setActiveTab] = useState("Cats");
+  const [activeTab, setActiveTab] = useState("Cat");
+  const [selectedSpecie, setSelectedSpecie] = useState("");
+
+
+  useEffect(() => {
+    setSelectedSpecie(activeTab);
+  }, [activeTab]);
 
   return (
     <section
@@ -23,14 +30,13 @@ export default function SearchBanner() {
 
         {/* Tabs */}
         <nav role="tablist" aria-label="Animal Category Tabs" className="flex justify-center gap-8 mb-8">
-          {["Cats", "Dogs", "Others"].map((tab) => (
+          {["Cat", "Dog", "Horse", "Other"].map((tab) => (
             <button
               key={tab}
               role="tab"
               aria-selected={activeTab === tab}
-              className={`text-base font-medium px-2 py-1 ${
-                activeTab === tab ? "border-b-2 border-primary" : "text-white/70"
-              }`}
+              className={`text-base font-medium px-2 py-1 ${activeTab === tab ? "border-b-2 border-primary" : "text-white/70"
+                }`}
               onClick={() => setActiveTab(tab)}
             >
               {tab}
@@ -48,11 +54,11 @@ export default function SearchBanner() {
               defaultValue=""
               className="w-full p-3 border border-gray-200 rounded-md text-gray-500 bg-white focus:outline-none"
             >
-              <option value="" disabled>Breed</option>
-              <option value="any">Any</option>
-              <option value="siamese">Siamese</option>
-              <option value="persian">Persian</option>
-              <option value="maine-coon">Maine Coon</option>
+              {breedsData[activeTab]?.map((breed, index) => (
+                <option key={index} value={breed}>
+                  {breed}
+                </option>
+              ))}
             </select>
           </div>
 
