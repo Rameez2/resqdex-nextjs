@@ -7,6 +7,7 @@ import authRouteProtect from '@/lib/middlewares/authRouteProtect';
 import ButtonSpinner from "@/components/ui/buttonSpinner";
 import Toast from "@/components/ui/Toast";
 import { useUser } from "@/context/userContext";
+import { sendEmailVerificationOTP } from "@/lib/others/emailTasks";
 
 function SignUpForm() {
 
@@ -16,6 +17,9 @@ function SignUpForm() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [agreed, setAgreed] = useState(false); // new state for agreement
+  const [otpSent, setOtpSent] = useState(false);
+  const [otp, setOtp] = useState(null);
+  const [userOTP, setUserOTP] = useState("")
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -25,18 +29,21 @@ function SignUpForm() {
 
   async function handleSubmit() {
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{6,}$/;
-  
+
     if (!passwordRegex.test(formData.password)) {
       setToast({ message: "Password must be at least 6 characters long, contain 1 uppercase letter, 1 lowercase letter, 1 number, and 1 special character.", type: "error" });
       return;
     }
-  
     try {
       setLoading(true);
       setToast(null);
-      const newUser = await registerUser(formData.name, formData.email, formData.password, formData.role);
-      setToast({ message: "Sign Up success!", type: "success" });
-      setUser(newUser);
+
+      // send OTP
+      const newOTP = await sendEmailVerificationOTP(formData.email);
+      setOtp(newOTP);
+      console.log('opt sent');
+      setOtpSent(true);
+
     } catch (error) {
       console.log(error);
       setToast({ message: error.message, type: "error" });
@@ -44,7 +51,23 @@ function SignUpForm() {
       setLoading(false);
     }
   }
-  
+
+  async function veriftOTP() {
+    try {
+      console.log(userOTP, otp);
+      if (userOTP == otp) { // otp success
+        // register new user
+        const newUser = await registerUser(formData.name, formData.email, formData.password, formData.role);
+        setToast({ message: "Sign Up success!", type: "success" });
+        setUser(newUser);
+        return;
+      }
+      throw new Error("OTP DOES NOT MATCH")
+    } catch (error) {
+      setToast({ message: error.message, type: "error" });
+    }
+  }
+
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-[#fbf5f0] pr-5 pl-5">
@@ -60,6 +83,7 @@ function SignUpForm() {
             <input
               id="name"
               type="text"
+              value={formData.name}
               placeholder="Your Name"
               onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
               className="w-full rounded-md border border-[#d8dadc] px-4 py-3 text-black outline-none focus:border-primary focus:ring-1 focus:ring-primary"
@@ -74,6 +98,7 @@ function SignUpForm() {
             <input
               id="email"
               type="email"
+              value={formData.email}
               placeholder="example@gmail.com"
               onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
               className="w-full rounded-md border border-[#d8dadc] px-4 py-3 text-black outline-none focus:border-primary focus:ring-1 focus:ring-primary"
@@ -90,6 +115,7 @@ function SignUpForm() {
                 id="password"
                 type={showPassword ? "text" : "password"}
                 placeholder="must be 8 characters"
+                value={formData.password}
                 onChange={(e) => setFormData(prev => ({ ...prev, password: e.target.value }))}
                 className="w-full rounded-md border border-[#d8dadc] px-4 py-3 text-black outline-none focus:border-primary focus:ring-1 focus:ring-primary"
               />
@@ -138,23 +164,63 @@ function SignUpForm() {
           </div>
 
 
-          {/* Submit Button */}
-          <button
-            type="submit"
-            onClick={handleSubmit}
-            disabled={!agreed || loading} // disabled if not agreed
-            className={`w-full rounded-md py-3 font-medium text-white transition-colors 
+
+          {
+            !otpSent ? (
+
+              <button
+                type="submit"
+                onClick={handleSubmit}
+                disabled={!agreed || loading} // disabled if not agreed
+                className={`w-full rounded-md py-3 font-medium text-white transition-colors 
               ${agreed ? "bg-primary hover:bg-primary/80" : "bg-gray-400 cursor-not-allowed"}`}
-          >
-            {loading ? (
-              <>
-                <ButtonSpinner />
-                Loading...
-              </>
+              >
+                {loading ? (
+                  <>
+                    <ButtonSpinner />
+                    Loading...
+                  </>
+                ) : (
+                  'Sign Up'
+                )}
+              </button>
             ) : (
-              'Sign Up'
-            )}
-          </button>
+              <>
+
+                <div className="space-y-2">
+                  <label htmlFor="otp" className="block text-sm font-medium text-black">
+                    Enter OTP
+                  </label>
+                  <input
+                    id="otp"
+                    type="text"
+                    placeholder="Enter the OTP sent to your email"
+                    value={userOTP}
+                    onChange={(e) => setUserOTP(e.target.value)}
+                    className="w-full rounded-md border border-[#d8dadc] px-4 py-3 text-black outline-none focus:border-primary focus:ring-1 focus:ring-primary"
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  onClick={veriftOTP}
+                  disabled={!agreed || loading} // disabled if not agreed
+                  className={`w-full rounded-md py-3 font-medium text-white transition-colors 
+              ${agreed ? "bg-primary hover:bg-primary/80" : "bg-gray-400 cursor-not-allowed"}`}
+                >
+                  {loading ? (
+                    <>
+                      <ButtonSpinner />
+                      Loading...
+                    </>
+                  ) : (
+                    'Verify OTP'
+                  )}
+                </button>
+              </>
+            )
+          }
+
 
           {/* Link to Login */}
           <div className="text-center text-sm">
