@@ -6,17 +6,56 @@ import withAuth from "@/lib/middlewares/withAuth";
 import React, { useReducer, useState } from "react";
 
 const initialState = {
-  personal_info: ["", "", "org@gmail.com", "", ""],
-  operations_and_staffing: "",
-  funding_and_financials: "",
-  additional_info: "",
-  mission_and_vision: ["", "", ""],
-  services: ["", "", ""],
-  legal_and_compliance: ["", "", ""],
-  partnership_and_collabs: ["", ""],
-  adoption_process: ["", ""],
-  feedback_and_impact: ["", ""],
+  type_of_organization: "Rescue Group",
+  // other_type_of_organization: "Exotic Animal Rescue",
+  organization_info: [
+    "Paws and Claws Rescue", // Legal Name
+    "P&C Rescue",            // DBA
+    "Jane Doe",              // Director/Manager
+    "123-456-7890",          // Phone Number
+    "info@pawsclaws.org",    // Email
+    "1234 Rescue St, Petville, PA 12345" // Address
+  ],
+  tax_id: "12-3456789",
+  personal_info: [
+    "John",        // First Name
+    "Smith",       // Last Name
+    "john.smith@example.com", // Email
+    "987-654-3210", // Phone
+    "5678 Adoption Ave, Petville, PA 12345" // Address
+  ],
+  operations_and_staffing: "We operate with 20 volunteers and 5 full-time staff.",
+  funding_and_financials: "We are funded through donations, grants, and fundraising events.",
+  additional_info: "We focus on rescuing abandoned exotic pets and finding them new homes.",
+  mission_and_vision: [
+    "To rescue, rehabilitate, and rehome animals in need.", // Mission Statement
+    "A world where every animal has a loving home.",        // Vision Statement
+    "Compassion, Integrity, Excellence"                    // Core Values
+  ],
+  services: [
+    "Animal Rescue", 
+    "Animal Rehabilitation", 
+    "Community Education"
+  ],
+  legal_and_compliance: [
+    "Licensed Animal Shelter", 
+    "Compliant with State Animal Welfare Laws", 
+    "Certified Non-Profit 501(c)(3)"
+  ],
+  partnership_and_collabs: [
+    "Partnered with VetCare Clinic", 
+    "Collaborate with PetVille City Shelter"
+  ],
+  adoption_process: [
+    "Application review, home check, adoption fee", 
+    "Post-adoption follow-up for 6 months"
+  ],
+  feedback_and_impact: [
+    "Over 500 animals rescued and rehomed in the past year.", 
+    "Positive feedback from 90% of adopters."
+  ],
 };
+
 
 const orgReducer = (state, action) => {
   const { field, value, index } = action;
@@ -30,8 +69,8 @@ const orgReducer = (state, action) => {
 
 const OrganizationQuestionnaire = ({ onSubmit }) => {
   const [formData, dispatch] = useReducer(orgReducer, initialState);
-  const [formLoading,setFormLoading] = useState(false);
-  const [showToast,setShowToast] = useState(false);
+  const [formLoading, setFormLoading] = useState(false);
+  const [showToast, setShowToast] = useState(false);
   const { loading, user } = useUser();
 
   const handleChange = (field, value, index = null) => {
@@ -42,14 +81,12 @@ const OrganizationQuestionnaire = ({ onSubmit }) => {
     e.preventDefault();
     try {
       setFormLoading(true);
-      const updatedDoc = await updateRecord(user.$id,user.more_info, formData);
-      // alert("Form Submitted Successfully");
+      const updatedDoc = await updateRecord(user.$id, user.more_info, formData);
       setShowToast(true);
       if (onSubmit) onSubmit(updatedDoc);
     } catch (error) {
       console.error("Error updating organization record:", error);
-    }
-    finally{
+    } finally {
       setFormLoading(false);
     }
   };
@@ -59,112 +96,296 @@ const OrganizationQuestionnaire = ({ onSubmit }) => {
     return <h1 className="text-center text-red-600 font-bold">New application can only be submitted after rejection.</h1>;
 
   return (
-    <form onSubmit={handleSubmit} className="max-w-3xl mx-auto p-6 bg-white rounded-lg shadow-md space-y-4">
-      <h2 className="text-2xl font-semibold text-gray-800 border-b pb-2">Organization Application</h2>
+    <form className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md space-y-6">
 
-      {/* Personal Info */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {["First Name", "Last Name", "Email", "Phone", "Address"].map((label, idx) => (
-          <div key={idx} className="flex flex-col">
-            <label className="text-gray-700 font-medium">{label}:</label>
-            <input
-              type={label === "Email" ? "email" : "text"}
-              value={formData.personal_info[idx]}
-              onChange={(e) => handleChange("personal_info", e.target.value, idx)}
-              className="border p-2 rounded-md focus:ring-2 focus:ring-blue-500"
-              required
-            />
-          </div>
-        ))}
-      </div>
+  {/* Shelter/Rescue Info */}
+  <h2 className="text-2xl font-semibold text-gray-800 border-b pb-2">Shelter / Rescue Information</h2>
 
-      {/* Mission and Vision */}
-      <h3 className="text-lg font-semibold text-gray-800">Mission and Vision</h3>
-      {["Mission Statement", "Vision Statement", "Core Values"].map((label, idx) => (
-        <div key={idx} className="flex flex-col">
-          <label className="text-gray-700 font-medium">{label}:</label>
-          <input
-            type="text"
-            value={formData.mission_and_vision[idx]}
-            onChange={(e) => handleChange("mission_and_vision", e.target.value, idx)}
-            className="border p-2 rounded-md focus:ring-2 focus:ring-blue-500"
-            required
-          />
-        </div>
-      ))}
+  <div className="flex flex-col">
+    <label>Shelter/Rescue Name</label>
+    <input type="text" className="border p-2 rounded-md" />
+  </div>
 
-      {/* Services */}
-      <h3 className="text-lg font-semibold text-gray-800">Services</h3>
-      {["Service 1", "Service 2", "Service 3"].map((label, idx) => (
-        <div key={idx} className="flex flex-col">
-          <label className="text-gray-700 font-medium">{label}:</label>
-          <input
-            type="text"
-            value={formData.services[idx]}
-            onChange={(e) => handleChange("services", e.target.value, idx)}
-            className="border p-2 rounded-md focus:ring-2 focus:ring-blue-500"
-            required
-          />
-        </div>
-      ))}
+  <div className="flex flex-col">
+    <label>Director/Manager (First Name)</label>
+    <input type="text" className="border p-2 rounded-md" />
+  </div>
 
-      {/* Textareas */}
-      {[
-        { label: "Operations and Staffing", field: "operations_and_staffing" },
-        { label: "Funding and Financials", field: "funding_and_financials" },
-        { label: "Additional Info", field: "additional_info" },
-      ].map(({ label, field }) => (
-        <div key={field} className="flex flex-col">
-          <label className="text-gray-700 font-medium">{label}:</label>
-          <textarea
-            value={formData[field]}
-            onChange={(e) => handleChange(field, e.target.value)}
-            className="border p-2 rounded-md focus:ring-2 focus:ring-blue-500"
-            rows="3"
-            required
-          />
-        </div>
-      ))}
+  <div className="flex flex-col">
+    <label>Director/Manager (Last Name)</label>
+    <input type="text" className="border p-2 rounded-md" />
+  </div>
 
-      {/* Legal and Compliance */}
-      <h3 className="text-lg font-semibold text-gray-800">Legal and Compliance</h3>
-      {["Licenses", "Regulatory Compliance", "Certifications"].map((label, idx) => (
-        <div key={idx} className="flex flex-col">
-          <label className="text-gray-700 font-medium">{label}:</label>
-          <input
-            type="text"
-            value={formData.legal_and_compliance[idx]}
-            onChange={(e) => handleChange("legal_and_compliance", e.target.value, idx)}
-            className="border p-2 rounded-md focus:ring-2 focus:ring-blue-500"
-            required
-          />
-        </div>
-      ))}
+  <div className="flex flex-col">
+    <label>Title</label>
+    <input type="text" className="border p-2 rounded-md" />
+  </div>
 
-      {/* Feedback and Impact */}
-      <h3 className="text-lg font-semibold text-gray-800">Feedback and Impact</h3>
-      {["Community Impact", "Feedback from Adopters"].map((label, idx) => (
-        <div key={idx} className="flex flex-col">
-          <label className="text-gray-700 font-medium">{label}:</label>
-          <input
-            type="text"
-            value={formData.feedback_and_impact[idx]}
-            onChange={(e) => handleChange("feedback_and_impact", e.target.value, idx)}
-            className="border p-2 rounded-md focus:ring-2 focus:ring-blue-500"
-            required
-          />
-        </div>
-      ))}
+  <div className="flex flex-col">
+    <label>Type of Organization</label>
+    <select className="border p-2 rounded-md">
+      <option value="">-- Select --</option>
+      <option>Rescue Group</option>
+      <option>Private Animal Shelter</option>
+      <option>Municipal Animal Shelter</option>
+      <option>Veterinary Facility</option>
+      <option>Other</option>
+    </select>
+  </div>
 
-      <button
-        type="submit"
-        className="w-full py-3 text-white bg-blue-600 rounded-lg font-semibold hover:bg-blue-700 transition"
-      >
-      {formLoading && <ButtonSpinner/>}
-        Submit Application
-      </button>
-      {showToast && <Toast content='Form submit success!' />}
-    </form>
+  {/* Physical Address */}
+  <h3 className="text-lg font-semibold mt-6">Physical Address</h3>
+
+  <div className="flex flex-col">
+    <label>Address</label>
+    <input type="text" className="border p-2 rounded-md" />
+  </div>
+
+  <div className="flex flex-col">
+    <label>City</label>
+    <input type="text" className="border p-2 rounded-md" />
+  </div>
+
+  <div className="flex flex-col">
+    <label>Zip/Postal Code</label>
+    <input type="text" className="border p-2 rounded-md" />
+  </div>
+
+  <div className="flex flex-col">
+    <label>Phone</label>
+    <input type="text" className="border p-2 rounded-md" />
+  </div>
+
+  <div className="flex flex-col">
+    <label>Phone Ext</label>
+    <input type="text" className="border p-2 rounded-md" />
+  </div>
+
+  <div className="flex flex-col">
+    <label>Fax</label>
+    <input type="text" className="border p-2 rounded-md" />
+  </div>
+
+  <div className="flex flex-col">
+    <label>Email</label>
+    <input type="email" className="border p-2 rounded-md" />
+  </div>
+
+  <div className="flex flex-col">
+    <label>Verify Email</label>
+    <input type="email" className="border p-2 rounded-md" />
+  </div>
+
+  {/* Mailing Address */}
+  <h3 className="text-lg font-semibold mt-6">Mailing Address</h3>
+
+  <div className="flex flex-col">
+    <label>Mailing Address</label>
+    <input type="text" className="border p-2 rounded-md" />
+  </div>
+
+  <div className="flex flex-col">
+    <label>City</label>
+    <input type="text" className="border p-2 rounded-md" />
+  </div>
+
+  <div className="flex flex-col">
+    <label>State</label>
+    <input type="text" className="border p-2 rounded-md" />
+  </div>
+
+  <div className="flex flex-col">
+    <label>Zip/Postal Code</label>
+    <input type="text" className="border p-2 rounded-md" />
+  </div>
+
+  {/* Adoption Ambassador */}
+  <h3 className="text-lg font-semibold mt-6">Adoption Ambassador</h3>
+
+  <div className="flex flex-col">
+    <label>First Name</label>
+    <input type="text" className="border p-2 rounded-md" />
+  </div>
+
+  <div className="flex flex-col">
+    <label>Last Name</label>
+    <input type="text" className="border p-2 rounded-md" />
+  </div>
+
+  <div className="flex flex-col">
+    <label>Phone</label>
+    <input type="text" className="border p-2 rounded-md" />
+  </div>
+
+  <div className="flex flex-col">
+    <label>Phone Ext</label>
+    <input type="text" className="border p-2 rounded-md" />
+  </div>
+
+  <div className="flex flex-col">
+    <label>Email</label>
+    <input type="email" className="border p-2 rounded-md" />
+  </div>
+
+  <div className="flex flex-col">
+    <label>Verify Email</label>
+    <input type="email" className="border p-2 rounded-md" />
+  </div>
+
+  <div className="flex flex-col">
+    <label>Password</label>
+    <input type="password" className="border p-2 rounded-md" />
+  </div>
+
+  <div className="flex flex-col">
+    <label>Verify Password</label>
+    <input type="password" className="border p-2 rounded-md" />
+  </div>
+
+  {/* Veterinarian Information */}
+  <h3 className="text-lg font-semibold mt-6">Veterinarian Information</h3>
+
+  <div className="flex flex-col">
+    <label>Vet Name</label>
+    <input type="text" className="border p-2 rounded-md" />
+  </div>
+
+  <div className="flex flex-col">
+    <label>Vet Phone</label>
+    <input type="text" className="border p-2 rounded-md" />
+  </div>
+
+  <div className="flex flex-col">
+    <label>Vet Phone Ext</label>
+    <input type="text" className="border p-2 rounded-md" />
+  </div>
+
+  {/* About Your Organization */}
+  <h3 className="text-lg font-semibold mt-6">About Your Organization</h3>
+
+  <div className="flex flex-col">
+    <label>501(c)(3) Non-profit?</label>
+    <select className="border p-2 rounded-md">
+      <option value="yes">Yes</option>
+      <option value="no">No</option>
+    </select>
+  </div>
+
+  <div className="flex flex-col">
+    <label>Tax ID Number</label>
+    <input type="text" className="border p-2 rounded-md" />
+  </div>
+
+  {/* Adopted Animals */}
+  <h4 className="text-md font-semibold mt-4">Animals Adopted Out</h4>
+
+  {[
+    "Dogs", "Cats", "Horses", "Reptiles", "Pocket Pals", 
+    "Rabbits", "Farm Animals", "Birds", "Exotics", "Fish", "Ferrets"
+  ].map((type) => (
+    <div key={type} className="flex flex-col">
+      <label>{type}</label>
+      <input type="number" min="0" className="border p-2 rounded-md" />
+    </div>
+  ))}
+
+  {/* Adoption Fees */}
+  <div className="flex flex-col">
+    <label>Highest Adoption Fee</label>
+    <input type="number" className="border p-2 rounded-md" />
+  </div>
+
+  <div className="flex flex-col">
+    <label>Lowest Adoption Fee</label>
+    <input type="number" className="border p-2 rounded-md" />
+  </div>
+
+  <div className="flex flex-col">
+    <label>Current Animals Available</label>
+    <input type="number" className="border p-2 rounded-md" />
+  </div>
+
+  <div className="flex flex-col">
+    <label>How do you acquire animals?</label>
+    <textarea className="border p-2 rounded-md" />
+  </div>
+
+  {/* Medical and Sterilization */}
+  <h3 className="text-lg font-semibold mt-6">Medical Care and Adoption</h3>
+
+  <div className="flex flex-col">
+    <label>Standard Medical Care</label>
+    <textarea className="border p-2 rounded-md" />
+  </div>
+
+  <div className="flex flex-col">
+    <label>Are all animals spayed/neutered?</label>
+    <select className="border p-2 rounded-md">
+      <option>Yes, always</option>
+      <option>No, some exceptions</option>
+      <option>No, adopters responsible</option>
+      <option>Not applicable</option>
+    </select>
+  </div>
+
+  <div className="flex flex-col">
+    <label>Sterilization Approach</label>
+    <textarea className="border p-2 rounded-md" />
+  </div>
+
+  <div className="flex flex-col">
+    <label>Do you have an adoption contract?</label>
+    <select className="border p-2 rounded-md">
+      <option>Yes</option>
+      <option>No</option>
+    </select>
+  </div>
+
+  {/* Online Presence */}
+  <h3 className="text-lg font-semibold mt-6">Online Presence</h3>
+
+  <div className="flex flex-col">
+    <label>Mission Statement</label>
+    <textarea className="border p-2 rounded-md" />
+  </div>
+
+  <div className="flex flex-col">
+    <label>Adoption Policies</label>
+    <textarea className="border p-2 rounded-md" />
+  </div>
+
+  <div className="flex flex-col">
+    <label>Adoption Process</label>
+    <textarea className="border p-2 rounded-md" />
+  </div>
+
+  <div className="flex flex-col">
+    <label>Online Adoption Application Link</label>
+    <input type="url" className="border p-2 rounded-md" />
+  </div>
+
+  <div className="flex flex-col">
+    <label>Website URL</label>
+    <input type="url" className="border p-2 rounded-md" />
+  </div>
+
+  <div className="flex flex-col">
+    <label>Facebook Page</label>
+    <input type="url" className="border p-2 rounded-md" />
+  </div>
+
+  <div className="flex flex-col">
+    <label>Instagram Handle</label>
+    <input type="text" className="border p-2 rounded-md" />
+  </div>
+
+  <div className="flex flex-col">
+    <label>Other Social Media</label>
+    <input type="url" className="border p-2 rounded-md" />
+  </div>
+
+</form>
+
   );
 };
 
