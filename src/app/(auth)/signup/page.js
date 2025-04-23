@@ -41,11 +41,11 @@ function SignUpForm() {
       // send OTP
       const newOTP = await sendEmailVerificationOTP(formData.email);
       setOtp(newOTP);
-      console.log('opt sent');
+      console.log('opt sent',newOTP);
       setOtpSent(true);
 
     } catch (error) {
-      console.log(error);
+      console.log(error.message);
       setToast({ message: error.message, type: "error" });
     } finally {
       setLoading(false);
