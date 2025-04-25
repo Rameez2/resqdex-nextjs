@@ -1,4 +1,4 @@
-import { changeUserStatus, getMoreDetails } from '@/lib/appwrite/admin';
+import { changeUserStatus, getOrgDetails } from '@/lib/appwrite/admin';
 import React, { useEffect, useState } from 'react';
 import { X } from 'lucide-react';
 import ButtonSpinner from '@/components/ui/buttonSpinner';
@@ -8,7 +8,7 @@ const OrganizationDetails = ({ user, setSelectedMoreInfo }) => {
   const [statusLoading, setStatusLoading] = useState(null);
   const [loading, setLoading] = useState(true);
   const [Info, setInfo] = useState(null);
-  const [toast,setToast] = useState(null);
+  const [toast, setToast] = useState(null);
 
   useEffect(() => {
     if (!user?.more_info) return;
@@ -16,9 +16,8 @@ const OrganizationDetails = ({ user, setSelectedMoreInfo }) => {
     (async () => {
       try {
         setLoading(true);
-        const detailsResponse = await getMoreDetails(user.more_info);
+        const detailsResponse = await getOrgDetails(user.more_info);
         setInfo(detailsResponse);
-        console.log('info set', detailsResponse);
       } catch (err) {
         console.error("Error fetching details:", err);
       } finally {
@@ -29,13 +28,13 @@ const OrganizationDetails = ({ user, setSelectedMoreInfo }) => {
 
   const changeStatus = async (newStatus) => {
     try {
-        setToast(null);
+      setToast(null);
       setStatusLoading(newStatus);
       await changeUserStatus(user.$id, newStatus);
-      setToast({ message: `Status change to ${newStatus}`, type: "success" });
+      setToast({ message: `Status changed to ${newStatus}`, type: "success" });
     } catch (err) {
       console.error("Error updating status:", err);
-      setToast({ message: error.message, type: "error" });
+      setToast({ message: err.message || "Something went wrong", type: "error" });
     } finally {
       setStatusLoading(null);
     }
@@ -62,7 +61,6 @@ const OrganizationDetails = ({ user, setSelectedMoreInfo }) => {
   return (
     <div className={overlayClasses}>
       <div className={containerClasses}>
-        {/* Close icon */}
         <div className="absolute top-3 right-3 cursor-pointer" onClick={() => setSelectedMoreInfo(false)}>
           <X className="text-gray-600" size={24} />
         </div>
@@ -71,81 +69,110 @@ const OrganizationDetails = ({ user, setSelectedMoreInfo }) => {
 
         <div className="grid md:grid-cols-2 gap-8">
           <div>
-            <h2 className={sectionTitle}>Personal Information</h2>
+            <h2 className={sectionTitle}>Shelter Info</h2>
             <ul className={listStyle}>
-              {Info.personal_info.map((item, idx) => (
-                <li key={idx}>{item}</li>
+              {Info.shelter_info.map((item, idx) => <li key={idx}>{item}</li>)}
+            </ul>
+          </div>
+
+          <div>
+            <h2 className={sectionTitle}>Physical Address</h2>
+            <ul className={listStyle}>
+              {Info.physical_address.map((item, idx) => <li key={idx}>{item}</li>)}
+            </ul>
+          </div>
+
+          <div>
+            <h2 className={sectionTitle}>Mailing Address</h2>
+            <ul className={listStyle}>
+              {Info.mailing_address.map((item, idx) => <li key={idx}>{item}</li>)}
+            </ul>
+          </div>
+
+          <div>
+            <h2 className={sectionTitle}>Adoption Ambassador</h2>
+            <ul className={listStyle}>
+              {Info.adoption_ambassador.map((item, idx) => <li key={idx}>{item}</li>)}
+            </ul>
+          </div>
+
+          <div>
+            <h2 className={sectionTitle}>Veterinarian Info</h2>
+            <ul className={listStyle}>
+              {Info.veterinarian_info.map((item, idx) => <li key={idx}>{item}</li>)}
+            </ul>
+          </div>
+
+          <div>
+            <h2 className={sectionTitle}>About Organization</h2>
+            <ul className={listStyle}>
+              {Info.about_organization.map((item, idx) => <li key={idx}>{item}</li>)}
+            </ul>
+          </div>
+
+          <div>
+            <h2 className={sectionTitle}>Animals Adopted</h2>
+            <ul className={listStyle}>
+              {Object.entries(Info.adopted).map(([type, count], idx) => (
+                <li key={idx}>{type}: {count}</li>
               ))}
             </ul>
           </div>
 
           <div>
-            <h2 className={sectionTitle}>Mission and Vision</h2>
+            <h2 className={sectionTitle}>Adoption Fees</h2>
             <ul className={listStyle}>
-              {Info.mission_and_vision.map((item, idx) => (
-                <li key={idx}>{item}</li>
-              ))}
+              <li>Highest Fee: ${Info.adoption_fees[0]}</li>
+              <li>Lowest Fee: ${Info.adoption_fees[1]}</li>
             </ul>
           </div>
 
           <div>
-            <h2 className={sectionTitle}>Services</h2>
+            <h2 className={sectionTitle}>Current Animals</h2>
+            <p className="ml-6 text-[#000000]">{Info.current_animals}</p>
+          </div>
+
+          <div>
+            <h2 className={sectionTitle}>Animal Source</h2>
+            <p className="ml-6 text-[#000000]">{Info.animal_source}</p>
+          </div>
+
+          <div>
+            <h2 className={sectionTitle}>Medical & Adoption</h2>
             <ul className={listStyle}>
-              {Info.services.map((item, idx) => (
-                <li key={idx}>{item}</li>
-              ))}
+              {Info.medical_adoption.map((item, idx) => <li key={idx}>{item}</li>)}
             </ul>
           </div>
 
           <div>
-            <h2 className={sectionTitle}>Legal and Compliance</h2>
-            <ul className={listStyle}>
-              {Info.legal_and_compliance.map((item, idx) => (
-                <li key={idx}>{item}</li>
-              ))}
-            </ul>
+            <h2 className={sectionTitle}>Mission</h2>
+            <p className="ml-6 text-[#000000]">{Info.mission}</p>
           </div>
 
           <div>
-            <h2 className={sectionTitle}>Partnership and Collaborations</h2>
-            <ul className={listStyle}>
-              {Info.partnership_and_collabs.map((item, idx) => (
-                <li key={idx}>{item}</li>
-              ))}
-            </ul>
+            <h2 className={sectionTitle}>Adoption Policies</h2>
+            <p className="ml-6 text-[#000000]">{Info.adoption_policies}</p>
           </div>
 
           <div>
             <h2 className={sectionTitle}>Adoption Process</h2>
+            <p className="ml-6 text-[#000000]">{Info.adoption_process}</p>
+          </div>
+
+          <div>
+            <h2 className={sectionTitle}>Adoption Link</h2>
+            <a href={Info.adoption_link} className="ml-6 text-blue-600 underline" target="_blank" rel="noopener noreferrer">
+              {Info.adoption_link}
+            </a>
+          </div>
+
+          <div>
+            <h2 className={sectionTitle}>Online Presence</h2>
             <ul className={listStyle}>
-              {Info.adoption_process.map((item, idx) => (
-                <li key={idx}>{item}</li>
+              {Info.online_presence.map((url, idx) => (
+                <li key={idx}><a href={url} target="_blank" rel="noopener noreferrer" className="text-blue-600 underline">{url}</a></li>
               ))}
             </ul>
-          </div>
-
-          <div>
-            <h2 className={sectionTitle}>Feedback and Impact</h2>
-            <ul className={listStyle}>
-              {Info.feedback_and_impact.map((item, idx) => (
-                <li key={idx}>{item}</li>
-              ))}
-            </ul>
-          </div>
-
-          <div>
-            <h2 className={sectionTitle}>Operations and Staffing</h2>
-            <p className="ml-6 text-[#000000]">{Info.operations_and_staffing}</p>
-          </div>
-
-          <div>
-            <h2 className={sectionTitle}>Funding and Financials</h2>
-            <p className="ml-6 text-[#000000]">{Info.funding_and_financials}</p>
-          </div>
-
-          <div>
-            <h2 className={sectionTitle}>Additional Info</h2>
-            <p className="ml-6 text-[#000000]">{Info.additional_info}</p>
           </div>
         </div>
 
@@ -169,7 +196,6 @@ const OrganizationDetails = ({ user, setSelectedMoreInfo }) => {
         </div>
       </div>
       {toast && <Toast content={toast.message} type={toast.type} />}
-
     </div>
   );
 };
