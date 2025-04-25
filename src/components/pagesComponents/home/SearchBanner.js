@@ -30,7 +30,7 @@ export default function SearchBanner() {
 
         {/* Tabs */}
         <nav role="tablist" aria-label="Animal Category Tabs" className="flex justify-center gap-8 mb-8">
-          {["Cat", "Dog", "Horse", "Other"].map((tab) => (
+          {["Cat", "Dog", "Horse", "Farm Animal", "Other"].map((tab) => (
             <button
               key={tab}
               role="tab"
