@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from "react"
 import { ChevronDown } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 import { Input } from "@/components/ui/input"
 import ProfileSection from "../ProfileSection"
 import { useUser } from "@/context/userContext"
@@ -13,6 +14,7 @@ import AdopterQuestionnaire from "../Dataforms/AdopterQuestionnaire"
 // import OrganizationQuestionnaire from "../Dataforms/OrganizationQuestionnaire"
 
 export default function GeneralSettings() {
+  const router = useRouter();
   const { user,setUser } = useUser();
   const [isEditing, setIsEditing] = useState(false);
   const [email, setEmail] = useState("");
@@ -23,7 +25,14 @@ export default function GeneralSettings() {
   
   const [isAdopterOpen, setIsAdopterOpen] = useState(false);
 
-  const handleOpenAdopter = () => setIsAdopterOpen(true);
+  const handleOpenAdopter = () => {
+    if(user.role === "Adopter") {
+      setIsAdopterOpen(true);
+    }
+    else {
+      router.push('/org-form');
+    }
+  };
   const handleCloseAdopter = (isSubmitted) => {
     // if(isSubmitted) {
     //   user.status = "Pending"

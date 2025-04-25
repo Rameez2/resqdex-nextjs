@@ -102,7 +102,7 @@ const OrganizationQuestionnaire = ({ onSubmit }) => {
   const [formData, dispatch] = useReducer(orgReducer, initialState);
   const [formLoading, setFormLoading] = useState(false);
   const [showToast, setShowToast] = useState(false);
-  const { loading, user } = useUser();
+  const { loading, user,setUser } = useUser();
 
   const handleChange = (field, value, index = null) => {
     dispatch({ field, value, index });
@@ -124,6 +124,7 @@ const OrganizationQuestionnaire = ({ onSubmit }) => {
       };
 
       const updatedDoc = await updateOrgForm(user.$id, user.more_info, updatedFormData);
+      setUser({...user,status:"Pending"});
       // const updatedDoc = await updateRecord(user.$id, user.more_info, updatedFormData);
       setShowToast(true);
       if (onSubmit) onSubmit(updatedDoc);

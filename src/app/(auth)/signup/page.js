@@ -41,7 +41,7 @@ function SignUpForm() {
       // send OTP
       const newOTP = await sendEmailVerificationOTP(formData.email);
       setOtp(newOTP);
-      console.log('opt sent',newOTP);
+      console.log('opt sent', newOTP);
       setOtpSent(true);
 
     } catch (error) {
@@ -128,6 +128,9 @@ function SignUpForm() {
               </button>
             </div>
           </div>
+          <span className="block text-sm text-gray-500">
+            Must be at least 6 characters, include an uppercase letter and a number.
+          </span>
 
           {/* Role */}
           <div className="space-y-2">
