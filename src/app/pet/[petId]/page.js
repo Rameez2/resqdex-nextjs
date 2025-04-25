@@ -9,6 +9,9 @@ import { useRouter } from "next/navigation";
 import { getUserById } from "@/lib/appwrite/user";
 import { storage } from "@/lib/appwrite/appwrite";
 import PageLoader from "@/components/skeletons/PageLoader";
+import PetCard from "@/components/ui/PetCard";
+import PetCardSkeleton from "@/components/skeletons/PetCardSkeleton";
+import MorePets from "@/components/pagesComponents/pet-details/MorePets";
 
 export default function PetAdoption() {
   const { petId } = useParams();
@@ -346,6 +349,8 @@ export default function PetAdoption() {
             </div>
           </div>
         </div>
+        <MorePets orgId={petDetails.organization_id}/>
+
 
       </div>
     </div>
