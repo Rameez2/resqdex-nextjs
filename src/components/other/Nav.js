@@ -61,9 +61,11 @@ const Nav = () => {
                       </Link>
                       : ''
               }
-              <Link href="/favorites" title="Favorites">
+              {user.role === "Adopter" && 
+                <Link href="/favorites" title="Favorites">
                 <Heart className="w-9 h-9 text-primary" />
               </Link>
+              }
               
               <Link href="/messages">
                 <MessageSquare className="w-9 h-9 text-primary" />

@@ -19,30 +19,31 @@ const PetCard = ({ petName, breedName, petId, imageId, fav, user }) => {
   };
 
   return (
-    <Link
-      href={`/pet/${petId}`}
-    >
-      <div
-        className="bg-white rounded-lg overflow-hidden relative w-[280px] h-[280px] flex-shrink-0 hover:scale-105 transition-transform duration-300 ease-in-out group cursor-pointer"
-        style={{
-          boxShadow:
-            "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px",
-        }}
-      >
-        {/* Heart button */}
-        {user?.role === "Adopter" &&
-          <button
-            className="absolute top-4 right-4 z-10 cursor-pointer transition-colors"
-            aria-label="Add to favorites"
-            onClick={handleFavoriteClick}
-          >
-            {isFavorite ?
-              <Heart className="w-7 h-7 text-red-500" fill="red" /> :
-              <Heart className="h-7 w-7" />}
-          </button>
-        }
 
-        {/* Image */}
+    <div
+      className="bg-white rounded-lg overflow-hidden relative w-[280px] h-[280px] flex-shrink-0 hover:scale-105 transition-transform duration-300 ease-in-out group cursor-pointer"
+      style={{
+        boxShadow:
+          "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px",
+      }}
+    >
+      {/* Heart button */}
+      {user?.role === "Adopter" &&
+        <button
+          className="absolute top-4 right-4 z-10 cursor-pointer transition-colors"
+          aria-label="Add to favorites"
+          onClick={handleFavoriteClick}
+        >
+          {isFavorite ?
+            <Heart className="w-7 h-7 text-red-500 hover:scale-110 transition-transform duration-100 ease-in-out" fill="red" /> :
+            <Heart className="h-7 w-7 hover:scale-110 transition-transform duration-100 ease-in-out" />}
+        </button>
+      }
+
+      {/* Image */}
+      <Link
+        href={`/pet/${petId}`}
+      >
         <div className="h-48 relative">
           <img
             src={storage.getFileView("6799fb94000edc47b27d", imageId)}
@@ -50,18 +51,24 @@ const PetCard = ({ petName, breedName, petId, imageId, fav, user }) => {
             className="w-full h-[183px] object-cover"
           />
         </div>
+      </Link>
 
-        {/* Content */}
-        <div className="p-4 flex justify-between items-center">
-          <div>
-            <h3 className="text-xl font-semibold">{petName}</h3>
-            <p className="text-gray-600">{breedName}</p>
-          </div>
-            <ArrowButton className="transform transition-transform duration-300 group-hover:rotate-[40deg]" />
+
+      {/* Content */}
+      <div className="p-4 flex justify-between items-center">
+        <div>
+          <h3 className="text-xl font-semibold">{petName}</h3>
+          <p className="text-gray-600">{breedName}</p>
         </div>
-      </div>
-    </Link>
 
+        <Link
+          href={`/pet/${petId}`}
+          className="transform transition-transform duration-300 group-hover:rotate-[40deg]"
+        >
+          <ArrowButton />
+        </Link>
+      </div>
+    </div>
   );
 };
 

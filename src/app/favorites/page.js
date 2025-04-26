@@ -6,13 +6,12 @@ import { getFavoritePets } from '@/lib/appwrite/favorites';
 import PetCard from '@/components/ui/PetCard'; // <- import your PetCard
 
 const Page = () => {
-    const { user } = useUser();
+    const { user,loading } = useUser();
     const [favPets, setFavPets] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const [FavLoading, setFavLoading] = useState(true);
 
     useEffect(() => {
         if (!user?.favorite) return;
-
         (async () => {
             try {
                 const petsResponse = await getFavoritePets(user.favorite);
@@ -20,7 +19,7 @@ const Page = () => {
             } catch (error) {
                 console.log(error);
             } finally {
-                setLoading(false);
+                setFavLoading(false);
             }
         })();
     }, [user]);
@@ -31,11 +30,15 @@ const Page = () => {
         // Backend remove can be called here too
     };
 
+    if(loading) return;
+
+    if(user?.role === "Organization") return;
+    
     return (
         <div className="min-h-screen bg-[#f9fafb] py-10 px-6">
             <h1 className="text-4xl font-bold text-center text-primary mb-10">Favorite Pets</h1>
 
-            {loading ? (
+            {FavLoading ? (
                 <div className="flex justify-center items-center h-40">
                     <p className="text-gray-500 text-lg">Loading favorite pets...</p>
                 </div>
