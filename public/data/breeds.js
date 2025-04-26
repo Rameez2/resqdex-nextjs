@@ -81,6 +81,6 @@ export const breedsData = {
       'Saddlebred', 'Shetland Pony', 'Standardbred', 'Tennessee Walker', 'Thoroughbred', 'Warmblood',
       'Welsh Pony'
   ],
-  Other: ['Birds', 'Exotics', 'Reptiles', 'Fish', 'Pocket pals', 'Rabbits', 'Ferrets']
+  Other: ['Birds', 'Exotics', 'Reptiles', 'Fish', 'Pocket pals', 'Rabbit', 'Ferrets']
 
 };

@@ -2,16 +2,42 @@
 
 import { useEffect, useState } from "react";
 import { Search } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { breedsData } from "../../../../public/data/breeds";
 
 export default function SearchBanner() {
   const [activeTab, setActiveTab] = useState("Cat");
-  const [selectedSpecie, setSelectedSpecie] = useState("");
 
+  const [filters, setFilters] = useState({
+    specie: "Cat",
+    breed: "",
+    age: 1,
+    gender:""
+    // location: "",
+  });
+
+  const router = useRouter();
 
   useEffect(() => {
-    setSelectedSpecie(activeTab);
+    setFilters((prev) => ({ ...prev, specie: activeTab, breed: "" }));
   }, [activeTab]);
+
+  const handleFilterChange = (key, value) => {
+    setFilters((prev) => ({
+      ...prev,
+      [key]: value,
+    }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    // Build the query string from filters
+    const queryString = new URLSearchParams(filters).toString();
+
+    // Navigate to /animal-listing with filters as query parameters
+    router.push(`/animal-listing?${queryString}`);
+  };
 
   return (
     <section
@@ -45,15 +71,22 @@ export default function SearchBanner() {
         </nav>
 
         {/* Search Form */}
-        <form className="flex w-full max-w-2xl gap-4 mb-8 flex-col sm:flex-row" role="search" aria-label="Pet Search Form">
+        <form
+          className="flex w-full max-w-2xl gap-4 mb-8 flex-col sm:flex-row"
+          role="search"
+          aria-label="Pet Search Form"
+          onSubmit={handleSubmit} // Attach submit handler
+        >
           {/* Breed */}
           <div className="flex-1">
             <label htmlFor="breed" className="sr-only">Breed</label>
             <select
               id="breed"
-              defaultValue=""
+              value={filters.breed}
+              onChange={(e) => handleFilterChange("breed", e.target.value)}
               className="w-full p-3 border border-gray-200 rounded-md text-gray-500 bg-white focus:outline-none"
             >
+              <option value="">Select Breed</option>
               {breedsData[activeTab]?.map((breed, index) => (
                 <option key={index} value={breed}>
                   {breed}
@@ -67,23 +100,26 @@ export default function SearchBanner() {
             <label htmlFor="age" className="sr-only">Age</label>
             <select
               id="age"
-              defaultValue=""
+              value={filters.age}
+              onChange={(e) => handleFilterChange("age", e.target.value)}
               className="w-full p-3 border border-gray-200 rounded-md text-gray-500 bg-white focus:outline-none"
             >
-              <option value="" disabled>Age</option>
-              <option value="baby">Baby</option>
-              <option value="young">Young</option>
-              <option value="adult">Adult</option>
-              <option value="senior">Senior</option>
+              <option value={1} disabled>Age</option>
+              <option value={1}>1</option>
+              <option value={2}>2</option>
+              <option value={3}>3</option>
+              <option value={4}>4</option>
+              <option value={5}>5</option>
             </select>
           </div>
 
           {/* Location */}
-          <div className="flex-1">
+          {/* <div className="flex-1">
             <label htmlFor="location" className="sr-only">Location</label>
             <select
               id="location"
-              defaultValue=""
+              value={filters.location}
+              onChange={(e) => handleFilterChange("location", e.target.value)}
               className="w-full p-3 border border-gray-200 rounded-md text-gray-500 bg-white focus:outline-none"
             >
               <option value="" disabled>Location</option>
@@ -91,6 +127,21 @@ export default function SearchBanner() {
               <option value="10miles">Within 10 miles</option>
               <option value="25miles">Within 25 miles</option>
               <option value="50miles">Within 50 miles</option>
+            </select>
+          </div> */}
+
+                    {/* Gender */}
+          <div className="flex-1">
+            <label htmlFor="gender" className="sr-only">Gender</label>
+            <select
+              id="gender"
+              value={filters.gender}
+              onChange={(e) => handleFilterChange("gender", e.target.value)}
+              className="w-full p-3 border border-gray-200 rounded-md text-gray-500 bg-white focus:outline-none"
+            >
+              <option value="">Gender</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
             </select>
           </div>
 
@@ -108,6 +159,13 @@ export default function SearchBanner() {
         <div className="text-center max-w-2xl">
           <p>Thousands of loving pets are looking for their forever homes. Start your search today!</p>
         </div>
+
+        {/* Debug: Show live filters */}
+        {/* <pre className="mt-8 text-black bg-white p-4 rounded-md w-full max-w-2xl">
+          {JSON.stringify(filters, null, 2)}
+        </pre> */}
+
+        
       </div>
 
       {/* Wavy Decoration */}

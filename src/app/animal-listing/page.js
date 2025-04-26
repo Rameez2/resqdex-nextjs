@@ -6,10 +6,21 @@ import { useEffect, useState } from "react";
 import { getPetsByFilter } from "@/lib/appwrite/pets";
 import PetCardSkeleton from "@/components/skeletons/PetCardSkeleton";
 import { useUser } from "@/context/userContext";
+import { useSearchParams } from "next/navigation";
+
 
 export default function Home() {
+  const searchParams = useSearchParams();
+  // ******* CHECK FILTERS FROM (SEARCH-PARAMS) ******* //
+  const [filters, setFilters] = useState(() => ({
+    specie: searchParams.get("specie") || "",
+    breed: searchParams.get("breed") || "",
+    gender: searchParams.get("gender") || "",
+    age: searchParams.get("age") ? parseInt(searchParams.get("age")) : "",
+    // size: searchParams.get("size") || "",
+    // shelter: searchParams.get("location") || "",
+  }));
   const [pets, setPets] = useState([]);
-  const [filters, setFilters] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(0);
@@ -57,7 +68,7 @@ export default function Home() {
     <div className="min-h-screen bg-[#fbf5f0]">
       <main className="w-full pl-4 py-8 flex flex-col md:flex-row gap-8 ">
         {/* Pet Filters */}
-        <PetFilters updateFilter={updateFilter} />
+        <PetFilters filters={filters} updateFilter={updateFilter} />
         <div className="w-full md:w-3/4 flex flex-col">
           {/* Sort */}
           <div className="mb-8 mr-8 flex justify-between">

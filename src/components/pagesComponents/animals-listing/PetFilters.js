@@ -1,9 +1,10 @@
+"use client"
 import { ChevronDown } from "lucide-react";
 import { useState } from "react";
 import { breedsData } from "../../../../public/data/breeds";
 
-const PetFilters = ({ updateFilter }) => {
-  const [selectedSpecie, setSelectedSpecie] = useState("");
+const PetFilters = ({ filters,updateFilter }) => {
+  const [selectedSpecie, setSelectedSpecie] = useState(filters.specie || "");
 
   const handleSpecieChange = (e) => {
     const value = e.target.value;
@@ -14,7 +15,7 @@ const PetFilters = ({ updateFilter }) => {
 
   // Get breeds based on selected specie
   const breedOptions = selectedSpecie ? breedsData[selectedSpecie] || [] : [];
-
+  
   return (
     <div className="w-full md:w-1/4 bg-white p-6 rounded-md h-fit">
       <h2 className="text-3xl font-bold mb-6">Filters</h2>
@@ -28,11 +29,11 @@ const PetFilters = ({ updateFilter }) => {
             <select
               className="w-full bg-[#f4f4f4] p-3 rounded-md appearance-none pr-10"
               onChange={handleSpecieChange}
-              value={selectedSpecie}
+              value={filters.specie || ""}
             >
               <option value="">All Species</option>
-              {Object.keys(breedsData).map((specie) => (
-                <option key={specie} value={specie}>
+              {Object.keys(breedsData).map((specie,index) => (
+                <option key={index} value={specie}>
                   {specie}
                 </option>
               ))}
@@ -48,10 +49,11 @@ const PetFilters = ({ updateFilter }) => {
             <select
               className="w-full bg-[#f4f4f4] p-3 rounded-md appearance-none pr-10"
               onChange={(e) => updateFilter("breed", e.target.value)}
+              value={filters.breed || ""}
             >
               <option value="">All Breeds</option>
-              {breedOptions.map((breed) => (
-                <option key={breed} value={breed}>
+              {breedOptions.map((breed,index) => (
+                <option key={index} value={breed}>
                   {breed}
                 </option>
               ))}
@@ -67,6 +69,7 @@ const PetFilters = ({ updateFilter }) => {
             <select
               className="w-full bg-[#f4f4f4] p-3 rounded-md appearance-none pr-10"
               onChange={(e) => updateFilter("size", e.target.value)}
+              value={filters.size || ""}
             >
               <option value="">All Sizes</option>
               <option value="Small">Small</option>
@@ -84,6 +87,7 @@ const PetFilters = ({ updateFilter }) => {
             <select
               className="w-full bg-[#f4f4f4] p-3 rounded-md appearance-none pr-10"
               onChange={(e) => updateFilter("gender", e.target.value)}
+              value={filters.gender || ""}
             >
               <option value="">All Genders</option>
               <option value="Male">Male</option>
@@ -94,7 +98,7 @@ const PetFilters = ({ updateFilter }) => {
         </div>
 
         {/* Shelter/Rescue filter */}
-        <div>
+        {/* <div>
           <h3 className="text-lg font-medium mb-2">Shelter or Rescue</h3>
           <div className="relative">
             <input
@@ -103,9 +107,8 @@ const PetFilters = ({ updateFilter }) => {
               className="w-full bg-[#f4f4f4] p-3 rounded-md pr-10"
               onChange={(e) => updateFilter("shelter", e.target.value)}
             />
-            {/* No ChevronDown for input */}
           </div>
-        </div>
+        </div> */}
 
       </div>
     </div>

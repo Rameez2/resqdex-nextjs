@@ -146,11 +146,6 @@ export default function UsersManagement() {
                 <option value="Approved">Approved</option>
               </select>
             </div>
-
-
-            <Button className="bg-[#e17716] hover:bg-[#e17716]/90 text-white">
-              Add Organization
-            </Button>
           </div>
         </div>
 
