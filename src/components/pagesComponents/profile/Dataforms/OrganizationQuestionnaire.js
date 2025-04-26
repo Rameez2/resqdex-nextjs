@@ -96,7 +96,7 @@ const OrganizationQuestionnaire = ({ onSubmit }) => {
   const [formData, dispatch] = useReducer(orgReducer, initialState);
   const [formLoading, setFormLoading] = useState(false);
   const [showToast, setShowToast] = useState(false);
-  const { loading, user,setUser } = useUser();
+  const { loading, user, setUser } = useUser();
 
   const handleChange = (field, value, index = null) => {
     dispatch({ field, value, index });
@@ -118,7 +118,7 @@ const OrganizationQuestionnaire = ({ onSubmit }) => {
       };
 
       const updatedDoc = await updateOrgForm(user.$id, user.more_info, updatedFormData);
-      setUser({...user,status:"Pending"});
+      setUser({ ...user, status: "Pending" });
       // const updatedDoc = await updateRecord(user.$id, user.more_info, updatedFormData);
       setShowToast(true);
       if (onSubmit) onSubmit(updatedDoc);
@@ -136,477 +136,475 @@ const OrganizationQuestionnaire = ({ onSubmit }) => {
   return (
     <form onSubmit={handleSubmit} className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md space-y-6">
 
-    {/* Shelter Info */}
-    <h2 className="text-2xl font-semibold text-gray-800 border-b pb-2">Shelter / Rescue Information</h2>
+      {/* Shelter Info */}
+      <h2 className="text-2xl font-semibold text-gray-800 border-b pb-2">Shelter / Rescue Information</h2>
 
-    <div className="grid grid-cols-2 gap-6">
-  {/* Shelter/Rescue Name */}
-  <div className="flex flex-col col-span-2 sm:col-span-1">
-    <label>Shelter/Rescue Name</label>
-    <input
-      type="text"
-      className="border p-2 rounded-md"
-      value={formData.shelter_info[0]}
-      onChange={(e) => handleChange("shelter_info", e.target.value, 0)}
-    />
-  </div>
+      <div className="grid grid-cols-2 gap-6">
+        {/* Shelter/Rescue Name */}
+        <div className="flex flex-col col-span-2 sm:col-span-1">
+          <label>Shelter/Rescue Name</label>
+          <input
+            type="text"
+            className="border p-2 rounded-md"
+            value={formData.shelter_info[0]}
+            onChange={(e) => handleChange("shelter_info", e.target.value, 0)}
+          />
+        </div>
 
-  {/* Director First + Last Name */}
-  <div className="flex flex-col col-span-2 sm:col-span-1">
-    <label>Director/Manager Name</label>
-    <div className="flex gap-2">
-      <input
-        type="text"
-        placeholder="First"
-        className="flex-1 border p-2 rounded-md"
-        value={formData.shelter_info[1]}
-        onChange={(e) => handleChange("shelter_info", e.target.value, 1)}
-      />
-      <input
-        type="text"
-        placeholder="Last"
-        className="flex-1 border p-2 rounded-md"
-        value={formData.shelter_info[2]}
-        onChange={(e) => handleChange("shelter_info", e.target.value, 2)}
-      />
-    </div>
-  </div>
+        {/* Director First + Last Name */}
+        <div className="flex flex-col col-span-2 sm:col-span-1">
+          <label>Director/Manager Name</label>
+          <div className="flex gap-2">
+            <input
+              type="text"
+              placeholder="First"
+              className="flex-1 border p-2 rounded-md"
+              value={formData.shelter_info[1]}
+              onChange={(e) => handleChange("shelter_info", e.target.value, 1)}
+            />
+            <input
+              type="text"
+              placeholder="Last"
+              className="flex-1 border p-2 rounded-md"
+              value={formData.shelter_info[2]}
+              onChange={(e) => handleChange("shelter_info", e.target.value, 2)}
+            />
+          </div>
+        </div>
 
-  {/* Title */}
-  <div className="flex flex-col col-span-2 sm:col-span-1">
-    <label>Title</label>
-    <input
-      type="text"
-      className="border p-2 rounded-md"
-      value={formData.shelter_info[3]}
-      onChange={(e) => handleChange("shelter_info", e.target.value, 3)}
-    />
-  </div>
+        {/* Title */}
+        <div className="flex flex-col col-span-2 sm:col-span-1">
+          <label>Title</label>
+          <input
+            type="text"
+            className="border p-2 rounded-md"
+            value={formData.shelter_info[3]}
+            onChange={(e) => handleChange("shelter_info", e.target.value, 3)}
+          />
+        </div>
 
-  {/* Type of Organization */}
-  <div className="flex flex-col col-span-2 sm:col-span-1">
-    <label>Type of Organization</label>
-    <select
-      className="border p-2 rounded-md"
-      value={formData.shelter_info[4]}
-      onChange={(e) => handleChange("shelter_info", e.target.value, 4)}
-    >
-      <option value="">-- Select --</option>
-      <option>Rescue Group</option>
-      <option>Private Animal Shelter</option>
-      <option>Municipal Animal Shelter</option>
-      <option>Veterinary Facility</option>
-      <option>Other</option>
-    </select>
-  </div>
-</div>
+        {/* Type of Organization */}
+        <div className="flex flex-col col-span-2 sm:col-span-1">
+          <label>Type of Organization</label>
+          <select
+            className="border p-2 rounded-md"
+            value={formData.shelter_info[4]}
+            onChange={(e) => handleChange("shelter_info", e.target.value, 4)}
+          >
+            <option value="">-- Select --</option>
+            <option>Rescue Group</option>
+            <option>Private Animal Shelter</option>
+            <option>Municipal Animal Shelter</option>
+            <option>Veterinary Facility</option>
+            <option>Other</option>
+          </select>
+        </div>
+      </div>
 
-    {/* Physical Address */}
-    <h3 className="text-lg font-semibold mt-6">Physical Address</h3>
-    <div className="grid grid-cols-2 gap-6">
-  {/* Address */}
-  <div className="flex flex-col col-span-2 sm:col-span-1">
-    <label>Address</label>
-    <input
-      type="text"
-      className="border p-2 rounded-md"
-      value={formData.physical_address[0]}
-      onChange={(e) => handleChange("physical_address", e.target.value, 0)}
-    />
-  </div>
+      {/* Physical Address */}
+      <h3 className="text-lg font-semibold mt-6">Physical Address</h3>
+      <div className="grid grid-cols-2 gap-6">
+        {/* Address */}
+        <div className="flex flex-col col-span-2 sm:col-span-1">
+          <label>Address</label>
+          <input
+            type="text"
+            className="border p-2 rounded-md"
+            value={formData.physical_address[0]}
+            onChange={(e) => handleChange("physical_address", e.target.value, 0)}
+          />
+        </div>
 
-  {/* City */}
-  <div className="flex flex-col col-span-2 sm:col-span-1">
-    <label>City</label>
-    <input
-      type="text"
-      className="border p-2 rounded-md"
-      value={formData.physical_address[1]}
-      onChange={(e) => handleChange("physical_address", e.target.value, 1)}
-    />
-  </div>
+        {/* City */}
+        <div className="flex flex-col col-span-2 sm:col-span-1">
+          <label>City</label>
+          <input
+            type="text"
+            className="border p-2 rounded-md"
+            value={formData.physical_address[1]}
+            onChange={(e) => handleChange("physical_address", e.target.value, 1)}
+          />
+        </div>
 
-  {/* Zip */}
-  <div className="flex flex-col col-span-2 sm:col-span-1">
-    <label>Zip/Postal Code</label>
-    <input
-      type="text"
-      className="border p-2 rounded-md"
-      value={formData.physical_address[2]}
-      onChange={(e) => handleChange("physical_address", e.target.value, 2)}
-    />
-  </div>
+        {/* Zip */}
+        <div className="flex flex-col col-span-2 sm:col-span-1">
+          <label>Zip/Postal Code</label>
+          <input
+            type="text"
+            className="border p-2 rounded-md"
+            value={formData.physical_address[2]}
+            onChange={(e) => handleChange("physical_address", e.target.value, 2)}
+          />
+        </div>
 
-  {/* Phone + Ext */}
-  <div className="flex flex-col col-span-2 sm:col-span-1">
-    <label>Phone</label>
-    <div className="flex gap-2">
-      <input
-        type="text"
-        placeholder="Phone"
-        className="flex-1 border p-2 rounded-md"
-        value={formData.physical_address[3]}
-        onChange={(e) => handleChange("physical_address", e.target.value, 3)}
-      />
-      <input
-        type="text"
-        placeholder="Ext"
-        className="w-24 border p-2 rounded-md"
-        value={formData.physical_address[4]}
-        onChange={(e) => handleChange("physical_address", e.target.value, 4)}
-      />
-    </div>
-  </div>
-</div>
-
-
-    {/* Mailing Address */}
-    <h3 className="text-lg font-semibold mt-6">Mailing Address</h3>
-    <div className="grid grid-cols-2 gap-6">
-  {/* Mailing Address */}
-  <div className="flex flex-col col-span-2 sm:col-span-1">
-    <label>Address</label>
-    <input
-      type="text"
-      className="border p-2 rounded-md"
-      value={formData.mailing_address[0]}
-      onChange={(e) => handleChange("mailing_address", e.target.value, 0)}
-    />
-  </div>
-
-  {/* City */}
-  <div className="flex flex-col col-span-2 sm:col-span-1">
-    <label>City</label>
-    <input
-      type="text"
-      className="border p-2 rounded-md"
-      value={formData.mailing_address[1]}
-      onChange={(e) => handleChange("mailing_address", e.target.value, 1)}
-    />
-  </div>
-
-  {/* State */}
-  <div className="flex flex-col col-span-2 sm:col-span-1">
-    <label>State</label>
-    <input
-      type="text"
-      className="border p-2 rounded-md"
-      value={formData.mailing_address[2]}
-      onChange={(e) => handleChange("mailing_address", e.target.value, 2)}
-    />
-  </div>
-
-  {/* Zip */}
-  <div className="flex flex-col col-span-2 sm:col-span-1">
-    <label>Zip/Postal Code</label>
-    <input
-      type="text"
-      className="border p-2 rounded-md"
-      value={formData.mailing_address[3]}
-      onChange={(e) => handleChange("mailing_address", e.target.value, 3)}
-    />
-  </div>
-</div>
+        {/* Phone + Ext */}
+        <div className="flex flex-col col-span-2 sm:col-span-1">
+          <label>Phone</label>
+          <div className="flex gap-2">
+            <input
+              type="text"
+              placeholder="Phone"
+              className="flex-1 border p-2 rounded-md"
+              value={formData.physical_address[3]}
+              onChange={(e) => handleChange("physical_address", e.target.value, 3)}
+            />
+            <input
+              type="text"
+              placeholder="Ext"
+              className="w-24 border p-2 rounded-md"
+              value={formData.physical_address[4]}
+              onChange={(e) => handleChange("physical_address", e.target.value, 4)}
+            />
+          </div>
+        </div>
+      </div>
 
 
-    {/* Adoption Ambassador */}
-    <h3 className="text-lg font-semibold mt-6">Adoption Ambassador</h3>
-    <div className="grid grid-cols-2 gap-6">
-  {/* First Name */}
-  <div className="flex flex-col">
-    <label>First Name</label>
-    <input
-      type="text"
-      className="border p-2 rounded-md"
-      value={formData.adoption_ambassador[0]}
-      onChange={(e) => handleChange("adoption_ambassador", e.target.value, 0)}
-    />
-  </div>
+      {/* Mailing Address */}
+      <h3 className="text-lg font-semibold mt-6">Mailing Address</h3>
+      <div className="grid grid-cols-2 gap-6">
+        {/* Mailing Address */}
+        <div className="flex flex-col col-span-2 sm:col-span-1">
+          <label>Address</label>
+          <input
+            type="text"
+            className="border p-2 rounded-md"
+            value={formData.mailing_address[0]}
+            onChange={(e) => handleChange("mailing_address", e.target.value, 0)}
+          />
+        </div>
 
-  {/* Last Name */}
-  <div className="flex flex-col">
-    <label>Last Name</label>
-    <input
-      type="text"
-      className="border p-2 rounded-md"
-      value={formData.adoption_ambassador[1]}
-      onChange={(e) => handleChange("adoption_ambassador", e.target.value, 1)}
-    />
-  </div>
+        {/* City */}
+        <div className="flex flex-col col-span-2 sm:col-span-1">
+          <label>City</label>
+          <input
+            type="text"
+            className="border p-2 rounded-md"
+            value={formData.mailing_address[1]}
+            onChange={(e) => handleChange("mailing_address", e.target.value, 1)}
+          />
+        </div>
 
-  {/* Phone */}
-  <div className="flex flex-col">
-    <label>Phone</label>
-    <input
-      type="text"
-      className="border p-2 rounded-md"
-      value={formData.adoption_ambassador[2]}
-      onChange={(e) => handleChange("adoption_ambassador", e.target.value, 2)}
-    />
-  </div>
+        {/* State */}
+        <div className="flex flex-col col-span-2 sm:col-span-1">
+          <label>State</label>
+          <input
+            type="text"
+            className="border p-2 rounded-md"
+            value={formData.mailing_address[2]}
+            onChange={(e) => handleChange("mailing_address", e.target.value, 2)}
+          />
+        </div>
 
-  {/* Phone Ext */}
-  <div className="flex flex-col">
-    <label>Phone Ext</label>
-    <input
-      type="text"
-      className="border p-2 rounded-md"
-      value={formData.adoption_ambassador[3]}
-      onChange={(e) => handleChange("adoption_ambassador", e.target.value, 3)}
-    />
-  </div>
-
-  {/* Email */}
-  <div className="flex flex-col col-span-2 sm:col-span-1">
-    <label>Email</label>
-    <input
-      type="email"
-      className="border p-2 rounded-md"
-      value={formData.adoption_ambassador[4]}
-      onChange={(e) => handleChange("adoption_ambassador", e.target.value, 4)}
-    />
-  </div>
-
-  {/* Verify Email */}
-  <div className="flex flex-col col-span-2 sm:col-span-1">
-    <label>Verify Email</label>
-    <input
-      type="email"
-      className="border p-2 rounded-md"
-      value={formData.adoption_ambassador[5]}
-      onChange={(e) => handleChange("adoption_ambassador", e.target.value, 5)}
-    />
-  </div>
-</div>
+        {/* Zip */}
+        <div className="flex flex-col col-span-2 sm:col-span-1">
+          <label>Zip/Postal Code</label>
+          <input
+            type="text"
+            className="border p-2 rounded-md"
+            value={formData.mailing_address[3]}
+            onChange={(e) => handleChange("mailing_address", e.target.value, 3)}
+          />
+        </div>
+      </div>
 
 
-    {/* Veterinarian Info */}
-    <h3 className="text-lg font-semibold mt-6">Veterinarian Information</h3>
-    <div className="grid grid-cols-2 gap-6">
-  {/* Vet Name */}
-  <div className="flex flex-col">
-    <label>Vet Name</label>
-    <input
-      type="text"
-      className="border p-2 rounded-md"
-      value={formData.veterinarian_info[0]}
-      onChange={(e) => handleChange("veterinarian_info", e.target.value, 0)}
-    />
-  </div>
+      {/* Adoption Ambassador */}
+      <h3 className="text-lg font-semibold mt-6">Adoption Ambassador</h3>
+      <div className="grid grid-cols-2 gap-6">
+        {/* First Name */}
+        <div className="flex flex-col">
+          <label>First Name</label>
+          <input
+            type="text"
+            className="border p-2 rounded-md"
+            value={formData.adoption_ambassador[0]}
+            onChange={(e) => handleChange("adoption_ambassador", e.target.value, 0)}
+          />
+        </div>
 
-  {/* Vet Phone */}
-  <div className="flex flex-col">
-    <label>Vet Phone</label>
-    <input
-      type="text"
-      className="border p-2 rounded-md"
-      value={formData.veterinarian_info[1]}
-      onChange={(e) => handleChange("veterinarian_info", e.target.value, 1)}
-    />
-  </div>
+        {/* Last Name */}
+        <div className="flex flex-col">
+          <label>Last Name</label>
+          <input
+            type="text"
+            className="border p-2 rounded-md"
+            value={formData.adoption_ambassador[1]}
+            onChange={(e) => handleChange("adoption_ambassador", e.target.value, 1)}
+          />
+        </div>
 
-  {/* Vet Phone Ext */}
-  <div className="flex flex-col col-span-2 sm:col-span-1">
-    <label>Vet Phone Ext</label>
-    <input
-      type="text"
-      className="border p-2 rounded-md"
-      value={formData.veterinarian_info[2]}
-      onChange={(e) => handleChange("veterinarian_info", e.target.value, 2)}
-    />
-  </div>
-</div>
+        {/* Phone */}
+        <div className="flex flex-col">
+          <label>Phone</label>
+          <input
+            type="text"
+            className="border p-2 rounded-md"
+            value={formData.adoption_ambassador[2]}
+            onChange={(e) => handleChange("adoption_ambassador", e.target.value, 2)}
+          />
+        </div>
 
+        {/* Phone Ext */}
+        <div className="flex flex-col">
+          <label>Phone Ext</label>
+          <input
+            type="text"
+            className="border p-2 rounded-md"
+            value={formData.adoption_ambassador[3]}
+            onChange={(e) => handleChange("adoption_ambassador", e.target.value, 3)}
+          />
+        </div>
 
-    {/* About Organization */}
-    <h3 className="text-lg font-semibold mt-6">About Your Organization</h3>
-    <div className="grid grid-cols-2 gap-6">
-  {/* 501(c)(3) Non-profit */}
-  <div className="flex flex-col">
-    <label>501(c)(3) Non-profit?</label>
-    <select
-      className="border p-2 rounded-md"
-      value={formData.about_organization[0]}
-      onChange={(e) => handleChange("about_organization", e.target.value, 0)}
-    >
-      <option value="yes">Yes</option>
-      <option value="no">No</option>
-    </select>
-  </div>
+        {/* Email */}
+        <div className="flex flex-col col-span-2 sm:col-span-1">
+          <label>Email</label>
+          <input
+            type="email"
+            className="border p-2 rounded-md"
+            value={formData.adoption_ambassador[4]}
+            onChange={(e) => handleChange("adoption_ambassador", e.target.value, 4)}
+          />
+        </div>
 
-  {/* Tax ID Number */}
-  <div className="flex flex-col">
-    <label>Tax ID Number</label>
-    <input
-      type="text"
-      className="border p-2 rounded-md"
-      value={formData.about_organization[1]}
-      onChange={(e) => handleChange("about_organization", e.target.value, 1)}
-    />
-  </div>
-</div>
-
-
-    {/* Fees and current animals */}
-
-    <h4 className="text-md font-semibold mt-4">Adoption Fee Range</h4>
-
-
-    <div className="flex flex-col">
-      <label>Highest Adoption Fee</label>
-      <input
-        type="number"
-        value={formData.adoption_fees[0]}
-        onChange={(e) => handleChange("adoption_fees", parseInt(e.target.value) || 0, 0)}
-        className="border p-2 rounded-md"
-      />
-    </div>
-
-    <div className="flex flex-col">
-      <label>Lowest Adoption Fee</label>
-      <input
-        type="number"
-        value={formData.adoption_fees[1]}
-        onChange={(e) => handleChange("adoption_fees", parseInt(e.target.value) || 0, 1)}
-        className="border p-2 rounded-md"
-      />
-    </div>
-
-    {/* Adopted Animals */}
-    <h4 className="text-md font-semibold mt-4">Animals Adopted Out</h4>
-<div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-  {Object.keys(formData.adopted).map((type) => (
-    <div className="flex flex-col" key={type}>
-      <label>{type}</label>
-      <input
-        type="number"
-        min="0"
-        className="border p-2 rounded-md"
-        value={formData.adopted[type]}
-        onChange={(e) =>
-          handleChange("adopted", {
-            ...formData.adopted,
-            [type]: parseInt(e.target.value) || 0
-          })
-        }
-      />
-    </div>
-  ))}
-</div>
+        {/* Verify Email */}
+        <div className="flex flex-col col-span-2 sm:col-span-1">
+          <label>Verify Email</label>
+          <input
+            type="email"
+            className="border p-2 rounded-md"
+            value={formData.adoption_ambassador[5]}
+            onChange={(e) => handleChange("adoption_ambassador", e.target.value, 5)}
+          />
+        </div>
+      </div>
 
 
+      {/* Veterinarian Info */}
+      <h3 className="text-lg font-semibold mt-6">Veterinarian Information</h3>
+      <div className="grid grid-cols-2 gap-6">
+        {/* Vet Name */}
+        <div className="flex flex-col">
+          <label>Vet Name</label>
+          <input
+            type="text"
+            className="border p-2 rounded-md"
+            value={formData.veterinarian_info[0]}
+            onChange={(e) => handleChange("veterinarian_info", e.target.value, 0)}
+          />
+        </div>
+
+        {/* Vet Phone */}
+        <div className="flex flex-col">
+          <label>Vet Phone</label>
+          <input
+            type="text"
+            className="border p-2 rounded-md"
+            value={formData.veterinarian_info[1]}
+            onChange={(e) => handleChange("veterinarian_info", e.target.value, 1)}
+          />
+        </div>
+
+        {/* Vet Phone Ext */}
+        <div className="flex flex-col col-span-2 sm:col-span-1">
+          <label>Vet Phone Ext</label>
+          <input
+            type="text"
+            className="border p-2 rounded-md"
+            value={formData.veterinarian_info[2]}
+            onChange={(e) => handleChange("veterinarian_info", e.target.value, 2)}
+          />
+        </div>
+      </div>
 
 
-    <div className="flex flex-col">
-      <label>Current Animals Available</label>
-      <input
-        type="number"
-        value={formData.current_animals}
-        onChange={(e) => handleChange("current_animals", parseInt(e.target.value) || 0)}
-        className="border p-2 rounded-md"
-      />
-    </div>
+      {/* About Organization */}
+      <h3 className="text-lg font-semibold mt-6">About Your Organization</h3>
+      <div className="grid grid-cols-2 gap-6">
+        {/* 501(c)(3) Non-profit */}
+        <div className="flex flex-col">
+          <label>501(c)(3) Non-profit?</label>
+          <select
+            className="border p-2 rounded-md"
+            value={formData.about_organization[0]}
+            onChange={(e) => handleChange("about_organization", e.target.value, 0)}
+          >
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+          </select>
+        </div>
 
-    <div className="flex flex-col">
-      <label>How do you acquire animals?</label>
-      <textarea
-        className="border p-2 rounded-md"
-        value={formData.animal_source}
-        onChange={(e) => handleChange("animal_source", e.target.value)}
-      />
-    </div>
+        {/* Tax ID Number */}
+        <div className="flex flex-col">
+          <label>Tax ID Number</label>
+          <input
+            type="text"
+            className="border p-2 rounded-md"
+            value={formData.about_organization[1]}
+            onChange={(e) => handleChange("about_organization", e.target.value, 1)}
+          />
+        </div>
+      </div>
 
-    {/* Medical */}
-    <h3 className="text-lg font-semibold mt-6">Medical Care and Adoption</h3>
 
-    <div className="flex flex-col">
-      <label>Standard Medical Care</label>
-      <textarea
-        className="border p-2 rounded-md"
-        value={formData.medical_adoption[0]}
-        onChange={(e) => handleChange("medical_adoption", e.target.value, 0)}
-      />
-    </div>
+      {/* Fees and current animals */}
 
-    <div className="flex flex-col">
-      <label>Are all animals spayed/neutered?</label>
-      <select
-        className="border p-2 rounded-md"
-        value={formData.medical_adoption[1]}
-        onChange={(e) => handleChange("medical_adoption", e.target.value, 1)}
-      >
-        <option>Yes, always</option>
-        <option>No, some exceptions</option>
-        <option>No, adopters responsible</option>
-        <option>Not applicable</option>
-      </select>
-    </div>
+      <h4 className="text-md font-semibold mt-4">Adoption Fee Range</h4>
 
-    <div className="flex flex-col">
-      <label>Sterilization Approach</label>
-      <textarea
-        className="border p-2 rounded-md"
-        value={formData.medical_adoption[2]}
-        onChange={(e) => handleChange("medical_adoption", e.target.value, 2)}
-      />
-    </div>
 
-    <div className="flex flex-col">
-      <label>Do you have an adoption contract?</label>
-      <select
-        className="border p-2 rounded-md"
-        value={formData.medical_adoption[3]}
-        onChange={(e) => handleChange("medical_adoption", e.target.value, 3)}
-      >
-        <option>Yes</option>
-        <option>No</option>
-      </select>
-    </div>
-
-{/* Adoptions policies & mission statement */}
-<h4 className="text-md font-semibold mt-4">Mission statement, Adoptions policies & Adoption process</h4>
-
-{[
-      { label: "Mission Statement", field: "mission" },
-      { label: "Adoption Policies", field: "adoption_policies" },
-      { label: "Adoption Process", field: "adoption_process" },
-      { label: "Online Adoption Application Link", field: "adoption_link" }
-    ].map(({ label, field }) => (
-      <div className="flex flex-col" key={field}>
-        <label>{label}</label>
+      <div className="flex flex-col">
+        <label>Highest Adoption Fee</label>
         <input
-          type={field.includes("Link") ? "url" : "text"}
+          type="number"
+          value={formData.adoption_fees[0]}
+          onChange={(e) => handleChange("adoption_fees", parseInt(e.target.value) || 0, 0)}
           className="border p-2 rounded-md"
-          value={formData[field]}
-          onChange={(e) => handleChange(field, e.target.value)}
         />
       </div>
-    ))}
-    {/* Online Presence */}
-    <h3 className="text-lg font-semibold mt-6">Online Presence</h3>
 
-    {["Website", "Facebook", "Instagram", "Other Social"].map((label, i) => (
-      <div className="flex flex-col" key={label}>
-        <label>{label}</label>
+      <div className="flex flex-col">
+        <label>Lowest Adoption Fee</label>
         <input
-          type="url"
+          type="number"
+          value={formData.adoption_fees[1]}
+          onChange={(e) => handleChange("adoption_fees", parseInt(e.target.value) || 0, 1)}
           className="border p-2 rounded-md"
-          value={formData.online_presence[i]}
-          onChange={(e) => handleChange("online_presence", e.target.value, i)}
         />
       </div>
-    ))}
 
-    <button
-      type="submit"
-      disabled={formLoading}
-      className="w-full bg-blue-600 text-white py-2 px-4 rounded-md font-semibold hover:bg-blue-700"
-    >
-      {formLoading ? <ButtonSpinner /> : "Submit"}
-    </button>
+      {/* Adopted Animals */}
+      <h4 className="text-md font-semibold mt-4">Animals Adopted Out</h4>
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        {Object.keys(formData.adopted).map((type) => (
+          <div className="flex flex-col" key={type}>
+            <label>{type}</label>
+            <input
+              type="number"
+              min="0"
+              className="border p-2 rounded-md"
+              value={formData.adopted[type]}
+              onChange={(e) =>
+                handleChange("adopted", {
+                  ...formData.adopted,
+                  [type]: parseInt(e.target.value) || 0
+                })
+              }
+            />
+          </div>
+        ))}
+      </div>
 
-    {showToast && <Toast message="Organization info updated!" />}
-  </form>
+
+
+
+      <div className="flex flex-col">
+        <label>Current Animals Available</label>
+        <input
+          type="number"
+          value={formData.current_animals}
+          onChange={(e) => handleChange("current_animals", parseInt(e.target.value) || 0)}
+          className="border p-2 rounded-md"
+        />
+      </div>
+
+      <div className="flex flex-col">
+        <label>How do you acquire animals?</label>
+        <textarea
+          className="border p-2 rounded-md"
+          value={formData.animal_source}
+          onChange={(e) => handleChange("animal_source", e.target.value)}
+        />
+      </div>
+
+      {/* Medical */}
+      <h3 className="text-lg font-semibold mt-6">Medical Care and Adoption</h3>
+
+      <div className="flex flex-col">
+        <label>Standard Medical Care</label>
+        <textarea
+          className="border p-2 rounded-md"
+          value={formData.medical_adoption[0]}
+          onChange={(e) => handleChange("medical_adoption", e.target.value, 0)}
+        />
+      </div>
+
+      <div className="flex flex-col">
+        <label>Are all animals spayed/neutered?</label>
+        <select
+          className="border p-2 rounded-md"
+          value={formData.medical_adoption[1]}
+          onChange={(e) => handleChange("medical_adoption", e.target.value, 1)}
+        >
+          <option>Yes, always</option>
+          <option>No, some exceptions</option>
+          <option>No, adopters responsible</option>
+          <option>Not applicable</option>
+        </select>
+      </div>
+
+      <div className="flex flex-col">
+        <label>Sterilization Approach</label>
+        <textarea
+          className="border p-2 rounded-md"
+          value={formData.medical_adoption[2]}
+          onChange={(e) => handleChange("medical_adoption", e.target.value, 2)}
+        />
+      </div>
+
+      <div className="flex flex-col">
+        <label>Do you have an adoption contract?</label>
+        <select
+          className="border p-2 rounded-md"
+          value={formData.medical_adoption[3]}
+          onChange={(e) => handleChange("medical_adoption", e.target.value, 3)}
+        >
+          <option>Yes</option>
+          <option>No</option>
+        </select>
+      </div>
+      {/* Adoptions policies & mission statement */}
+      <h4 className="text-md font-semibold mt-4">Mission statement, Adoptions policies & Adoption process</h4>
+      {[
+        { label: "Mission Statement", field: "mission" },
+        { label: "Adoption Policies", field: "adoption_policies" },
+        { label: "Adoption Process", field: "adoption_process" },
+        { label: "Online Adoption Application Link", field: "adoption_link" }
+      ].map(({ label, field }) => (
+        <div className="flex flex-col" key={field}>
+          <label>{label}</label>
+          <input
+            type={field.includes("Link") ? "url" : "text"}
+            className="border p-2 rounded-md"
+            value={formData[field]}
+            onChange={(e) => handleChange(field, e.target.value)}
+          />
+        </div>
+      ))}
+      {/* Online Presence */}
+      <h3 className="text-lg font-semibold mt-6">Online Presence</h3>
+
+      {["Website", "Facebook", "Instagram", "Other Social"].map((label, i) => (
+        <div className="flex flex-col" key={label}>
+          <label>{label}</label>
+          <input
+            type="url"
+            className="border p-2 rounded-md"
+            value={formData.online_presence[i]}
+            onChange={(e) => handleChange("online_presence", e.target.value, i)}
+          />
+        </div>
+      ))}
+
+      <button
+        type="submit"
+        disabled={formLoading}
+        className="w-full bg-blue-600 text-white py-2 px-4 rounded-md font-semibold hover:bg-blue-700"
+      >
+        {formLoading ? <ButtonSpinner /> : "Submit"}
+      </button>
+
+      {showToast && <Toast message="Organization info updated!" />}
+    </form>
   );
 };
 

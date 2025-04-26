@@ -9,8 +9,6 @@ import { useRouter } from "next/navigation";
 import { getUserById } from "@/lib/appwrite/user";
 import { storage } from "@/lib/appwrite/appwrite";
 import PageLoader from "@/components/skeletons/PageLoader";
-import PetCard from "@/components/ui/PetCard";
-import PetCardSkeleton from "@/components/skeletons/PetCardSkeleton";
 import MorePets from "@/components/pagesComponents/pet-details/MorePets";
 
 export default function PetAdoption() {
@@ -67,48 +65,44 @@ export default function PetAdoption() {
   return (
     <div className="min-h-screen bg-[#fbf5f0] p-4 md:p-8">
       <div className="max-w-6xl mx-auto space-y-6">
-
         {/* Top - Image Section */}
-        <div className="relative rounded-lg overflow-hidden">
-          <img
-            src={storage.getFileView('6799fb94000edc47b27d', images[currentImageIndex])}
-            className="w-full h-[300px] object-cover rounded-lg bg-[#ffcb6c]"
-          />
+
+
+        <div className="relative overflow-x-auto py-4">
+          <div className="flex gap-4 snap-x snap-mandatory justify-center items-center">
+            {images.map((img, index) => (
+              <div
+                key={index}
+                className={`snap-center transition-all duration-300 shrink-0 cursor-pointer`}
+                onClick={() => setCurrentImageIndex(index)}
+              >
+                <img
+                  src={storage.getFileView('6799fb94000edc47b27d', img)}
+                  alt={`Pet image ${index + 1}`}
+                  className={`w-[200px] h-[200px] object-cover rounded-lg 
+            transition-all duration-300 
+            ${index === currentImageIndex ? 'opacity-100 scale-110' : 'opacity-40 scale-95'}`}
+                />
+              </div>
+            ))}
+          </div>
+
           <button
             onClick={prevImage}
-            className="absolute left-2 top-1/2 -translate-y-1/2 bg-white/80 rounded-full p-2"
+            className="absolute left-2 top-1/2 -translate-y-1/2 bg-white/80 rounded-full p-2 z-10"
             aria-label="Previous image"
           >
             <ChevronLeft className="h-5 w-5 text-[#3f3f3f]" />
           </button>
           <button
             onClick={nextImage}
-            className="absolute right-2 top-1/2 -translate-y-1/2 bg-white/80 rounded-full p-2"
+            className="absolute right-2 top-1/2 -translate-y-1/2 bg-white/80 rounded-full p-2 z-10"
             aria-label="Next image"
           >
             <ChevronRight className="h-5 w-5 text-[#3f3f3f]" />
           </button>
         </div>
 
-        {/* Thumbnails */}
-        <div className="flex justify-center gap-2">
-          <div className="bg-[#ffffff] p-2 rounded-lg">
-            <div className="flex gap-2">
-              {images.map((img, index) => (
-                <button
-                  key={index}
-                  onClick={() => setCurrentImageIndex(index)}
-                  className={`${currentImageIndex === index ? "ring-2 ring-[#ffba7a]" : ""}`}
-                >
-                  <img
-                    src={storage.getFileView('6799fb94000edc47b27d', images[index])}
-                    className="w-20 h-14 object-cover rounded bg-[#ffcb6c]"
-                  />
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
 
         {/* 2x2 Layout */}
         <div className="flex flex-col md:flex-row gap-6">
@@ -120,19 +114,20 @@ export default function PetAdoption() {
             <div className="bg-[#ffffff] p-6 md:p-8 lg:p-10 rounded-lg min-h-[340px]">
               <div className="max-w-4xl mx-auto">
                 <h1 className="text-[#000000] text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
-                  Furry Facts & Fluffy Dreams of Kitty
+                  Furry Facts & Fluffy Dreams of {petDetails.name}
                 </h1>
                 <div className="flex flex-col md:flex-row gap-4 md:gap-12 text-[#000000] text-lg md:text-xl">
                   <div className="flex items-center">
                     <span className="mr-2">•</span>
                     <span>
-                      Days in Care : <span className="font-semibold">76</span>
+                      Days in Care : <span className="font-semibold">{petDetails.days_in_care}</span>
                     </span>
                   </div>
                   <div className="flex items-center">
                     <span className="mr-2">•</span>
                     <span>
-                      Days on ResQDex: <span className="font-semibold">4</span>
+                      Days on ResQDex: <span className="font-semibold">{Math.floor((Date.now() - new Date(petDetails.$createdAt)) / (1000 * 60 * 60 * 24)) || 1}</span>
+
                     </span>
                   </div>
                 </div>
@@ -149,17 +144,17 @@ export default function PetAdoption() {
                   <div className="grid grid-cols-3 gap-4">
                     <div>
                       <h3 className="text-[#e17716] text-5xl font-bold mb-6">Name</h3>
-                      <p className="text-[#000000] text-4xl font-medium">Munchy</p>
+                      <p className="text-[#000000] text-4xl font-medium">{petDetails.name}</p>
                     </div>
 
                     <div>
                       <h3 className="text-[#e17716] text-5xl font-bold mb-6">Gender</h3>
-                      <p className="text-[#000000] text-4xl font-medium">Male</p>
+                      <p className="text-[#000000] text-4xl font-medium">{petDetails.gender}</p>
                     </div>
 
                     <div>
                       <h3 className="text-[#e17716] text-5xl font-bold mb-6">Age</h3>
-                      <p className="text-[#000000] text-4xl font-medium">6 Months</p>
+                      <p className="text-[#000000] text-4xl font-medium">{petDetails.age} Months</p>
                     </div>
                   </div>
                 </div>
@@ -172,14 +167,12 @@ export default function PetAdoption() {
                   <h2 className="text-[#55514f] text-3xl font-medium mb-8">Health Info</h2>
 
                   <ul className="space-y-4 text-[#000000] text-2xl">
-                    <li className="flex items-start">
-                      <span className="text-3xl mr-4">•</span>
-                      <span>Fully Vaccinated</span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="text-3xl mr-4">•</span>
-                      <span>Neutered</span>
-                    </li>
+
+                    {petDetails && petDetails.health_info.map((item,index) =>
+                      <li key={index} className="flex items-start">
+                        <span className="text-3xl mr-4">•</span>
+                        <span>{item}</span>
+                      </li>)}
                   </ul>
                 </div>
               </div>
@@ -196,6 +189,7 @@ export default function PetAdoption() {
             {/* Right section - Info and Traits (moved here from original right) */}
             <div className="bg-[#ffffff] rounded-lg p-6">
               <div className="flex items-center gap-4 mb-4">
+
                 <div className="min-w-20 min-h-20 rounded-full overflow-hidden">
                   <img
                     src={storage.getFileView('6799fb94000edc47b27d', petDetails.main_image)}
@@ -205,6 +199,7 @@ export default function PetAdoption() {
                     className="rounded-full w-20 h-20 border-2 border-white shadow-sm object-cover"
                   />
                 </div>
+
                 <div>
                   <h3 className="font-medium">Considering {petDetails.name} for adoption?</h3>
                 </div>
@@ -259,7 +254,7 @@ export default function PetAdoption() {
                       Temperament{" "}
                       <span className="text-[#7d7d7d] font-[10px] text-base">(e.g., playful, calm, friendly, shy)</span>
                     </h2>
-                    <p className="text-[#e17716] text-sm mt-1">Friendly, Affectionate</p>
+                    <p className="text-[#e17716] text-sm mt-1">{petDetails.personality_and_traits[0]}</p>
                   </div>
 
                   {/* Activity level */}
@@ -268,7 +263,7 @@ export default function PetAdoption() {
                       Activity level{" "}
                       <span className="text-[#7d7d7d] font-normal text-base">(e.g., energetic, moderate, low-energy)</span>
                     </h2>
-                    <p className="text-[#e17716] text-sm mt-1">Couch Potato</p>
+                    <p className="text-[#e17716] text-sm mt-1">{petDetails.personality_and_traits[1]}</p>
                   </div>
 
                   {/* Special skills */}
@@ -277,7 +272,7 @@ export default function PetAdoption() {
                       Special skills or quirks{" "}
                       <span className="text-[#7d7d7d] font-normal text-base">(e.g., knows basic commands)</span>
                     </h2>
-                    <p className="text-[#e17716] text-sm mt-1">Backflips</p>
+                    <p className="text-[#e17716] text-sm mt-1">{petDetails.personality_and_traits[2]}</p>
                   </div>
 
                   {/* Behavior */}
@@ -285,10 +280,10 @@ export default function PetAdoption() {
                     <h2 className="text-[#000000] text-sm font-medium">
                       Behavior <span className="text-[#7d7d7d] font-normal text-base">(around other pets and children)</span>
                     </h2>
-                    <p className="text-[#e17716] text-sm mt-1">Good in home with people especially childrens</p>
-                    <p className="text-[#e17716] text-sm mt-1">Not Good in home with other pets</p>
+                    <p className="text-[#e17716] text-sm mt-1">{petDetails.personality_and_traits[3]}</p>
                   </div>
                 </div>
+
               </div>
             </div>
           </div>
@@ -305,30 +300,8 @@ export default function PetAdoption() {
             <div className="md:col-span-2 space-y-6">
               <h1 className="text-3xl font-bold font-sans">My Dream</h1>
               <p>
-                Lorem ipsum dolor sit amet consectetur. Sed risus lectus tempus metus.
-                Sed sapien egestas quisque at in eu eu nec. Justo donec aliquet
-                bibendum felis odio laoreet fermentum libero sed. Est pharetra eu at
-                nibh adipiscing erat hac.
+                {petDetails.my_dream}
               </p>
-              <p>
-                Lorem ipsum dolor sit amet consectetur. Sed risus lectus tempus metus.
-                Sed sapien egestas quisque at in eu eu nec. Justo donec aliquet
-                bibendum felis odio laoreet fermentum libero sed. Est pharetra eu at
-                nibh adipiscing erat hac.
-              </p>
-              <p>
-                Est pharetra eu at nibh adipiscing erat hac. Lorem ipsum dolor sit
-                amet consectetur. Sed risus lectus tempus metus. Sed sapien egestas
-                quisque at in eu eu nec
-              </p>
-              <p>
-                Lorem ipsum dolor sit amet consectetur. Sed risus lectus tempus metus.
-                Sed sapien egestas quisque at in eu eu nec. Justo donec aliquet
-                bibendum felis odio laoreet feSed sapien egestas quisque at in eu eu
-                nec. Justo donec aliquet bibendum felis odio laoreet fermentum libero
-                sed. Est pharetra eu at nibh adipiscing erat hac.
-              </p>
-              <p>Est pharetra eu at nibh adipiscing erat hac</p>
             </div>
 
             {/* Right Content - Map */}
@@ -349,9 +322,7 @@ export default function PetAdoption() {
             </div>
           </div>
         </div>
-        <MorePets orgId={petDetails.organization_id}/>
-
-
+        <MorePets orgId={petDetails.organization_id} />
       </div>
     </div>
 

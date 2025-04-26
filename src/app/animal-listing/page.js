@@ -5,15 +5,17 @@ import PetFilters from "@/components/pagesComponents/animals-listing/PetFilters"
 import { useEffect, useState } from "react";
 import { getPetsByFilter } from "@/lib/appwrite/pets";
 import PetCardSkeleton from "@/components/skeletons/PetCardSkeleton";
+import { useUser } from "@/context/userContext";
 
 export default function Home() {
   const [pets, setPets] = useState([]);
   const [filters, setFilters] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
   const [currentPage, setCurrentPage] = useState(0);
   const limit = 6; // pets per page
+
+  const {user} = useUser();
 
   const fetchPets = async (filters = {}, page = 0) => {
     try {
@@ -54,7 +56,7 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-[#fbf5f0]">
       <main className="w-full pl-4 py-8 flex flex-col md:flex-row gap-8 ">
-      {/* Pet Filters */}
+        {/* Pet Filters */}
         <PetFilters updateFilter={updateFilter} />
         <div className="w-full md:w-3/4 flex flex-col">
           {/* Sort */}
@@ -69,13 +71,13 @@ export default function Home() {
               </div>
 
             </div>
-          
+
           </div>
 
           {/* Pet Cards */}
           <div className="flex flex-wrap gap-6 ">
             {loading ? (
-              <PetCardSkeleton/>
+              <PetCardSkeleton />
             ) : error ? (
               <h1>Error: {error}</h1>
             ) : pets.length ? (
@@ -86,35 +88,37 @@ export default function Home() {
                   breedName={pet.breed}
                   petId={pet.$id}
                   imageId={pet.main_image}
+                  user={user}
+                  fav={user?.favorite?.includes(pet.$id)}
                 />
               ))
             ) : (
               <h1>No pets Available at the moment!</h1>
             )}
           </div>
-              {/* Pagination */}
-              {!loading && (
-                <div className="flex justify-center mt-10 gap-4 mt-auto pt-10">
-                  <button
-                    onClick={handlePrev}
-                    disabled={currentPage === 0}
-                    className="flex items-center gap-2 px-4 py-2 bg-primary text-white rounded hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed"
-                  >
-                    <ChevronLeft size={18} />
-                    Previous
-                  </button>
-                  <button
-                    onClick={handleNext}
-                    disabled={pets.length < limit}
-                    className="flex items-center gap-2 px-4 py-2 bg-primary text-white rounded hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed"
-                  >
-                    Next
-                    <ChevronRight size={18} />
-                  </button>
-                </div>
-              )}
+          {/* Pagination */}
+          {!loading && (
+            <div className="flex justify-center mt-10 gap-4 mt-auto pt-10">
+              <button
+                onClick={handlePrev}
+                disabled={currentPage === 0}
+                className="flex items-center gap-2 px-4 py-2 bg-primary text-white rounded hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                <ChevronLeft size={18} />
+                Previous
+              </button>
+              <button
+                onClick={handleNext}
+                disabled={pets.length < limit}
+                className="flex items-center gap-2 px-4 py-2 bg-primary text-white rounded hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                Next
+                <ChevronRight size={18} />
+              </button>
+            </div>
+          )}
         </div>
-        
+
       </main>
     </div>
   );

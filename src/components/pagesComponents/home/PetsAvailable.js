@@ -4,12 +4,15 @@ import React, { useEffect, useState, useRef } from 'react';
 import ArrowButton from '@/components/ui/ArrowButton';
 import { getPetsByFilter } from '@/lib/appwrite/pets';
 import PetCardSkeleton from '@/components/skeletons/PetCardSkeleton';
+import { useUser } from '@/context/userContext';
 
 const PetsAvailable = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [pets, setPets] = useState(null);
     const scrollContainerRef = useRef(null); // Reference to scrollable container
+
+    const {user} = useUser();
 
     useEffect(() => {
         (async () => {
@@ -63,6 +66,8 @@ const PetsAvailable = () => {
                                             breedName={pet.breed}
                                             petId={pet.$id}
                                             imageId={pet.main_image}
+                                            user={user}
+                                            fav={user?.favorite?.includes(pet.$id)}
                                         />
                                     )) :
                                         <h1>No pets Available at the moment!</h1>

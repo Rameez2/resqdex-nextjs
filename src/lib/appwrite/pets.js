@@ -47,7 +47,6 @@ export const getPetById = async (petId) => {
   return petResponse;
 }
 
-
 export const getMyPets = async (userId) => {
   // Fetch all my pets only
   const petsResponse = await databases.listDocuments(

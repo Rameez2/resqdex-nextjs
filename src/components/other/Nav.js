@@ -1,13 +1,13 @@
 "use client"
 import Link from "next/link"
-import { ChevronDown, CircleUser, MessageSquare, BadgeCheck } from "lucide-react"
+import { ChevronDown, CircleUser, MessageSquare, BadgeCheck, Heart } from "lucide-react"
 import { useUser } from "@/context/userContext"
 import { logOutUser } from "@/lib/appwrite/auth"
 import { useRouter } from "next/navigation"
 
 const Nav = () => {
   const router = useRouter();
-  const { user, loading,setUser } = useUser();
+  const { user, loading, setUser } = useUser();
 
   async function handleLogOut() {
     try {
@@ -15,7 +15,7 @@ const Nav = () => {
       setUser(null);
       router.push("/login");
     } catch (error) {
-      console.log('logout error',error.message);
+      console.log('logout error', error.message);
     }
   }
 
@@ -41,25 +41,30 @@ const Nav = () => {
         <div className="flex items-center space-x-4">
           {loading ? 'loading...' : user ?
             <>
+
               {user.status === "Approved" ?
-              <>
-              {/* Verified
+                <>
+                  {/* Verified
                <BadgeCheck className="w-9 h-9 text-[#00bc00]" /> */}
-               <span className="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-sm dark:bg-green-900 dark:text-green-300">Approved</span>
-              </>:
-              user.status === "Apply" ? <>
-              <Link href="/profile">
-              <span className="bg-yellow-100 text-yellow-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-sm dark:bg-yellow-900 dark:text-yellow-300 cursor-pointer whitespace-nowrap">Get Verified</span>
+                  <span className="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-sm dark:bg-green-900 dark:text-green-300">Approved</span>
+                </> :
+                user.status === "Apply" ? <>
+                  <Link href="/profile">
+                    <span className="bg-yellow-100 text-yellow-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-sm dark:bg-yellow-900 dark:text-yellow-300 cursor-pointer whitespace-nowrap">Get Verified</span>
+                  </Link>
+                </> :
+                  user.status === "Pending" ? <span className="bg-gray-100 text-gray-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-sm dark:bg-gray-700 dark:text-gray-300">Pending</span>
+                    :
+                    user.status === "Rejected" ?
+                      <Link href="/profile">
+                        <span className="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-sm dark:bg-red-900 dark:text-red-300">Rejected</span>
+                      </Link>
+                      : ''
+              }
+              <Link href="/favorites" title="Favorites">
+                <Heart className="w-9 h-9 text-primary" />
               </Link>
-              </>: 
-              user.status === "Pending" ? <span className="bg-gray-100 text-gray-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-sm dark:bg-gray-700 dark:text-gray-300">Pending</span>
-              :
-              user.status === "Rejected" ?               
-              <Link href="/profile">
-              <span className="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-sm dark:bg-red-900 dark:text-red-300">Rejected</span>
-              </Link>
-              : ''
-               }
+              
               <Link href="/messages">
                 <MessageSquare className="w-9 h-9 text-primary" />
               </Link>
