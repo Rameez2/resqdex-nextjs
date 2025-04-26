@@ -12,29 +12,25 @@ import PetCategories from './upload/PetCategories';
 const UploadPet = () => {
   const { user } = useUser();
   const [petInfo, setPetInfo] = useState({
-    name: 'Milo',
+    name: '',
     age: 2,
-    specie: 'Cat',
-    breed: 'Siamese',
-    size: 'Small',
-    contact: 'milo.rescue@adoptlove.org',
+    specie: 'Other',
+    breed: '',
+    size: '',
+    contact: '',
     gender: 'Male',
-    location: 'Austin, TX',
-    days_in_care: 56,
+    location: '',
+    days_in_care: 1,
     personality_and_traits: [
-      'Curious and playful',
-      'Loves cuddling on laps',
-      'Moderately active and loves window watching',
-      'Gets along well with calm dogs and other cats'
+      '',
+      '',
+      '',
+      ''
     ],
-    health_info: [
-      'Neutered and vaccinated',
-      'Mild food allergies (special diet recommended)',
-      'Annual vet visits up to date'
-    ],
-    my_dream: 'A cozy home with big windows and a loving family who enjoys cuddles.',
-    bio: 'Milo is a gentle and affectionate Siamese who enjoys spending his afternoons sunbathing and playing with feather toys.',
-    rescue_story: 'Milo was rescued from a crowded shelter where he was overlooked. After receiving proper care, he is now healthy and looking for a forever home where he can feel safe and loved.'
+    health_info: [],
+    my_dream: '',
+    bio: '',
+    rescue_story: ''
   });
 
 
@@ -62,7 +58,9 @@ const UploadPet = () => {
     } else {
       setPetInfo((prevState) => ({
         ...prevState,
-        [name]: name === 'age' ? parseInt(value, 10) || '' : value,
+        [name]: (name === 'age' || name === 'days_in_care') 
+          ? parseInt(value, 10) || '' 
+          : value,
       }));
     }
   };
@@ -133,6 +131,7 @@ const UploadPet = () => {
         personality_and_traits: [''],
         health_info: [''],
         my_dream: '',
+        days_in_care: 0,
       });
 
       setMainImageFile(null);
@@ -347,6 +346,18 @@ const UploadPet = () => {
               className="w-full p-2 border rounded-md h-20"
               placeholder="What is the pet's dream?"
             />
+
+<label className="block text-sm text-gray-700 mb-1">Days in care:</label>
+            <input
+              type="number"
+              name="days_in_care"
+              value={petInfo.days_in_care}
+              onChange={handleChange}
+              className="w-full p-2 border rounded-md"
+              placeholder="e.g. 3"
+              required
+            />
+
           </div>
         </div>
 
