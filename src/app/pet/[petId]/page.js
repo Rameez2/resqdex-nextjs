@@ -135,7 +135,7 @@ export default function PetAdoption() {
             </div>
 
             {/* General Info */}
-            <div className="max-w-2xl mx-auto p-8 bg-[#ffffff] rounded-xl">
+            <div className="bg-[#ffffff] p-6 md:p-8 lg:p-10 rounded-lg min-h-[340px]">
               <div className="space-y-8">
                 {/* General Info Section */}
                 <div>
@@ -236,7 +236,7 @@ export default function PetAdoption() {
             </div>
 
             {/* Personality and Traits */}
-            <div className="max-w-md mx-auto p-6 rounded-3xl relative bg-[#ffffff] h-[465px]">
+            <div className="max-w-md mx-auto p-6 rounded-3xl relative bg-[#ffffff] h-[390px]">
               {/* Corner dots */}
               <div className="absolute top-4 left-4 w-4 h-4 rounded-full bg-[#7d7d7d]"></div>
               <div className="absolute top-4 right-4 w-4 h-4 rounded-full bg-[#7d7d7d]"></div>
