@@ -8,76 +8,76 @@ import React, { useReducer, useState } from "react";
 
 const initialState = {
   shelter_info: [
-    "Paws and Claws Rescue", // Shelter Name
-    "Jane", // Director First Name
-    "Doe", // Director Last Name
-    "Director", // Title
-    "Rescue Group" // Type of Organization
+    "", // Shelter Name
+    "", // Director First Name
+    "", // Director Last Name
+    "", // Title
+    "" // Type of Organization
   ],
   physical_address: [
-    "1234 Rescue St", // Address
-    "Petville", // City
-    "12345", // Zip
-    "123-456-7890", // Phone
-    "101" // Phone Ext
+    "", // Address
+    "", // City
+    "", // Zip
+    "", // Phone
+    "" // Phone Ext
   ],
   mailing_address: [
-    "PO Box 5678", // Address
-    "Petville", // City
-    "PA", // State
-    "12345" // Zip
+    "", // Address
+    "", // City
+    "", // State
+    "" // Zip
   ],
   adoption_ambassador: [
-    "John", // First Name
-    "Smith", // Last Name
-    "987-654-3210", // Phone
-    "102", // Phone Ext
-    "john.smith@pawsclaws.org", // Email
-    "john.smith@pawsclaws.org", // Verify Email
+    "", // First Name
+    "", // Last Name
+    "", // Phone
+    "", // Phone Ext
+    "", // Email
+    "", // Verify Email
   ],
   veterinarian_info: [
-    "Dr. Pet Care", // Vet Name
-    "555-123-4567", // Vet Phone
-    "103" // Vet Phone Ext
+    "", // Vet Name
+    "", // Vet Phone
+    "" // Vet Phone Ext
   ],
   about_organization: [
-    "yes", // is_501c3
-    "12-3456789" // Tax ID
+    "", // is_501c3
+    "" // Tax ID
   ],
   adopted: {
-    Dogs: 100,
-    Cats: 80,
-    Horses: 5,
-    Reptiles: 10,
-    "Pocket Pals": 20,
-    Rabbits: 15,
-    "Farm Animals": 8,
-    Birds: 12,
-    Exotics: 3,
-    Fish: 6,
-    Ferrets: 2
+    Dogs: 0,
+    Cats: 0,
+    Horses: 0,
+    Reptiles: 0,
+    "Pocket Pals": 0,
+    Rabbits: 0,
+    "Farm Animals": 0,
+    Birds: 0,
+    Exotics: 0,
+    Fish: 0,
+    Ferrets: 0
   },
   adoption_fees: [
     "500", // Highest Fee
     "50" // Lowest Fee
   ],
-  current_animals: 30,
-  animal_source: "Rescued from shelters and owner surrenders.",
+  current_animals: 1,
+  animal_source: "",
   medical_adoption: [
-    "Vaccinations, deworming, microchipping, and health checks.", // Medical Care
-    "Yes, always", // Spay Policy
-    "Spayed/neutered above 6 months; contract required for younger.", // Sterilization
-    "Yes" // Has Contract
+    "", // Medical Care
+    "", // Spay Policy
+    "", // Sterilization
+    "" // Has Contract
   ],
-  mission: "To rescue, rehabilitate, and rehome animals in need.",
-  adoption_policies: "Application, home check, and fee.",
-  adoption_process: "Apply online, interview, visit, finalize.",
-  adoption_link: "https://pawsclaws.org/adopt",
+  mission: "",
+  adoption_policies: "",
+  adoption_process: "",
+  adoption_link: "",
   online_presence: [
-    "https://pawsclaws.org", // Website
-    "https://facebook.com/pawsclawsrescue", // Facebook
-    "https://instagram.com/pawsclawsrescue", // Instagram
-    "https://twitter.com/pawsclawsrescue" // Other Social
+    "", // Website
+    "", // Facebook
+    "", // Instagram
+    "" // Other Social
   ]
 };
 
