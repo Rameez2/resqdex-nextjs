@@ -11,27 +11,29 @@ import PetCategories from './upload/PetCategories';
 
 const UploadPet = () => {
   const { user } = useUser();
-  const [petInfo, setPetInfo] = useState({
-    name: '',
-    age: 2,
-    specie: 'Other',
-    breed: '',
-    size: '',
-    contact: '',
-    gender: 'Male',
-    location: '',
-    days_in_care: 1,
-    personality_and_traits: [
-      '',
-      '',
-      '',
-      ''
-    ],
-    health_info: [],
-    my_dream: '',
-    bio: '',
-    rescue_story: ''
-  });
+  const [petInfo, setPetInfo] = useState(
+    {
+      name: "Willow",
+      age: 7,
+      specie: "Horse",
+      breed: "Arabian",
+      size: "Large",
+      contact: "willow.stable@example.com",
+      gender: "Female",
+      location: "Lexington, KY",
+      days_in_care: 120,
+      personality_and_traits: [
+        "Graceful and calm",
+        "Moderate activity, enjoys trails",
+        "Excellent with children",
+        "Gentle and patient temperament"
+      ],
+      health_info: ["Vaccinated", "Shoes maintained"],
+      my_dream: "To gallop freely across open fields and bond with a loving rider!",
+      bio: "I'm Willow, an elegant Arabian horse, full of spirit and beauty.",
+      rescue_story: "Rescued from a neglected farm, now thriving and ready for a loving home."
+    }
+);
 
 
   const [mainImageFile, setMainImageFile] = useState(null);

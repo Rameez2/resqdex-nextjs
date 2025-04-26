@@ -252,7 +252,7 @@ export default function PetAdoption() {
                   <div>
                     <h2 className="text-[#000000] text-sm font-medium">
                       Temperament{" "}
-                      <span className="text-[#7d7d7d] font-[10px] text-base">(e.g., playful, calm, friendly, shy)</span>
+                      {/* <span className="text-[#7d7d7d] font-[10px] text-base">(e.g., playful, calm, friendly, shy)</span> */}
                     </h2>
                     <p className="text-[#e17716] text-sm mt-1">{petDetails.personality_and_traits[0]}</p>
                   </div>
@@ -261,7 +261,7 @@ export default function PetAdoption() {
                   <div>
                     <h2 className="text-[#000000] text-sm font-medium">
                       Activity level{" "}
-                      <span className="text-[#7d7d7d] font-normal text-base">(e.g., energetic, moderate, low-energy)</span>
+                      {/* <span className="text-[#7d7d7d] font-normal text-base">(e.g., energetic, moderate, low-energy)</span> */}
                     </h2>
                     <p className="text-[#e17716] text-sm mt-1">{petDetails.personality_and_traits[1]}</p>
                   </div>
@@ -270,7 +270,7 @@ export default function PetAdoption() {
                   <div>
                     <h2 className="text-[#000000] text-sm font-medium">
                       Special skills or quirks{" "}
-                      <span className="text-[#7d7d7d] font-normal text-base">(e.g., knows basic commands)</span>
+                      {/* <span className="text-[#7d7d7d] font-normal text-base">(e.g., knows basic commands)</span> */}
                     </h2>
                     <p className="text-[#e17716] text-sm mt-1">{petDetails.personality_and_traits[2]}</p>
                   </div>
@@ -278,7 +278,8 @@ export default function PetAdoption() {
                   {/* Behavior */}
                   <div>
                     <h2 className="text-[#000000] text-sm font-medium">
-                      Behavior <span className="text-[#7d7d7d] font-normal text-base">(around other pets and children)</span>
+                      Behavior
+                       {/* <span className="text-[#7d7d7d] font-normal text-base">(around other pets and children)</span> */}
                     </h2>
                     <p className="text-[#e17716] text-sm mt-1">{petDetails.personality_and_traits[3]}</p>
                   </div>
