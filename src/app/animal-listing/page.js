@@ -1,4 +1,7 @@
 "use client";
+
+import { Suspense } from "react";
+
 import { ChevronDown, ChevronLeft, ChevronRight } from "lucide-react";
 import PetCard from "@/components/ui/PetCard";
 import PetFilters from "@/components/pagesComponents/animals-listing/PetFilters";
@@ -9,7 +12,7 @@ import { useUser } from "@/context/userContext";
 import { useSearchParams } from "next/navigation";
 
 
-export default function Home() {
+function HomeContent() {
   const searchParams = useSearchParams();
   // ******* CHECK FILTERS FROM (SEARCH-PARAMS) ******* //
   const [filters, setFilters] = useState(() => ({
@@ -132,5 +135,13 @@ export default function Home() {
 
       </main>
     </div>
+  );
+}
+
+export default function Home() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <HomeContent />
+    </Suspense>
   );
 }
