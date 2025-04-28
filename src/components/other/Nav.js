@@ -53,7 +53,7 @@ const Nav = () => {
                     <span className="bg-yellow-100 text-yellow-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-sm dark:bg-yellow-900 dark:text-yellow-300 cursor-pointer whitespace-nowrap">Get Verified</span>
                   </Link>
                 </> :
-                  user.status === "Pending" ? <span className="bg-gray-100 text-gray-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-sm dark:bg-gray-700 dark:text-gray-300">Pending</span>
+                  user.status === "Pending" ? <span className="bg-gray-100 text-gray-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-sm dark:bg-gray-700 dark:text-gray-300">Verification Pending</span>
                     :
                     user.status === "Rejected" ?
                       <Link href="/profile">

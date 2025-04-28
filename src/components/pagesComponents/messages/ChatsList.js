@@ -11,7 +11,8 @@ const ChatsList = ({ setRecieverId, chats, setChats, setRecieverName }) => {
   const { user } = useUser();
 
   useEffect(() => {
-
+    console.log('chats userid',user.$id);
+    
     const getChats = async () => {
       try {
         const response = await fetchMyChats(user.$id);

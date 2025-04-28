@@ -228,9 +228,9 @@ export default function PetAdoption() {
 
               {/* Buttons */}
               <div className="space-y-3">
-                <Button className="w-full bg-primary hover:bg-primary/90 text-white" onClick={() => startInquiry(petDetails.organization_id)}>Start Inquiry</Button>
+                <Button className="w-full bg-primary hover:bg-primary/90 text-white" onClick={() => startInquiry(petDetails.organization_id)}>Ask about me!</Button>
                 <Button variant="outline" className="w-full border-primary text-primary hover:bg-[#fff5ef]">
-                  Sponsor
+                  FAQ
                 </Button>
               </div>
             </div>
