@@ -11,7 +11,6 @@ import { updateUserData } from "@/lib/appwrite/user"
 import Toast from "@/components/ui/Toast"
 import ButtonSpinner from "@/components/ui/buttonSpinner"
 import AdopterQuestionnaire from "../Dataforms/AdopterQuestionnaire"
-// import OrganizationQuestionnaire from "../Dataforms/OrganizationQuestionnaire"
 
 export default function GeneralSettings() {
   const router = useRouter();

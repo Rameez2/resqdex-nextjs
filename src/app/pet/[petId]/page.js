@@ -143,17 +143,17 @@ export default function PetAdoption() {
 
                   <div className="grid grid-cols-3 gap-4">
                     <div>
-                      <h3 className="text-[#e17716] text-5xl font-bold mb-6">Name</h3>
+                      <h3 className="text-primary text-5xl font-bold mb-6">Name</h3>
                       <p className="text-[#000000] text-4xl font-medium">{petDetails.name}</p>
                     </div>
 
                     <div>
-                      <h3 className="text-[#e17716] text-5xl font-bold mb-6">Gender</h3>
+                      <h3 className="text-primary text-5xl font-bold mb-6">Gender</h3>
                       <p className="text-[#000000] text-4xl font-medium">{petDetails.gender}</p>
                     </div>
 
                     <div>
-                      <h3 className="text-[#e17716] text-5xl font-bold mb-6">Age</h3>
+                      <h3 className="text-primary text-5xl font-bold mb-6">Age</h3>
                       <p className="text-[#000000] text-4xl font-medium">{petDetails.age} Months</p>
                     </div>
                   </div>
@@ -245,7 +245,7 @@ export default function PetAdoption() {
 
               {/* Content */}
               <div className="py-10 px-4">
-                <h1 className="text-[#e17716] text-2xl font-[20px] mb-2">Personality and Traits</h1>
+                <h1 className="text-primary text-2xl font-[20px] mb-2">Personality and Traits</h1>
 
                 <div className="space-y-1">
                   {/* Temperament */}
@@ -254,7 +254,7 @@ export default function PetAdoption() {
                       Temperament{" "}
                       {/* <span className="text-[#7d7d7d] font-[10px] text-base">(e.g., playful, calm, friendly, shy)</span> */}
                     </h2>
-                    <p className="text-[#e17716] text-sm mt-1">{petDetails.personality_and_traits[0]}</p>
+                    <p className="text-primary text-sm mt-1">{petDetails.personality_and_traits[0]}</p>
                   </div>
 
                   {/* Activity level */}
@@ -263,7 +263,7 @@ export default function PetAdoption() {
                       Activity level{" "}
                       {/* <span className="text-[#7d7d7d] font-normal text-base">(e.g., energetic, moderate, low-energy)</span> */}
                     </h2>
-                    <p className="text-[#e17716] text-sm mt-1">{petDetails.personality_and_traits[1]}</p>
+                    <p className="text-primary text-sm mt-1">{petDetails.personality_and_traits[1]}</p>
                   </div>
 
                   {/* Special skills */}
@@ -272,7 +272,7 @@ export default function PetAdoption() {
                       Special skills or quirks{" "}
                       {/* <span className="text-[#7d7d7d] font-normal text-base">(e.g., knows basic commands)</span> */}
                     </h2>
-                    <p className="text-[#e17716] text-sm mt-1">{petDetails.personality_and_traits[2]}</p>
+                    <p className="text-primary text-sm mt-1">{petDetails.personality_and_traits[2]}</p>
                   </div>
 
                   {/* Behavior */}
@@ -281,7 +281,7 @@ export default function PetAdoption() {
                       Behavior
                        {/* <span className="text-[#7d7d7d] font-normal text-base">(around other pets and children)</span> */}
                     </h2>
-                    <p className="text-[#e17716] text-sm mt-1">{petDetails.personality_and_traits[3]}</p>
+                    <p className="text-primary text-sm mt-1">{petDetails.personality_and_traits[3]}</p>
                   </div>
                 </div>
 
@@ -291,7 +291,7 @@ export default function PetAdoption() {
         </div>
         {/* Rescue Story */}
         <div className="bg-[#ffffff] rounded-lg p-6">
-          <h2 className="text-2xl font-bold mb-6">Rescue Story</h2>
+          <h2 className="text-2xl text-primary font-bold mb-6">My Story</h2>
           <p className="text-[#55514f]">{petDetails.rescue_story}</p>
         </div>
         {/* My Dream */}
@@ -299,7 +299,7 @@ export default function PetAdoption() {
           <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
             {/* Left Content */}
             <div className="md:col-span-2 space-y-6">
-              <h1 className="text-3xl font-bold font-sans">My Dream</h1>
+              <h1 className="text-3xl font-bold font-sans text-primary">My Dream</h1>
               <p>
                 {petDetails.my_dream}
               </p>
@@ -323,7 +323,7 @@ export default function PetAdoption() {
             </div>
           </div>
         </div>
-        <MorePets orgId={petDetails.organization_id} />
+        <MorePets orgId={petDetails.organization_id} specieName={petDetails.specie} />
       </div>
     </div>
 

@@ -47,9 +47,23 @@ export const getPetById = async (petId) => {
   return petResponse;
 }
 
-export const getOrganizationName = async () => {
-  
-}
+
+export const getOrgPetsBySpecie = async (orgId, specieName) => {
+  // Fetch pets filtered by organization and specie
+  const petsResponse = await databases.listDocuments(
+    process.env.NEXT_PUBLIC_DB_ID,          // Database ID
+    process.env.NEXT_PUBLIC_ANIMALS_ID,      // Animals Collection ID
+    [
+      Query.equal('organization_id', orgId),
+      Query.equal('specie', specieName)
+    ]
+  );
+
+  const pets = petsResponse.documents;
+
+  // Return the filtered pets
+  return pets;
+};
 
 export const getMyPets = async (userId) => {
   // Fetch all my pets only

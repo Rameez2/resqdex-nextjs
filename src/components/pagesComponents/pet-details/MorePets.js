@@ -1,12 +1,12 @@
 import PetCardSkeleton from '@/components/skeletons/PetCardSkeleton';
 import PetCard from '@/components/ui/PetCard';
 import ArrowButton from '@/components/ui/ArrowButton';
-import { getMyPets, getPetsByFilter } from '@/lib/appwrite/pets';
+import { getMyPets, getOrgPetsBySpecie, getPetsByFilter } from '@/lib/appwrite/pets';
 import React, { useEffect, useRef, useState } from 'react';
 import { useUser } from '@/context/userContext';
 import { getUserById } from '@/lib/appwrite/user';
 
-const MorePets = ({ orgId }) => {
+const MorePets = ({ orgId,specieName }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [similarPets, setSimilarPets] = useState(null);
@@ -22,7 +22,7 @@ const MorePets = ({ orgId }) => {
     (async () => {
       try {
         const petsResponse = await getPetsByFilter(7, 0);
-        const simPets = await getMyPets(orgId);
+        const simPets = await getOrgPetsBySpecie(orgId,specieName);
         setPets(petsResponse);
         setSimilarPets(simPets);
         setLoading(false);
@@ -77,9 +77,11 @@ const MorePets = ({ orgId }) => {
 
   return (
     <div className="bg-[#ffffff] py-20 px-4">
-      {/* Header: Other options by (Organization Name) */}
+      {/* Header: More (Specie) by xyz (Organization Name) */}
       <h2 className="text-center text-primary text-5xl font-bold mb-16">
-        Other options by {orgName}
+        {/* Other options by {orgName} */}
+        {/* More (cats) by xyz (Organization Name) */}
+        more {specieName} by {orgName}
       </h2>
 
       <div className="flex justify-end gap-2 pr-5 mb-3">
