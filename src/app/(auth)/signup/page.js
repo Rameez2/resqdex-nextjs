@@ -51,20 +51,20 @@ function SignUpForm() {
       setLoading(false);
     }
   }
-
   async function veriftOTP() {
     try {
-      console.log(userOTP, otp);
-      if (userOTP == otp) { // otp success
-        // register new user
+      setLoading(true); // Start loading
+      if (userOTP == otp) {
         const newUser = await registerUser(formData.name, formData.email, formData.password, formData.role);
         setToast({ message: "Sign Up success!", type: "success" });
         setUser(newUser);
         return;
       }
-      throw new Error("OTP DOES NOT MATCH")
+      throw new Error("OTP DOES NOT MATCH");
     } catch (error) {
       setToast({ message: error.message, type: "error" });
+    } finally {
+      setLoading(false); // Stop loading
     }
   }
 

@@ -15,6 +15,7 @@ const UploadPet = () => {
     {
       name: "Willow",
       age: 7,
+      adoption_fees:78,
       specie: "Horse",
       breed: "Arabian",
       size: "Large",
@@ -361,6 +362,20 @@ const UploadPet = () => {
             />
           </div>
         </div>
+
+        <div className="flex-1 min-w-[120px] max-w-[150px]">
+  <label className="block text-sm text-gray-700 mb-1">Adoption Fees ($):</label>
+  <input
+    type="number"
+    name="adoption_fees"
+    value={petInfo.adoption_fees}
+    onChange={handleChange}
+    className="w-full p-2 border rounded-md"
+    placeholder="e.g. 50"
+    required
+  />
+</div>
+
 
         <div className="flex flex-wrap gap-4 w-full">
           {/* Main Image Upload + Preview */}

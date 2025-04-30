@@ -8,78 +8,80 @@ import React, { useReducer, useState } from "react";
 
 const initialState = {
   shelter_info: [
-    "", // Shelter Name
-    "", // Director First Name
-    "", // Director Last Name
-    "", // Title
-    "" // Type of Organization
+    "Happy Tails Animal Rescue", // Shelter Name
+    "Jane", // Director First Name
+    "Doe", // Director Last Name
+    "Executive Director", // Title
+    "Non-Profit" // Type of Organization
   ],
   physical_address: [
-    "", // Address
-    "", // City
-    "", // Zip
-    "", // Phone
-    "" // Phone Ext
+    "1234 Bark St.", // Address
+    "Pawsville", // City
+    "98765", // Zip
+    "555-123-4567", // Phone
+    "101" // Phone Ext
   ],
   mailing_address: [
-    "", // Address
-    "", // City
-    "", // State
-    "" // Zip
+    "PO Box 789", // Address
+    "Pawsville", // City
+    "CA", // State
+    "98765" // Zip
   ],
   adoption_ambassador: [
-    "", // First Name
-    "", // Last Name
-    "", // Phone
-    "", // Phone Ext
-    "", // Email
-    "", // Verify Email
+    "Emily", // First Name
+    "Smith", // Last Name
+    "555-987-6543", // Phone
+    "202", // Phone Ext
+    "emily@happytails.org", // Email
+    "emily@happytails.org", // Verify Email
   ],
   veterinarian_info: [
-    "", // Vet Name
-    "", // Vet Phone
-    "" // Vet Phone Ext
+    "Dr. John Vetman", // Vet Name
+    "555-321-4321", // Vet Phone
+    "303" // Vet Phone Ext
   ],
-  about_organization: [
-    "", // is_501c3
-    "" // Tax ID
-  ],
+  // about_organization: [
+  //   "Yes", // is_501c3
+  //   "12-3456789" // Tax ID
+  // ],
+  taxId: "12-3456789", // Tax ID
   adopted: {
-    Dogs: 0,
-    Cats: 0,
-    Horses: 0,
-    Reptiles: 0,
-    "Pocket Pals": 0,
-    Rabbits: 0,
-    "Farm Animals": 0,
-    Birds: 0,
-    Exotics: 0,
-    Fish: 0,
-    Ferrets: 0
+    Dogs: true,
+    Cats: true,
+    Horses: false,
+    Reptiles: false,
+    "Pocket Pals": true,
+    Rabbits: true,
+    "Farm Animals": false,
+    Birds: true,
+    Exotics: false,
+    Fish: false,
+    Ferrets: true
   },
   adoption_fees: [
     "500", // Highest Fee
     "50" // Lowest Fee
   ],
-  current_animals: 1,
-  animal_source: "",
+  current_animals: 23,
+  animal_source: "Owner Surrenders, Strays, Transfers from Shelters",
   medical_adoption: [
-    "", // Medical Care
-    "", // Spay Policy
-    "", // Sterilization
-    "" // Has Contract
+    "Routine checkups, vaccinations, emergency surgeries", // Medical Care
+    "Mandatory before adoption", // Spay Policy
+    "Yes, all animals are sterilized", // Sterilization
+    "Yes, adopters must sign a contract" // Has Contract
   ],
-  mission: "",
-  adoption_policies: "",
-  adoption_process: "",
-  adoption_link: "",
+  mission: "To rescue, rehabilitate, and rehome animals in need while promoting responsible pet ownership.",
+  adoption_policies: "All adopters must be 21+, provide landlord approval if renting, and undergo a home check.",
+  adoption_process: "Submit application → Interview → Home Visit → Meet & Greet → Finalize Adoption",
+  adoption_link: "https://www.happytails.org/adopt",
   online_presence: [
-    "", // Website
-    "", // Facebook
-    "", // Instagram
-    "" // Other Social
+    "https://www.happytails.org", // Website
+    "https://facebook.com/happytailsrescue", // Facebook
+    "https://instagram.com/happytailsrescue", // Instagram
+    "https://twitter.com/happytails" // Other Social
   ]
 };
+
 
 const orgReducer = (state, action) => {
   const { field, value, index } = action;
@@ -107,14 +109,40 @@ const OrganizationQuestionnaire = ({ onSubmit }) => {
     try {
       setFormLoading(true);
 
-      // Convert adopted object to an array of strings
-      const adoptedStringArray = Object.entries(formData.adopted)
-        .map(([animal, count]) => `${animal}: ${count}`);
+      // // Convert adopted object to an array of strings
+      // const adoptedStringArray = Object.entries(formData.adopted)
+      //   .map(([animal, count]) => `${animal}: ${count}`);
 
-      // Create a shallow copy and replace adopted with the string array
+      // // Create a shallow copy and replace adopted with the string array
+      // const updatedFormData = {
+      //   ...formData,
+      //   adopted: adoptedStringArray,
+      // };
+
+
+      //********************* */
+
+      // const adoptedArray = Object.entries(formData.adopted)
+      //   .filter(([_, adopted]) => adopted)
+      //   .map(([animal]) => animal);
+
+      // const updatedFormData = {
+      //   ...formData,
+      //   adopted: adoptedArray,
+      // };
+
+
+      const adoptedArray = [];
+
+      Object.entries(formData.adopted).forEach(([animal, isAdopted]) => {
+        if (isAdopted === true) {
+          adoptedArray.push(animal);
+        }
+      });
+
       const updatedFormData = {
         ...formData,
-        adopted: adoptedStringArray,
+        adopted: adoptedArray,
       };
 
       const updatedDoc = await updateOrgForm(user.$id, user.more_info, updatedFormData);
@@ -129,20 +157,28 @@ const OrganizationQuestionnaire = ({ onSubmit }) => {
     }
   };
 
+
+
+
   if (loading) return <h1 className="text-center text-xl font-bold">Loading...</h1>;
   if (!(user.status === "Rejected" || user.status === "Apply"))
     return <h1 className="text-center text-red-600 font-bold">New application can only be submitted after rejection.</h1>;
 
   return (
     <form onSubmit={handleSubmit} className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md space-y-6">
-
+      <div className="mb-4">
+        <h2 className="text-lg font-semibold text-gray-700">
+          Required fields are shown in <span className="text-red-600 font-bold">red</span>,<br />
+          Info in <span className="bg-green-100 text-green-800 px-1 rounded">green boxes</span> will not be seen by public.
+        </h2>
+      </div>
       {/* Shelter Info */}
       <h2 className="text-2xl font-semibold text-gray-800 border-b pb-2">Shelter / Rescue Information</h2>
 
       <div className="grid grid-cols-2 gap-6">
         {/* Shelter/Rescue Name */}
         <div className="flex flex-col col-span-2 sm:col-span-1">
-          <label>Shelter/Rescue Name</label>
+          <label className="text-red-500">Shelter/Rescue Name</label>
           <input
             type="text"
             className="border p-2 rounded-md"
@@ -153,7 +189,7 @@ const OrganizationQuestionnaire = ({ onSubmit }) => {
 
         {/* Director First + Last Name */}
         <div className="flex flex-col col-span-2 sm:col-span-1">
-          <label>Director/Manager Name</label>
+          <label className="text-red-500">Director/Manager Name</label>
           <div className="flex gap-2">
             <input
               type="text"
@@ -174,7 +210,7 @@ const OrganizationQuestionnaire = ({ onSubmit }) => {
 
         {/* Title */}
         <div className="flex flex-col col-span-2 sm:col-span-1">
-          <label>Title</label>
+          <label className="text-red-500">Title</label>
           <input
             type="text"
             className="border p-2 rounded-md"
@@ -185,7 +221,7 @@ const OrganizationQuestionnaire = ({ onSubmit }) => {
 
         {/* Type of Organization */}
         <div className="flex flex-col col-span-2 sm:col-span-1">
-          <label>Type of Organization</label>
+          <label className="text-red-500">Type of Organization</label>
           <select
             className="border p-2 rounded-md"
             value={formData.shelter_info[4]}
@@ -206,7 +242,7 @@ const OrganizationQuestionnaire = ({ onSubmit }) => {
       <div className="grid grid-cols-2 gap-6">
         {/* Address */}
         <div className="flex flex-col col-span-2 sm:col-span-1">
-          <label>Address</label>
+          <label className="text-red-500">Address</label>
           <input
             type="text"
             className="border p-2 rounded-md"
@@ -217,7 +253,7 @@ const OrganizationQuestionnaire = ({ onSubmit }) => {
 
         {/* City */}
         <div className="flex flex-col col-span-2 sm:col-span-1">
-          <label>City</label>
+          <label className="text-red-500">City</label>
           <input
             type="text"
             className="border p-2 rounded-md"
@@ -228,7 +264,7 @@ const OrganizationQuestionnaire = ({ onSubmit }) => {
 
         {/* Zip */}
         <div className="flex flex-col col-span-2 sm:col-span-1">
-          <label>Zip/Postal Code</label>
+          <label className="text-red-500">Zip/Postal Code</label>
           <input
             type="text"
             className="border p-2 rounded-md"
@@ -239,7 +275,7 @@ const OrganizationQuestionnaire = ({ onSubmit }) => {
 
         {/* Phone + Ext */}
         <div className="flex flex-col col-span-2 sm:col-span-1">
-          <label>Phone</label>
+          <label className="text-red-500">Phone</label>
           <div className="flex gap-2">
             <input
               type="text"
@@ -262,7 +298,7 @@ const OrganizationQuestionnaire = ({ onSubmit }) => {
 
       {/* Mailing Address */}
       <h3 className="text-lg font-semibold mt-6">Mailing Address</h3>
-      <div className="grid grid-cols-2 gap-6">
+      <div className="grid grid-cols-2 gap-6 bg-green-500">
         {/* Mailing Address */}
         <div className="flex flex-col col-span-2 sm:col-span-1">
           <label>Address</label>
@@ -311,7 +347,7 @@ const OrganizationQuestionnaire = ({ onSubmit }) => {
 
       {/* Adoption Ambassador */}
       <h3 className="text-lg font-semibold mt-6">Adoption Ambassador</h3>
-      <div className="grid grid-cols-2 gap-6">
+      <div className="grid grid-cols-2 gap-6 bg-green-500">
         {/* First Name */}
         <div className="flex flex-col">
           <label>First Name</label>
@@ -422,26 +458,14 @@ const OrganizationQuestionnaire = ({ onSubmit }) => {
       <h3 className="text-lg font-semibold mt-6">About Your Organization</h3>
       <div className="grid grid-cols-2 gap-6">
         {/* 501(c)(3) Non-profit */}
-        <div className="flex flex-col">
-          <label>501(c)(3) Non-profit?</label>
-          <select
-            className="border p-2 rounded-md"
-            value={formData.about_organization[0]}
-            onChange={(e) => handleChange("about_organization", e.target.value, 0)}
-          >
-            <option value="yes">Yes</option>
-            <option value="no">No</option>
-          </select>
-        </div>
 
-        {/* Tax ID Number */}
         <div className="flex flex-col">
           <label>Tax ID Number</label>
           <input
             type="text"
             className="border p-2 rounded-md"
-            value={formData.about_organization[1]}
-            onChange={(e) => handleChange("about_organization", e.target.value, 1)}
+            value={formData.taxId}
+            onChange={(e) => handleChange("taxId", e.target.value, 1)}
           />
         </div>
       </div>
@@ -473,26 +497,26 @@ const OrganizationQuestionnaire = ({ onSubmit }) => {
       </div>
 
       {/* Adopted Animals */}
-      <h4 className="text-md font-semibold mt-4">Animals Adopted Out</h4>
+      <h4 className="text-md font-semibold mt-4">Types of Animals You Have Adopted Out</h4>
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {Object.keys(formData.adopted).map((type) => (
-          <div className="flex flex-col" key={type}>
-            <label>{type}</label>
+          <label key={type} className="flex items-center space-x-2">
             <input
-              type="number"
-              min="0"
-              className="border p-2 rounded-md"
-              value={formData.adopted[type]}
+              type="checkbox"
+              checked={formData.adopted[type]}
               onChange={(e) =>
                 handleChange("adopted", {
                   ...formData.adopted,
-                  [type]: parseInt(e.target.value) || 0
+                  [type]: e.target.checked,
                 })
               }
+              className="w-5 h-5"
             />
-          </div>
+            <span>{type}</span>
+          </label>
         ))}
       </div>
+
 
 
 
@@ -550,7 +574,8 @@ const OrganizationQuestionnaire = ({ onSubmit }) => {
           onChange={(e) => handleChange("medical_adoption", e.target.value, 2)}
         />
       </div>
-
+      
+      {/* Adoption Contract */}
       <div className="flex flex-col">
         <label>Do you have an adoption contract?</label>
         <select
@@ -561,7 +586,16 @@ const OrganizationQuestionnaire = ({ onSubmit }) => {
           <option>Yes</option>
           <option>No</option>
         </select>
+
+        <div className="mt-2">
+          <label>Upload Adoption Contract</label>
+          <input
+            type="file"
+            className="border p-2 rounded-md"
+          />
+        </div>
       </div>
+
       {/* Adoptions policies & mission statement */}
       <h4 className="text-md font-semibold mt-4">Mission statement, Adoptions policies & Adoption process</h4>
       {[

@@ -104,9 +104,9 @@ const OrganizationDetails = ({ user, setSelectedMoreInfo }) => {
           </div>
 
           <div>
-            <h2 className={sectionTitle}>About Organization</h2>
+            <h2 className={sectionTitle}>Tax ID</h2>
             <ul className={listStyle}>
-              {Info.about_organization.map((item, idx) => <li key={idx}>{item}</li>)}
+              <li>{Info.taxId}</li>
             </ul>
           </div>
 
