@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { X } from 'lucide-react';
 import ButtonSpinner from '@/components/ui/buttonSpinner';
 import Toast from '@/components/ui/Toast';
+import { storage } from '@/lib/appwrite/appwrite';
 
 const OrganizationDetails = ({ user, setSelectedMoreInfo }) => {
   const [statusLoading, setStatusLoading] = useState(null);
@@ -125,6 +126,15 @@ const OrganizationDetails = ({ user, setSelectedMoreInfo }) => {
               <li>Highest Fee: ${Info.adoption_fees[0]}</li>
               <li>Lowest Fee: ${Info.adoption_fees[1]}</li>
             </ul>
+          </div>
+
+          <div>
+            <h2 className={sectionTitle}>Adoption Contract</h2>
+
+            <a target='_blank' className="border-2 border-blue-500 p-1 rounded-md bg-blue-500 text-white"
+ href={storage.getFileView("6799fb94000edc47b27d", Info.adoption_contract)} download>
+              Download Adoption Contract
+            </a>
           </div>
 
           <div>

@@ -1,9 +1,11 @@
 import ButtonSpinner from "@/components/ui/buttonSpinner";
 import Toast from "@/components/ui/Toast";
 import { useUser } from "@/context/userContext";
+import { storage } from "@/lib/appwrite/appwrite";
 import { updateRecord } from "@/lib/appwrite/dataForms";
 import { updateOrgForm } from "@/lib/appwrite/org-from";
 import withAuth from "@/lib/middlewares/withAuth";
+import { ID } from "appwrite";
 import React, { useReducer, useState } from "react";
 
 const initialState = {
@@ -40,11 +42,8 @@ const initialState = {
     "555-321-4321", // Vet Phone
     "303" // Vet Phone Ext
   ],
-  // about_organization: [
-  //   "Yes", // is_501c3
-  //   "12-3456789" // Tax ID
-  // ],
   taxId: "12-3456789", // Tax ID
+  adoption_contract: "", // Adoption Contract File Id
   adopted: {
     Dogs: true,
     Cats: true,
@@ -83,6 +82,7 @@ const initialState = {
 };
 
 
+
 const orgReducer = (state, action) => {
   const { field, value, index } = action;
   if (Array.isArray(state[field])) {
@@ -99,37 +99,36 @@ const OrganizationQuestionnaire = ({ onSubmit }) => {
   const [formLoading, setFormLoading] = useState(false);
   const [showToast, setShowToast] = useState(false);
   const { loading, user, setUser } = useUser();
+  const [adoptionContractFile, setAdoptionContractFile] = useState(null);
 
   const handleChange = (field, value, index = null) => {
     dispatch({ field, value, index });
   };
+
+  async function uploadFile(file) {
+    try {
+      let uploadedImage = await storage.createFile('6799fb94000edc47b27d', ID.unique(), file);
+      return uploadedImage.$id;
+    } catch (error) {
+      console.error('File Upload Error:', error);
+      return null;
+    }
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       setFormLoading(true);
 
-      // // Convert adopted object to an array of strings
-      // const adoptedStringArray = Object.entries(formData.adopted)
-      //   .map(([animal, count]) => `${animal}: ${count}`);
+      const file = adoptionContractFile; // Assuming this is set from your input
+      let fileId = null;
+    
+      if (file) {
+        fileId = await uploadFile(file);
+      }
 
-      // // Create a shallow copy and replace adopted with the string array
-      // const updatedFormData = {
-      //   ...formData,
-      //   adopted: adoptedStringArray,
-      // };
-
-
-      //********************* */
-
-      // const adoptedArray = Object.entries(formData.adopted)
-      //   .filter(([_, adopted]) => adopted)
-      //   .map(([animal]) => animal);
-
-      // const updatedFormData = {
-      //   ...formData,
-      //   adopted: adoptedArray,
-      // };
+      console.log('got file id',fileId);
+      
 
 
       const adoptedArray = [];
@@ -142,8 +141,10 @@ const OrganizationQuestionnaire = ({ onSubmit }) => {
 
       const updatedFormData = {
         ...formData,
-        adopted: adoptedArray,
+        adopted: adoptedArray, // already present
+        adoption_contract: fileId, // ensure it's passed
       };
+
 
       const updatedDoc = await updateOrgForm(user.$id, user.more_info, updatedFormData);
       setUser({ ...user, status: "Pending" });
@@ -574,27 +575,29 @@ const OrganizationQuestionnaire = ({ onSubmit }) => {
           onChange={(e) => handleChange("medical_adoption", e.target.value, 2)}
         />
       </div>
-      
-      {/* Adoption Contract */}
-      <div className="flex flex-col">
-        <label>Do you have an adoption contract?</label>
-        <select
-          className="border p-2 rounded-md"
-          value={formData.medical_adoption[3]}
-          onChange={(e) => handleChange("medical_adoption", e.target.value, 3)}
-        >
-          <option>Yes</option>
-          <option>No</option>
-        </select>
 
-        <div className="mt-2">
-          <label>Upload Adoption Contract</label>
-          <input
-            type="file"
-            className="border p-2 rounded-md"
-          />
-        </div>
+      {/* Adoption Contract */}
+
+
+      <div className="flex flex-col">
+        <label className="text-red-500">Do you have an adoption contract? (PDF)</label>
+        <input
+          type="file"
+          accept="application/pdf"
+          // onChange={async (e) => {
+          //   const file = e.target.files[0];
+          //   if (file) {
+          //     const fileId = await uploadFile(file);
+          //     if (fileId) {
+          //       dispatch({ field: "adoption_contract", value: fileId });
+          //     }
+          //   }
+          // }}
+          onChange={(e) => setAdoptionContractFile(e.target.files[0])}
+          className="border p-2 rounded-md"
+        />
       </div>
+
 
       {/* Adoptions policies & mission statement */}
       <h4 className="text-md font-semibold mt-4">Mission statement, Adoptions policies & Adoption process</h4>

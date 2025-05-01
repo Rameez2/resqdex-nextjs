@@ -20,6 +20,7 @@ export default function PetAdoption() {
 
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
   const [images, setImages] = useState([]);
+  const [showToast, setShowToast] = useState(false);
 
   useEffect(() => {
     // Fetch the pet details using the ID
@@ -68,7 +69,7 @@ export default function PetAdoption() {
         {/* Top - Image Section */}
 
 
-        <div className="relative overflow-x-auto py-4">
+        <div className="relative overflow-x-auto py-4" style={{ scrollbarWidth: 'none' }}>
           <div className="flex gap-4 snap-x snap-mandatory justify-center items-center">
             {images.map((img, index) => (
               <div
@@ -168,7 +169,7 @@ export default function PetAdoption() {
 
                   <ul className="space-y-4 text-[#000000] text-2xl">
 
-                    {petDetails && petDetails.health_info.map((item,index) =>
+                    {petDetails && petDetails.health_info.map((item, index) =>
                       <li key={index} className="flex items-start">
                         <span className="text-3xl mr-4">•</span>
                         <span>{item}</span>
@@ -204,7 +205,20 @@ export default function PetAdoption() {
                   <h3 className="font-medium">Considering {petDetails.name} for adoption?</h3>
                 </div>
                 <button className="ml-auto">
-                  <Share className="h-5 w-5 text-[#3f3f3f] cursor-pointer hover:text-primary" />
+                  {/* <Share className="h-5 w-5 text-[#3f3f3f] cursor-pointer hover:text-primary" /> */}
+                  <Share
+                    className="h-5 w-5 text-[#3f3f3f] cursor-pointer hover:text-primary"
+                    onClick={() => {
+                      navigator.clipboard.writeText(window.location.href)
+                        .then(() => {
+                          setShowToast(true);
+                          setTimeout(() => setShowToast(false), 3000); // Hide after 3 sec
+                        })
+                        .catch(() => {
+                          alert("Failed to copy URL"); // fallback
+                        });
+                    }}
+                  />
                 </button>
               </div>
 
@@ -223,6 +237,9 @@ export default function PetAdoption() {
                     <p className="text-sm text-[#7d7d7d]">Contact</p>
                     <p>{petDetails.contact}</p>
                   </div>
+                </div>
+                <div className="flex justify-center">
+                  <span>Adoption Fee ${petDetails.adoption_fees}</span>
                 </div>
               </div>
 
@@ -279,7 +296,7 @@ export default function PetAdoption() {
                   <div>
                     <h2 className="text-[#000000] text-sm font-medium">
                       Behavior
-                       {/* <span className="text-[#7d7d7d] font-normal text-base">(around other pets and children)</span> */}
+                      {/* <span className="text-[#7d7d7d] font-normal text-base">(around other pets and children)</span> */}
                     </h2>
                     <p className="text-primary text-sm mt-1">{petDetails.personality_and_traits[3]}</p>
                   </div>
@@ -325,6 +342,11 @@ export default function PetAdoption() {
         </div>
         <MorePets orgId={petDetails.organization_id} specieName={petDetails.specie} />
       </div>
+      {showToast && (
+        <div className="fixed top-4 left-1/2 transform -translate-x-1/2 bg-blue-500 text-white text-sm px-4 py-2 rounded shadow-md transition-opacity duration-300">
+          URL copied to clipboard!
+        </div>
+      )}
     </div>
 
   )
