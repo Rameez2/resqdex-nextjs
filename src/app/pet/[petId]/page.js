@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { ChevronLeft, ChevronRight, Share, MapPin, Phone } from "lucide-react"
 import { Button } from "@/components/ui/button";
 import { useParams } from "next/navigation";
@@ -14,51 +14,55 @@ import MorePets from "@/components/pagesComponents/pet-details/MorePets";
 export default function PetAdoption() {
   const { petId } = useParams();
   const router = useRouter();
-  const [petDetails, setPetDetails] = useState(null); // State to store pet details
-  const [loading, setLoading] = useState(true); // State to show loading state
-  const [error, setError] = useState(null); // State to handle errors
+  const [petDetails, setPetDetails] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  const [currentImageIndex, setCurrentImageIndex] = useState(0)
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [images, setImages] = useState([]);
   const [showToast, setShowToast] = useState(false);
+  const carouselRef = useRef(null); // Ref for scrolling
 
   useEffect(() => {
-    // Fetch the pet details using the ID
     const fetchPetDetails = async () => {
       try {
         setLoading(true);
-        const data = await getPetById(petId); // Replace with your API call
-        setPetDetails(data); // Save the data to state
+        const data = await getPetById(petId);
+        setPetDetails(data);
         setImages([data.main_image, ...data.images]);
       } catch (err) {
-        setError('Failed to fetch pet details.'); // Handle error
+        setError('Failed to fetch pet details.');
       } finally {
-        setLoading(false); // Stop loading
+        setLoading(false);
       }
     };
 
     fetchPetDetails();
   }, [petId]);
 
+  useEffect(() => {
+    const selectedImg = carouselRef.current?.children[currentImageIndex];
+    if (selectedImg) {
+      selectedImg.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+    }
+  }, [currentImageIndex]);
+
   const nextImage = () => {
-    setCurrentImageIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1))
-  }
+    setCurrentImageIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1));
+  };
 
   const prevImage = () => {
-    setCurrentImageIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1))
-  }
-
+    setCurrentImageIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
+  };
 
   async function startInquiry(orgId) {
     try {
       const doc = await getUserById(orgId);
-
       router.push(`/messages?adopterId=${doc.$id}&name=${doc.name}`);
     } catch (error) {
       console.error('Error starting inquiry:', error);
     }
   }
-
 
   if (loading) return <PageLoader />;
   if (error) return <h1>NO PET FOUND</h1>;
@@ -66,11 +70,12 @@ export default function PetAdoption() {
   return (
     <div className="min-h-screen bg-[#fbf5f0] p-4 md:p-8">
       <div className="max-w-6xl mx-auto space-y-6">
-        {/* Top - Image Section */}
-
-
-        <div className="relative overflow-x-auto py-4" style={{ scrollbarWidth: 'none' }}>
-          <div className="flex gap-4 snap-x snap-mandatory justify-center items-center">
+        {/* Image Carousel */}
+        <div className="relative overflow-x-auto py-4 flex justify-center">
+          <div
+            ref={carouselRef}
+            className="flex gap-4 snap-x snap-mandatory justify-start items-center overflow-x-auto"  style={{scrollbarWidth:'none'}}
+          >
             {images.map((img, index) => (
               <div
                 key={index}
@@ -81,8 +86,8 @@ export default function PetAdoption() {
                   src={storage.getFileView('6799fb94000edc47b27d', img)}
                   alt={`Pet image ${index + 1}`}
                   className={`w-[200px] h-[200px] object-cover rounded-lg 
-            transition-all duration-300 
-            ${index === currentImageIndex ? 'opacity-100 scale-110' : 'opacity-40 scale-95'}`}
+                    transition-all duration-300 
+                    ${index === currentImageIndex ? 'opacity-100 scale-110' : 'opacity-40 scale-95'}`}
                 />
               </div>
             ))}
@@ -103,7 +108,6 @@ export default function PetAdoption() {
             <ChevronRight className="h-5 w-5 text-[#3f3f3f]" />
           </button>
         </div>
-
 
         {/* 2x2 Layout */}
         <div className="flex flex-col md:flex-row gap-6">
@@ -136,49 +140,73 @@ export default function PetAdoption() {
             </div>
 
             {/* General Info */}
-            <div className="bg-[#ffffff] p-6 md:p-8 lg:p-10 rounded-lg min-h-[340px]">
-              <div className="space-y-8">
-                {/* General Info Section */}
-                <div>
-                  <h2 className="text-[#55514f] text-3xl font-medium mb-8">General Info</h2>
 
-                  <div className="grid grid-cols-3 gap-4">
-                    <div>
-                      <h3 className="text-primary text-5xl font-bold mb-6">Name</h3>
-                      <p className="text-[#000000] text-4xl font-medium">{petDetails.name}</p>
-                    </div>
+            <div className="relative bg-white p-8 rounded-2xl shadow-lg max-w-3xl mx-auto">
+              {/* Share button in top-right */}
+              <Share
+                className="absolute top-4 right-4 h-5 w-5 text-[#3f3f3f] cursor-pointer hover:text-primary transition"
+                aria-label="Share"
+                onClick={() => {
+                  navigator.clipboard.writeText(window.location.href)
+                    .then(() => {
+                      setShowToast(true);
+                      setTimeout(() => setShowToast(false), 3000);
+                    })
+                    .catch(() => {
+                      alert("Failed to copy URL");
+                    });
+                }}
+              />
 
-                    <div>
-                      <h3 className="text-primary text-5xl font-bold mb-6">Gender</h3>
-                      <p className="text-[#000000] text-4xl font-medium">{petDetails.gender}</p>
-                    </div>
 
-                    <div>
-                      <h3 className="text-primary text-5xl font-bold mb-6">Age</h3>
-                      <p className="text-[#000000] text-4xl font-medium">{petDetails.age} Months</p>
-                    </div>
-                  </div>
+              {/* Title */}
+              <h2 className="text-primary text-3xl font-bold text-center mb-8">The Basics</h2>
+
+              {/* Grid layout */}
+              <div className="grid grid-cols-2 gap-y-6 gap-x-16 mb-10">
+                <div className="flex justify-between text-base text-gray-700">
+                  <span className="font-semibold">Breed</span>
+                  <span>{petDetails.breed}</span>
+                </div>
+                <div className="flex justify-between text-base text-gray-700">
+                  <span className="font-semibold">Pet ID</span>
+                  <span>{petDetails.$id}</span>
                 </div>
 
-                {/* Divider */}
-                <hr className="border-[#c6c6c6]" />
+                <div className="flex justify-between text-base text-gray-700">
+                  <span className="font-semibold">Color</span>
+                  <span>{petDetails.color}</span>
+                </div>
+                <div className="flex justify-between text-base text-gray-700">
+                  <span className="font-semibold">Hair Length</span>
+                  <span>{petDetails.hair_length}</span>
+                </div>
 
-                {/* Health Info Section */}
-                <div>
-                  <h2 className="text-[#55514f] text-3xl font-medium mb-8">Health Info</h2>
-
-                  <ul className="space-y-4 text-[#000000] text-2xl">
-
-                    {petDetails && petDetails.health_info.map((item, index) =>
-                      <li key={index} className="flex items-start">
-                        <span className="text-3xl mr-4">•</span>
-                        <span>{item}</span>
-                      </li>)}
-                  </ul>
+                <div className="flex justify-between text-base text-gray-700">
+                  <span className="font-semibold">Age</span>
+                  <span>{petDetails.age}</span>
+                </div>
+                <div className="flex justify-between text-base text-gray-700">
+                  <span className="font-semibold">Sex</span>
+                  <span>{petDetails.gender}</span>
                 </div>
               </div>
-            </div>
 
+              <hr className="border-t border-gray-300 mb-8" />
+
+              {/* Health Info */}
+              <div>
+                <h2 className="text-primary text-2xl font-semibold mb-6">Health Info</h2>
+                <ul className="space-y-4 text-base text-gray-800">
+                  {petDetails?.health_info?.map((item, index) => (
+                    <li key={index} className="flex items-start leading-relaxed">
+                      <span className="text-xl mr-3 text-primary">•</span>
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
 
 
           </div>
@@ -205,7 +233,7 @@ export default function PetAdoption() {
                   <h3 className="font-medium">Considering {petDetails.name} for adoption?</h3>
                 </div>
                 <button className="ml-auto">
-                  {/* <Share className="h-5 w-5 text-[#3f3f3f] cursor-pointer hover:text-primary" /> */}
+
                   <Share
                     className="h-5 w-5 text-[#3f3f3f] cursor-pointer hover:text-primary"
                     onClick={() => {
@@ -342,13 +370,12 @@ export default function PetAdoption() {
         </div>
         <MorePets orgId={petDetails.organization_id} specieName={petDetails.specie} />
       </div>
+
       {showToast && (
         <div className="fixed top-4 left-1/2 transform -translate-x-1/2 bg-blue-500 text-white text-sm px-4 py-2 rounded shadow-md transition-opacity duration-300">
           URL copied to clipboard!
         </div>
       )}
     </div>
-
-  )
+  );
 }
-

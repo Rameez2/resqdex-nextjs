@@ -13,29 +13,31 @@ const UploadPet = () => {
   const { user } = useUser();
   const [petInfo, setPetInfo] = useState(
     {
-      name: "Willow",
-      age: 7,
-      adoption_fees:78,
-      specie: "Horse",
-      breed: "Arabian",
-      size: "Large",
-      contact: "willow.stable@example.com",
-      gender: "Female",
-      location: "Lexington, KY",
-      days_in_care: 120,
+      name: "Max",
+      age: 4,
+      adoption_fees: 800,
+      specie: "Dog",
+      breed: "Labrador Retriever",
+      size: "Medium",
+      contact: "max.shelter@example.com",
+      gender: "Male",
+      location: "Austin, TX",
+      days_in_care: 45,
       personality_and_traits: [
-        "Graceful and calm",
-        "Moderate activity, enjoys trails",
-        "Excellent with children",
-        "Gentle and patient temperament"
+        "Friendly and playful",
+        "High energy, loves fetch",
+        "Good with other dogs",
+        "Eager to please and trainable"
       ],
-      health_info: ["Vaccinated", "Shoes maintained"],
-      my_dream: "To gallop freely across open fields and bond with a loving rider!",
-      bio: "I'm Willow, an elegant Arabian horse, full of spirit and beauty.",
-      rescue_story: "Rescued from a neglected farm, now thriving and ready for a loving home."
+      hair_length: "Short",
+      color: "Golden",
+      health_info: ["Neutered", "Fully vaccinated", "Microchipped"],
+      my_dream: "To play in a big yard and cuddle with my forever family every night.",
+      bio: "Hi, I'm Max! I'm a loyal and energetic Lab mix who loves to run, play, and be your best friend.",
+      rescue_story: "Found as a stray during a thunderstorm, Max was taken in and has been thriving ever since. He's ready to find a loving home."
     }
-);
-
+  );
+  
 
   const [mainImageFile, setMainImageFile] = useState(null);
   const [imageFiles, setImageFiles] = useState([]); // State for multiple images
@@ -61,8 +63,10 @@ const UploadPet = () => {
     } else {
       setPetInfo((prevState) => ({
         ...prevState,
-        [name]: (name === 'age' || name === 'days_in_care') 
-          ? parseInt(value, 10) || '' 
+        [name]: name === 'age' || name === 'days_in_care'
+          ? parseInt(value, 10) || ''
+          : name === 'adoption_fees'
+          ? parseFloat(value) || ''
           : value,
       }));
     }
@@ -223,6 +227,33 @@ const UploadPet = () => {
             />
           </div>
 
+          <div className="flex-1 min-w-[200px] max-w-sm">
+            <label className="block text-sm text-gray-700 mb-1">Color:</label>
+            <input
+              type="text"
+              name="color"
+              value={petInfo.color}
+              onChange={handleChange}
+              className="w-full p-2 border rounded-md"
+              placeholder="e.g. White, Black, Brown"
+              required
+            />
+          </div>
+
+          <div className="flex-1 min-w-[200px] max-w-sm">
+            <label className="block text-sm text-gray-700 mb-1">Hair Length:</label>
+            <input
+              type="text"
+              name="hair_length"
+              value={petInfo.hair_length}
+              onChange={handleChange}
+              className="w-full p-2 border rounded-md"
+              placeholder="e.g. Short, Medium, Long"
+              required
+            />
+          </div>
+
+
           <div className="flex-1 min-w-[160px] max-w-sm">
             <label className="block text-sm text-gray-700 mb-1">Gender:</label>
             <select
@@ -350,7 +381,7 @@ const UploadPet = () => {
               placeholder="What is the pet's dream?"
             />
 
-<label className="block text-sm text-gray-700 mb-1">Days in care:</label>
+            <label className="block text-sm text-gray-700 mb-1">Days in care:</label>
             <input
               type="number"
               name="days_in_care"
@@ -358,23 +389,25 @@ const UploadPet = () => {
               onChange={handleChange}
               className="w-full p-2 border rounded-md"
               placeholder="e.g. 3"
-              required 
+              required
             />
           </div>
         </div>
 
         <div className="flex-1 min-w-[120px] max-w-[150px]">
-  <label className="block text-sm text-gray-700 mb-1">Adoption Fees ($):</label>
-  <input
-    type="number"
-    name="adoption_fees"
-    value={petInfo.adoption_fees}
-    onChange={handleChange}
-    className="w-full p-2 border rounded-md"
-    placeholder="e.g. 50"
-    required
-  />
-</div>
+          <label className="block text-sm text-gray-700 mb-1">Adoption Fees ($):</label>
+          <input
+            type="number"
+            name="adoption_fees"
+            value={petInfo.adoption_fees}
+            onChange={handleChange}
+            className="w-full p-2 border rounded-md"
+            placeholder="e.g. 50"
+            required
+          />
+        </div>
+
+
 
 
         <div className="flex flex-wrap gap-4 w-full">

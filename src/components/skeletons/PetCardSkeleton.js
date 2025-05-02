@@ -1,11 +1,8 @@
-import { Heart } from "lucide-react";
-import Link from "next/link";
-import ArrowButton from "../ui/ArrowButton";
 
 const PetCardSkeleton = () => {
     return (
         <>
-            {[...Array(5)].map((_, index) => (
+            {[...Array(6)].map((_, index) => (
             <div key={index} role="status" className="rounded-lg overflow-hidden max-w-md space-y-4 border border-gray-200 divide-y divide-gray-200 rounded-sm shadow-sm animate-pulse dark:divide-gray-700 dark:border-gray-700">
         
             {/* Image Section */}
