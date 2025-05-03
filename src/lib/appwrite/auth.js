@@ -42,6 +42,15 @@ export const registerUser = async (name, email, password, role) => {
   // Now create a additional_info document
   let newAddInfo;
 
+
+    // Step 2: Add user data to the users collection
+    const userData = {
+      name: name,
+      email: email,
+      role: role, // Role (e.g., adopter, organization)
+      userId: user.$id, // Add the Auth userId to the user document
+    };
+
   if(role === "Adopter") {
     // ADOPTER INFO
     newAddInfo = await databases.createDocument(
@@ -50,6 +59,7 @@ export const registerUser = async (name, email, password, role) => {
       ID.unique(), // Unique Document ID
       { personal_info: ["dumy"] }
     );
+    userData.additionalInfo = newAddInfo.$id;
   }
   else {
     // organization info
@@ -59,17 +69,20 @@ export const registerUser = async (name, email, password, role) => {
       ID.unique(), // Unique Document ID
       {adoption_fees:["0","1000"]}
     );
+    userData.organizationData = newAddInfo.$id;
+
   }
   if(newAddInfo) {
     
-    // Step 2: Add user data to the users collection
-    const userData = {
-      name: name,
-      email: email,
-      role: role, // Role (e.g., adopter, organization)
-      userId: user.$id, // Add the Auth userId to the user document
-      more_info: newAddInfo.$id
-    };
+    // // Step 2: Add user data to the users collection
+    // const userData = {
+    //   name: name,
+    //   email: email,
+    //   role: role, // Role (e.g., adopter, organization)
+    //   userId: user.$id, // Add the Auth userId to the user document
+    //   organizationData: newAddInfo.$id,
+    //   additionalInfo: newAddInfo.$id
+    // };
   
     const newUser = await databases.createDocument(
       process.env.NEXT_PUBLIC_DB_ID, // DB_ID

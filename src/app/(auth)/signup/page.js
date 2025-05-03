@@ -62,6 +62,8 @@ function SignUpForm() {
       }
       throw new Error("OTP DOES NOT MATCH");
     } catch (error) {
+      console.log('error,',error);
+      
       setToast({ message: error.message, type: "error" });
     } finally {
       setLoading(false); // Stop loading

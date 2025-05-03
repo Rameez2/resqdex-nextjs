@@ -20,9 +20,13 @@ const MyPets = () => {
         if (user) (async () => {
             try {
                 setLoading(true);
-                // const response = await getPetsByFilter(user.$id);
+                // FOR LATEST DATA TO BE FETCHED EVERYTIME WE CAN REMOVE THE COMMENTS 
                 const response = await getMyPets(user.$id);
-                setPets(response);
+                // console.log('user',user);
+                // console.log('my pets',response);
+                
+                // setPets(user.my_pets);
+                setPets(response)
             } catch (error) {
                 setError(error.message);
             } finally {

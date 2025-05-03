@@ -145,8 +145,9 @@ const OrganizationQuestionnaire = ({ onSubmit }) => {
         adoption_contract: fileId, // ensure it's passed
       };
 
-
-      const updatedDoc = await updateOrgForm(user.$id, user.more_info, updatedFormData);
+      console.log('uploading',user);
+      
+      const updatedDoc = await updateOrgForm(user.$id, user.organizationData.$id, updatedFormData);
       setUser({ ...user, status: "Pending" });
       // const updatedDoc = await updateRecord(user.$id, user.more_info, updatedFormData);
       setShowToast(true);

@@ -16,6 +16,9 @@ const MoreDetails = ({ detailsProp, setShowMoreDetails }) => {
                 setLoading(true);
                 const detailsResponse = await getMoreDetails(detailsProp.more_info);
                 setDetails(detailsResponse);
+                console.log('userr',detailsProp);
+                console.log('got details',detailsResponse);
+                
                 console.log(detailsResponse);
             } catch (err) {
                 console.error("Error fetching details:", err);

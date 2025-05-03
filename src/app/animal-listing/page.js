@@ -1,7 +1,6 @@
 "use client";
 
 import { Suspense } from "react";
-
 import { ChevronDown, ChevronLeft, ChevronRight } from "lucide-react";
 import PetCard from "@/components/ui/PetCard";
 import PetFilters from "@/components/pagesComponents/animals-listing/PetFilters";
@@ -10,7 +9,6 @@ import { getPetsByFilter } from "@/lib/appwrite/pets";
 import PetCardSkeleton from "@/components/skeletons/PetCardSkeleton";
 import { useUser } from "@/context/userContext";
 import { useSearchParams } from "next/navigation";
-
 
 function HomeContent() {
   const searchParams = useSearchParams();
@@ -29,7 +27,7 @@ function HomeContent() {
   const [currentPage, setCurrentPage] = useState(0);
   const limit = 6; // pets per page
 
-  const {user} = useUser();
+  const { user } = useUser();
 
   const fetchPets = async (filters = {}, page = 0) => {
     try {
@@ -83,7 +81,6 @@ function HomeContent() {
                 </select>
                 <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 text-primary h-5 w-5" />
               </div>
-
             </div>
 
           </div>
@@ -110,6 +107,7 @@ function HomeContent() {
               <h1>No pets Available at the moment!</h1>
             )}
           </div>
+
           {/* Pagination */}
           {!loading && (
             <div className="flex justify-center mt-10 gap-4 mt-auto pt-10">

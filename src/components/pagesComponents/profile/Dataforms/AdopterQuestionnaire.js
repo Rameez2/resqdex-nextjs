@@ -89,7 +89,7 @@ const AdopterQuestionnaire = ({ isOpen, onClose, onSubmit }) => {
     try {
       setToast(null);
       setSubmitLoading(true);
-      const updatedDoc = await updateRecord(user.$id, user.more_info, formData, "adopter");
+      const updatedDoc = await updateRecord(user.$id, user.additionalInfo.$id, formData, "adopter");
       setToast({ message: "Application Submit Success!", type: "success" });
 
       user.status = "Pending";

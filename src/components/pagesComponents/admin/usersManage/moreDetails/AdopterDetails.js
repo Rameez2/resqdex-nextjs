@@ -13,14 +13,14 @@ const AdopterDetails = ({ user, setSelectedMoreInfo }) => {
 
 // FETCH ADOPTER DETAILS
 useEffect(() => {
-  if (!user?.more_info) return;
+  if (!user?.additionalInfo) return;
 
   (async () => {
     try {
       setLoading(true);
-      const detailsResponse = await getMoreDetails(user.more_info);
-      setInfo(detailsResponse);
-      console.log('info set', detailsResponse);
+      // const detailsResponse = await getMoreDetails(user.more_info);
+      setInfo(user.additionalInfo);
+      // console.log('info set', detailsResponse);
     } catch (err) {
       console.error("Error fetching details:", err);
 

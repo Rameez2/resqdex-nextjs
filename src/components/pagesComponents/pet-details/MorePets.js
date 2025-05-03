@@ -6,12 +6,11 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useUser } from '@/context/userContext';
 import { getUserById } from '@/lib/appwrite/user';
 
-const MorePets = ({ orgId,specieName }) => {
+const MorePets = ({ orgId,specieName,orgName }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [similarPets, setSimilarPets] = useState(null);
   const [pets, setPets] = useState(null);
-  const [orgName,setOrgName] = useState(null);
 
   const {user} = useUser();
   
@@ -28,20 +27,6 @@ const MorePets = ({ orgId,specieName }) => {
         setLoading(false);
       } catch (error) {
         console.log('Error while fetching pets', error.message);
-        setError(error.message);
-        setLoading(false);
-      }
-    })();
-  }, []);
-
-
-  useEffect(() => {
-    (async () => {
-      try {
-        const orgData = await getUserById(orgId);
-        setOrgName(orgData.name);
-      } catch (error) {
-        console.error(error.message);
         setError(error.message);
         setLoading(false);
       }

@@ -113,6 +113,7 @@ const UploadPet = () => {
         main_image: mainImgId,
         images: imageIds,
         organization_id: user.$id,
+        owner: user.$id
       };
 
       const formType = "upload";

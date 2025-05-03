@@ -28,6 +28,8 @@ export default function PetAdoption() {
       try {
         setLoading(true);
         const data = await getPetById(petId);
+        console.log('got pet details',data);
+        
         setPetDetails(data);
         setImages([data.main_image, ...data.images]);
       } catch (err) {
@@ -368,7 +370,7 @@ export default function PetAdoption() {
             </div>
           </div>
         </div>
-        <MorePets orgId={petDetails.organization_id} specieName={petDetails.specie} />
+        <MorePets orgId={petDetails.owner.$id} orgName={petDetails.owner.name} specieName={petDetails.specie} />
       </div>
 
       {showToast && (

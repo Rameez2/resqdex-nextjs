@@ -12,13 +12,18 @@ const OrganizationDetails = ({ user, setSelectedMoreInfo }) => {
   const [toast, setToast] = useState(null);
 
   useEffect(() => {
-    if (!user?.more_info) return;
+    if (!user?.organizationData) return;
 
     (async () => {
       try {
+        console.log('/loading started');
+        
         setLoading(true);
-        const detailsResponse = await getOrgDetails(user.more_info);
-        setInfo(detailsResponse);
+        // const detailsResponse = await getOrgDetails(user.organizationData.$id);
+        // setInfo(detailsResponse);
+        console.log('org details',user.organizationData);
+        
+        setInfo(user.organizationData);
       } catch (err) {
         console.error("Error fetching details:", err);
       } finally {
