@@ -11,7 +11,7 @@ export default function SearchBanner() {
   const [filters, setFilters] = useState({
     specie: "Cat",
     breed: "",
-    age: 1,
+    age: undefined,
     gender:""
     // location: "",
   });
@@ -84,7 +84,7 @@ export default function SearchBanner() {
               id="breed"
               value={filters.breed}
               onChange={(e) => handleFilterChange("breed", e.target.value)}
-              className="w-full p-3 border border-gray-200 rounded-md text-gray-500 bg-white focus:outline-none"
+              className="w-full p-3 border border-gray-200 rounded-md text-gray-500 bg-white focus:outline-none appearance-none"
             >
               <option value="">Select Breed</option>
               {breedsData[activeTab]?.map((breed, index) => (
@@ -102,9 +102,9 @@ export default function SearchBanner() {
               id="age"
               value={filters.age}
               onChange={(e) => handleFilterChange("age", e.target.value)}
-              className="w-full p-3 border border-gray-200 rounded-md text-gray-500 bg-white focus:outline-none"
+              className="w-full p-3 border border-gray-200 rounded-md text-gray-500 bg-white focus:outline-none appearance-none"
             >
-              <option value={1} disabled>Age</option>
+              <option value="" >Age</option>
               <option value={1}>1</option>
               <option value={2}>2</option>
               <option value={3}>3</option>
@@ -113,23 +113,6 @@ export default function SearchBanner() {
             </select>
           </div>
 
-          {/* Location */}
-          {/* <div className="flex-1">
-            <label htmlFor="location" className="sr-only">Location</label>
-            <select
-              id="location"
-              value={filters.location}
-              onChange={(e) => handleFilterChange("location", e.target.value)}
-              className="w-full p-3 border border-gray-200 rounded-md text-gray-500 bg-white focus:outline-none"
-            >
-              <option value="" disabled>Location</option>
-              <option value="nearby">Nearby</option>
-              <option value="10miles">Within 10 miles</option>
-              <option value="25miles">Within 25 miles</option>
-              <option value="50miles">Within 50 miles</option>
-            </select>
-          </div> */}
-
                     {/* Gender */}
           <div className="flex-1">
             <label htmlFor="gender" className="sr-only">Gender</label>
@@ -137,7 +120,7 @@ export default function SearchBanner() {
               id="gender"
               value={filters.gender}
               onChange={(e) => handleFilterChange("gender", e.target.value)}
-              className="w-full p-3 border border-gray-200 rounded-md text-gray-500 bg-white focus:outline-none"
+              className="w-full p-3 border border-gray-200 rounded-md text-gray-500 bg-white focus:outline-none appearance-none"
             >
               <option value="">Gender</option>
               <option value="Male">Male</option>
