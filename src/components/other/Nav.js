@@ -22,8 +22,11 @@ const Nav = () => {
   return (
     <div className="border-b border-primary">
       {/* Header */}
-      <header className="container mx-auto px-4 py-4 flex items-center justify-between gap-2">
-        <div className="text-3xl font-bold">Logo</div>
+      <header className="container h-[70px] mx-auto px-4 py-4 flex items-center justify-between gap-2">
+      <div className="relative w-[120px] h-auto">
+  <img src="/logo.png" alt="Logo" className="absolute top-[-34px] left-0 w-full h-auto" />
+</div>
+
         <nav className="hidden md:flex items-center space-x-8 font-bold whitespace-nowrap">
           <Link href="/" className="text-[#000000] hover:text-primary">
             Home

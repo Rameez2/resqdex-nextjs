@@ -7,8 +7,8 @@ export default function Footer() {
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Logo Column */}
-          <div>
-            <h2 className="text-4xl font-bold mb-8">Logo</h2>
+          <div className="relative w-[170px] h-auto">
+            <img src="/logo.png" alt="Logo" className="" />
           </div>
 
           {/* INFO Column */}
