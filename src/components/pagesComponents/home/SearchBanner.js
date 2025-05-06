@@ -72,7 +72,7 @@ export default function SearchBanner() {
 
         {/* Search Form */}
         <form
-          className="flex w-full max-w-2xl gap-4 mb-8 flex-col sm:flex-row"
+          className="flex w-full items-center max-w-2xl gap-4 mb-8 flex-col sm:flex-row"
           role="search"
           aria-label="Pet Search Form"
           onSubmit={handleSubmit} // Attach submit handler
