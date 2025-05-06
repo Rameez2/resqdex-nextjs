@@ -352,10 +352,11 @@ const OrganizationQuestionnaire = ({ onSubmit }) => {
       <div className="grid grid-cols-2 gap-6 bg-green-500">
         {/* First Name */}
         <div className="flex flex-col">
-          <label>First Name</label>
+          {/* <label>First Name</label> */}
           <input
             type="text"
             className="border p-2 rounded-md"
+            placeholder="First Name"
             value={formData.adoption_ambassador[0]}
             onChange={(e) => handleChange("adoption_ambassador", e.target.value, 0)}
           />
@@ -363,9 +364,10 @@ const OrganizationQuestionnaire = ({ onSubmit }) => {
 
         {/* Last Name */}
         <div className="flex flex-col">
-          <label>Last Name</label>
+          {/* <label>Last Name</label> */}
           <input
             type="text"
+            placeholder="Last Name"
             className="border p-2 rounded-md"
             value={formData.adoption_ambassador[1]}
             onChange={(e) => handleChange("adoption_ambassador", e.target.value, 1)}
@@ -374,9 +376,10 @@ const OrganizationQuestionnaire = ({ onSubmit }) => {
 
         {/* Phone */}
         <div className="flex flex-col">
-          <label>Phone</label>
+          {/* <label>Phone</label> */}
           <input
             type="text"
+            placeholder="Phone"
             className="border p-2 rounded-md"
             value={formData.adoption_ambassador[2]}
             onChange={(e) => handleChange("adoption_ambassador", e.target.value, 2)}
@@ -385,9 +388,10 @@ const OrganizationQuestionnaire = ({ onSubmit }) => {
 
         {/* Phone Ext */}
         <div className="flex flex-col">
-          <label>Phone Ext</label>
+          {/* <label>Phone Ext</label> */}
           <input
             type="text"
+            placeholder="Phone Ext"
             className="border p-2 rounded-md"
             value={formData.adoption_ambassador[3]}
             onChange={(e) => handleChange("adoption_ambassador", e.target.value, 3)}
@@ -396,9 +400,10 @@ const OrganizationQuestionnaire = ({ onSubmit }) => {
 
         {/* Email */}
         <div className="flex flex-col col-span-2 sm:col-span-1">
-          <label>Email</label>
+          {/* <label>Email</label> */}
           <input
             type="email"
+            placeholder="Email"
             className="border p-2 rounded-md"
             value={formData.adoption_ambassador[4]}
             onChange={(e) => handleChange("adoption_ambassador", e.target.value, 4)}
@@ -407,9 +412,10 @@ const OrganizationQuestionnaire = ({ onSubmit }) => {
 
         {/* Verify Email */}
         <div className="flex flex-col col-span-2 sm:col-span-1">
-          <label>Verify Email</label>
+          {/* <label>Verify Email</label> */}
           <input
             type="email"
+            placeholder="Verify Email"
             className="border p-2 rounded-md"
             value={formData.adoption_ambassador[5]}
             onChange={(e) => handleChange("adoption_ambassador", e.target.value, 5)}
@@ -462,7 +468,7 @@ const OrganizationQuestionnaire = ({ onSubmit }) => {
         {/* 501(c)(3) Non-profit */}
 
         <div className="flex flex-col">
-          <label>Tax ID Number</label>
+          <label>If your organization is a 501(c)(3) nonprofit, please provide your Tax ID number.</label>
           <input
             type="text"
             className="border p-2 rounded-md"
