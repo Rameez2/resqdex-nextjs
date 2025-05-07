@@ -84,7 +84,7 @@ const MorePets = ({ orgId,specieName,orgName }) => {
 
       {/* Header: Explore Other Options */}
       <h2 className="text-center text-primary text-5xl font-bold mt-24 mb-16">
-        Explore Other Options
+      {specieName} for adoption nearby
       </h2>
 
       <div className="flex justify-end gap-2 pr-5 mb-3">

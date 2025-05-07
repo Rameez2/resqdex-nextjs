@@ -131,7 +131,7 @@ function SignUpForm() {
             </div>
           </div>
           <span className="block text-sm text-gray-500">
-            Must be at least 6 characters, include an uppercase letter and a number.
+          Password must be at least 6 characters long, contain 1 uppercase letter, 1 lowercase letter, 1 number, and 1 special character.
           </span>
 
           {/* Role */}
@@ -199,7 +199,7 @@ function SignUpForm() {
                   <input
                     id="otp"
                     type="text"
-                    placeholder="Enter the OTP sent to your email"
+                    placeholder="OTP code"
                     value={userOTP}
                     onChange={(e) => setUserOTP(e.target.value)}
                     className="w-full rounded-md border border-[#d8dadc] px-4 py-3 text-black outline-none focus:border-primary focus:ring-1 focus:ring-primary"
