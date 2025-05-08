@@ -49,7 +49,7 @@ const Nav = () => {
                 <>
                   {/* Verified
                <BadgeCheck className="w-9 h-9 text-[#00bc00]" /> */}
-                  <span className="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-sm dark:bg-green-900 dark:text-green-300">Approved</span>
+                  <span className="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-sm dark:bg-green-900 dark:text-green-300">Verified</span>
                 </> :
                 user.status === "Apply" ? <>
                   <Link href="/profile">

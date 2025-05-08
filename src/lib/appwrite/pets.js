@@ -24,6 +24,13 @@ export const getPetsByFilter = async (numberOfPets = 10, offset = 0, filters = {
     if (filters.gender && filters.gender.trim() !== "") {
       queries.push(Query.equal("gender", filters.gender));
     }
+    if (filters.color && filters.color.trim() !== "") {
+      queries.push(Query.equal("color", filters.color));
+    }
+
+    if (filters.good_with && filters.good_with.trim() !== "") {
+      queries.push(Query.contains("good_with", filters.good_with));
+    }
 
     // Fetch pets with applied filters
     const petsResponse = await databases.listDocuments(
@@ -78,7 +85,13 @@ export const getMyPets = async (userId) => {
   return pets;
 };
 
-export const uploadPet = async (petData) => {
+export const uploadPet = async (petData,orgStatus) => {
+
+  if(orgStatus !== "Approved") {
+    throw new Error("Organization not approved");
+    return 0;
+  }
+
   const response = await databases.createDocument(
           process.env.NEXT_PUBLIC_DB_ID,
           process.env.NEXT_PUBLIC_ANIMALS_ID,

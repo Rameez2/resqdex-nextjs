@@ -28,8 +28,8 @@ export default function PetAdoption() {
       try {
         setLoading(true);
         const data = await getPetById(petId);
-        console.log('got pet details',data);
-        
+        console.log('got pet details', data);
+
         setPetDetails(data);
         setImages([data.main_image, ...data.images]);
       } catch (err) {
@@ -76,7 +76,7 @@ export default function PetAdoption() {
         <div className="relative overflow-x-auto py-4 flex justify-center">
           <div
             ref={carouselRef}
-            className="flex gap-4 snap-x snap-mandatory justify-start items-center overflow-x-auto"  style={{scrollbarWidth:'none'}}
+            className="flex gap-4 snap-x snap-mandatory justify-start items-center overflow-x-auto" style={{ scrollbarWidth: 'none' }}
           >
             {images.map((img, index) => (
               <div
@@ -326,9 +326,14 @@ export default function PetAdoption() {
                   <div>
                     <h2 className="text-[#000000] text-sm font-medium">
                       Behavior
-                      {/* <span className="text-[#7d7d7d] font-normal text-base">(around other pets and children)</span> */}
+                      <span className="text-[#7d7d7d] font-normal text-base"> (around other pets and children)</span>
                     </h2>
-                    <p className="text-primary text-sm mt-1">{petDetails.personality_and_traits[3]}</p>
+                    <h3 className="text-[#000000] text-sm font-bold">GOOD IN HOME WITH</h3>
+                    <p className="text-primary text-sm mt-1">{petDetails.good_with}</p>
+
+                    <h3 className="text-[#000000] text-sm font-bold">NOT GOOD IN HOME WITH</h3>
+                    <p className="text-primary text-sm mt-1">{petDetails.not_good_with}</p>
+
                   </div>
                 </div>
 

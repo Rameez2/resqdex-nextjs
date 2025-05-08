@@ -29,6 +29,8 @@ const UploadPet = () => {
         "Good with other dogs",
         "Eager to please and trainable"
       ],
+      good_with: [],//new
+      not_good_with: [], //new
       hair_length: "Short",
       color: "Golden",
       health_info: ["Neutered", "Fully vaccinated", "Microchipped"],
@@ -63,7 +65,9 @@ const UploadPet = () => {
     } else {
       setPetInfo((prevState) => ({
         ...prevState,
-        [name]: name === 'age' || name === 'days_in_care'
+        [name]: ['good_with', 'not_good_with', 'health_info'].includes(name)
+          ? value
+          : name === 'age' || name === 'days_in_care'
           ? parseInt(value, 10) || ''
           : name === 'adoption_fees'
           ? parseFloat(value) || ''
@@ -120,7 +124,7 @@ const UploadPet = () => {
 
       formType === 'update'
         ? await updatePetById(petId, petData)
-        : await uploadPet(petData);
+        : await uploadPet(petData,user.status);
 
       setToast({ message: "Pet Upload success!", type: "success" });
 
@@ -137,6 +141,8 @@ const UploadPet = () => {
         bio: '',
         rescue_story: '',
         personality_and_traits: [''],
+        good_with: [],
+        not_good_with: [], 
         health_info: [''],
         my_dream: '',
         days_in_care: 0,
@@ -360,8 +366,15 @@ const UploadPet = () => {
             />
           </div>
 
+          
+
 
           <div className="flex-1 min-w-[250px] max-w-[50%]">
+
+
+
+
+
             {/* Health Info */}
             <label className="block text-sm text-gray-700 mb-1">Health Info:</label>
             <input
@@ -393,20 +406,65 @@ const UploadPet = () => {
               required
             />
           </div>
+          
         </div>
 
-        <div className="flex-1 min-w-[120px] max-w-[150px]">
-          <label className="block text-sm text-gray-700 mb-1">Adoption Fees ($):</label>
-          <input
-            type="number"
-            name="adoption_fees"
-            value={petInfo.adoption_fees}
-            onChange={handleChange}
-            className="w-full p-2 border rounded-md"
-            placeholder="e.g. 50"
-            required
-          />
-        </div>
+        <div className="flex flex-wrap gap-4">
+  {/* Adoption Fees */}
+  <div className="flex-1 min-w-[120px] max-w-[150px]">
+    <label className="block text-sm text-gray-700 mb-1">Adoption Fees ($):</label>
+    <input
+      type="number"
+      name="adoption_fees"
+      value={petInfo.adoption_fees}
+      onChange={handleChange}
+      className="w-full p-2 border rounded-md"
+      placeholder="e.g. 50"
+      required
+    />
+  </div>
+
+  {/* Good With */}
+  <div className="flex-1 min-w-[120px] max-w-[200px]">
+    <label className="block text-sm text-gray-700 mb-1">Good With:</label>
+    <input
+      type="text"
+      name="good_with"
+      value={petInfo.good_with?.join(', ') || ''}
+      onChange={(e) =>
+        handleChange({
+          target: {
+            name: 'good_with',
+            value: e.target.value.split(',').map((item) => item.trim()),
+          },
+        })
+      }
+      className="w-full p-2 border rounded-md"
+      placeholder="e.g. Kids, Cats, Other Dogs"
+    />
+  </div>
+
+  {/* Not Good With */}
+  <div className="flex-1 min-w-[120px] max-w-[200px]">
+    <label className="block text-sm text-gray-700 mb-1">Not Good With:</label>
+    <input
+      type="text"
+      name="not_good_with"
+      value={petInfo.not_good_with?.join(', ') || ''}
+      onChange={(e) =>
+        handleChange({
+          target: {
+            name: 'not_good_with',
+            value: e.target.value.split(',').map((item) => item.trim()),
+          },
+        })
+      }
+      className="w-full p-2 border rounded-md"
+      placeholder="e.g. Small pets, Loud noises"
+    />
+  </div>
+</div>
+
 
 
 

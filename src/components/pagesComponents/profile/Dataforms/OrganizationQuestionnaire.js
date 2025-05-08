@@ -300,7 +300,7 @@ const OrganizationQuestionnaire = ({ onSubmit }) => {
 
       {/* Mailing Address */}
       <h3 className="text-lg font-semibold mt-6">Mailing Address</h3>
-      <div className="grid grid-cols-2 gap-6 bg-green-500">
+      <div className="grid grid-cols-2 gap-6 bg-[#67cf7f] p-5 rounded-lg">
         {/* Mailing Address */}
         <div className="flex flex-col col-span-2 sm:col-span-1">
           <label>Address</label>
@@ -349,7 +349,7 @@ const OrganizationQuestionnaire = ({ onSubmit }) => {
 
       {/* Adoption Ambassador */}
       <h3 className="text-lg font-semibold mt-6">Adoption Ambassador</h3>
-      <div className="grid grid-cols-2 gap-6 bg-green-500">
+      <div className="grid grid-cols-2 gap-6 bg-[#67cf7f] p-5 rounded-lg">
         {/* First Name */}
         <div className="flex flex-col">
           {/* <label>First Name</label> */}
