@@ -7,7 +7,7 @@ import UploadPost from './adopter/UploadPost';
 
 const Actions = () => {
     const { user } = useUser();
-    const [activeTab, setActiveTab] = useState(user.role === "Organization" ? 'Upload Pet' : 'Upload Post');
+    const [activeTab, setActiveTab] = useState(user.role === "Organization" ? 'My Pets' : 'Upload Post');
 
     if (user.status !== "Approved") {
         return (
@@ -27,7 +27,9 @@ const Actions = () => {
             {user.role === "Organization" ?
                 <div >
                     <ul className="flex flex-wrap text-sm font-medium text-center text-gray-500 border-b border-gray-200" >
-                        {['Upload Pet', 'My Pets', 'Other'].map((tab) => (
+                        {[
+                        'My Pets',
+                         'Other'].map((tab) => (
                             <li key={tab} className="me-2">
                                 <button
                                     onClick={() => setActiveTab(tab)}
@@ -39,8 +41,8 @@ const Actions = () => {
                         ))}
                     </ul>
 
-                    {activeTab === 'Upload Pet' && <UploadPet />}
                     {activeTab === 'My Pets' && <MyPets />}
+                    {/* {activeTab === 'Upload Pet' && <UploadPet />} */}
                 </div>
                 :
                 <div >

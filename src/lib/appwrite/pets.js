@@ -1,3 +1,5 @@
+import { removeDollarKeys } from "../others/helpers";
+
 const { Query, ID } = require("appwrite");
 const { databases} = require("./appwrite");
 
@@ -102,6 +104,22 @@ export const uploadPet = async (petData,orgStatus) => {
       );
       return response; // Return the created document response
 };
+
+
+export const updatePet = async (petId, petData) => {
+  const cleanData = removeDollarKeys(petData);
+  console.log('clean data',cleanData);
+  
+  const response = await databases.updateDocument(
+    process.env.NEXT_PUBLIC_DB_ID,        // Your DB ID
+    process.env.NEXT_PUBLIC_ANIMALS_ID,   // Your collection ID
+    petId,                                // ID of the pet to update
+    { ...cleanData }                        // New data to update with
+  );
+
+  return response;
+};
+
 
 export const deleteMyPet = async (petId) => {
   

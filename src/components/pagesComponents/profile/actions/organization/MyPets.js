@@ -6,6 +6,7 @@ import { storage } from '@/lib/appwrite/appwrite';
 import { deleteMyPet, getMyPets } from '@/lib/appwrite/pets';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
+import UploadPet from './UploadPet';
 
 const MyPets = () => {
     const [pets, setPets] = useState([]);
@@ -13,6 +14,10 @@ const MyPets = () => {
     const [error, setError] = useState(false);
     const [deletingPetId, setDeletingPetId] = useState(null);
     const [showToast, setShowToast] = useState(false);
+    const [showModel,setShowModel] = useState(false);
+    const [formType,setFormType] = useState("upload");
+    const [petId,setPetId] = useState("");
+
 
     const { user } = useUser();
 
@@ -59,9 +64,15 @@ const MyPets = () => {
     );
 
     return (
-        <div className="max-w-5xl mx-auto mt-6 bg-white shadow-md rounded-lg overflow-hidden p-6">
-            <h1 className="text-2xl font-semibold text-center mb-4">My Pets</h1>
+        <div className="max-w-5xl relative mx-auto mt-6 bg-white shadow-md rounded-lg overflow-hidden p-6">
+<button
+  className="absolute top-2 right-5 px-4 py-2 text-white bg-primary rounded-md hover:bg-primary/90"
+  onClick={() => setShowModel(true)}
+>
+  Add new pet
+</button>
 
+            <h1 className="text-2xl font-semibold text-center mb-4">My Pets</h1>
             <div className="overflow-x-auto">
                 <table className="w-full text-sm text-left text-black">
                     <thead className="text-xs uppercase bg-gray-100">
@@ -102,6 +113,7 @@ const MyPets = () => {
                                         <button
                                             className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 flex items-center justify-center w-20"
                                             disabled={deletingPetId === item.$id}
+                                            onClick={() => {setFormType("update");setPetId(item.$id);setShowModel(true)}}
                                         >
                                             Edit
                                         </button>
@@ -130,6 +142,7 @@ const MyPets = () => {
             </div>
 
             {showToast && <Toast content="Pet Deleted!" type="success" />}
+            {showModel && <UploadPet setShowModel={setShowModel} formType={formType} petId={petId}/>}
         </div>
     );
 };
