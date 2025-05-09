@@ -72,7 +72,8 @@ function SignUpForm() {
 
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-[#fbf5f0] pr-5 pl-5">
+<div className="flex min-h-screen items-center justify-center bg-[#fbf5f0] pr-5 pl-5 pt-10 pb-10">
+
       <div className="w-full max-w-md rounded-3xl bg-white p-8 shadow-sm">
         <h1 className="mb-6 text-3xl font-bold text-black" onClick={() => console.log(formData)}>Sign up</h1>
 

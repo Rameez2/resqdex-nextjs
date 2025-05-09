@@ -85,13 +85,64 @@ const initialState = {
 
 const orgReducer = (state, action) => {
   const { field, value, index } = action;
+
+  // Handle checkbox checked state change for Mailing Address
+  if (field === "checkboxChecked") {
+    const newMailingAddress = value
+      ? [...state.physical_address] // If checkbox is checked, use physical address
+      : state.mailing_address; // If checkbox is unchecked, keep mailing address as is
+
+    return {
+      ...state,
+      checkboxChecked: value,
+      mailing_address: newMailingAddress, // Update mailing address based on checkbox
+    };
+  }
+
+  // Handle checkbox checked state change for Adoption Ambassador
+  if (field === "checkboxCheckedAmbassador") {
+    // const newAdoptionAmbassador = value
+    //   ? [...state.shelter_info] // If checkbox is checked, use shelter info
+    //   : state.adoption_ambassador; // If checkbox is unchecked, keep adoption ambassador as is
+    const newAdoptionAmbassador = [...state.adoption_ambassador];
+    if (value) {
+      // Use shelter_info for the adoption ambassador if checkbox is checked
+      newAdoptionAmbassador[0] = state.shelter_info[1]; // First Name
+      newAdoptionAmbassador[1] = state.shelter_info[2]; // Last Name
+      // newAdoptionAmbassador[2] = state.shelter_info[2]; // Phone
+      // newAdoptionAmbassador[3] = state.shelter_info[3]; // Phone Ext
+      
+      // Dynamically set the email field (assuming the email is based on the First Name)
+      // You can change this to any logic or field if needed
+      // newAdoptionAmbassador[4] = `${state.shelter_info[0].toLowerCase()}@example.com`; // Email
+
+    } else {
+      // If unchecked, retain the original adoption ambassador details
+      newAdoptionAmbassador[0] = state.adoption_ambassador[0];
+      newAdoptionAmbassador[1] = state.adoption_ambassador[1];
+      newAdoptionAmbassador[2] = state.adoption_ambassador[2];
+      newAdoptionAmbassador[3] = state.adoption_ambassador[3];
+      newAdoptionAmbassador[4] = state.adoption_ambassador[4];
+    }
+
+    return {
+      ...state,
+      checkboxCheckedAmbassador: value,
+      adoption_ambassador: newAdoptionAmbassador, // Update adoption ambassador based on checkbox
+    };
+  }
+
+  // Handle changes for array fields like mailing_address or adoption_ambassador
   if (Array.isArray(state[field])) {
     const updatedArray = [...state[field]];
     updatedArray[index] = value;
     return { ...state, [field]: updatedArray };
   }
+
+  // Handle regular field updates
   return { ...state, [field]: value };
 };
+
 
 
 const OrganizationQuestionnaire = ({ onSubmit }) => {
@@ -122,13 +173,13 @@ const OrganizationQuestionnaire = ({ onSubmit }) => {
 
       const file = adoptionContractFile; // Assuming this is set from your input
       let fileId = null;
-    
+
       if (file) {
         fileId = await uploadFile(file);
       }
 
-      console.log('got file id',fileId);
-      
+      console.log('got file id', fileId);
+
 
 
       const adoptedArray = [];
@@ -138,15 +189,18 @@ const OrganizationQuestionnaire = ({ onSubmit }) => {
           adoptedArray.push(animal);
         }
       });
+    // Remove the checkbox state from the form data before passing it to the backend
+    const { checkboxChecked, ...formDataWithoutCheckbox } = formData; // Destructure and remove checkboxChecked
+    const { checkboxCheckedAmbassador, ...NewformDataWithoutCheckbox } = formDataWithoutCheckbox; // Destructure and remove checkboxChecked
 
       const updatedFormData = {
-        ...formData,
+        ...NewformDataWithoutCheckbox,
         adopted: adoptedArray, // already present
         adoption_contract: fileId, // ensure it's passed
       };
 
-      console.log('uploading',user);
-      
+      console.log('uploading', user);
+
       const updatedDoc = await updateOrgForm(user.$id, user.organizationData.$id, updatedFormData);
       setUser({ ...user, status: "Pending" });
       // const updatedDoc = await updateRecord(user.$id, user.more_info, updatedFormData);
@@ -159,7 +213,14 @@ const OrganizationQuestionnaire = ({ onSubmit }) => {
     }
   };
 
+  const handleCheckboxChange = () => {
+    dispatch({ field: "checkboxChecked", value: !formData.checkboxChecked });
+  };
 
+  const handleAmbassaborCheckboxChange = () => {
+    dispatch({ field: "checkboxCheckedAmbassador", value: !formData.checkboxCheckedAmbassador });
+  };
+  
 
 
   if (loading) return <h1 className="text-center text-xl font-bold">Loading...</h1>;
@@ -299,11 +360,21 @@ const OrganizationQuestionnaire = ({ onSubmit }) => {
 
 
       {/* Mailing Address */}
-      <h3 className="text-lg font-semibold mt-6">Mailing Address</h3>
+      <h3 className="text-lg font-semibold mt-6">Mailing Address (not seen by public)</h3>
+<label>
+  <input
+    type="checkbox"
+    checked={formData.checkboxChecked}
+    onChange={handleCheckboxChange} // Toggle the checkbox
+  />
+  All info same as address above
+</label>
+
       <div className="grid grid-cols-2 gap-6 bg-[#67cf7f] p-5 rounded-lg">
         {/* Mailing Address */}
         <div className="flex flex-col col-span-2 sm:col-span-1">
           <label>Address</label>
+
           <input
             type="text"
             className="border p-2 rounded-md"
@@ -349,6 +420,15 @@ const OrganizationQuestionnaire = ({ onSubmit }) => {
 
       {/* Adoption Ambassador */}
       <h3 className="text-lg font-semibold mt-6">Adoption Ambassador</h3>
+      <label>
+  <input
+    type="checkbox"
+    checked={formData.checkboxCheckedAmbassador}
+    onChange={handleAmbassaborCheckboxChange} // Toggle the checkbox
+  />
+  All info same as address above
+</label>
+
       <div className="grid grid-cols-2 gap-6 bg-[#67cf7f] p-5 rounded-lg">
         {/* First Name */}
         <div className="flex flex-col">
