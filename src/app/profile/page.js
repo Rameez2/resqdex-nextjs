@@ -91,7 +91,7 @@ function SidebarNavigation() {
       </div>
 
       {/* Main Content */}
-      <div className="flex-1 bg-[#fbf5f0] overflow-hidden overflow-y-auto">{/* Content goes here */}
+      <div className="flex-1 bg-[#fbf5f0] overflow-hidden overflow-y-auto" style={{scrollbarWidth:'none'}}>{/* Content goes here */}
       {
         activeTab === "general" ? <GeneralSettings/> : 
         activeTab === "security" ? <SecurityComp/> :

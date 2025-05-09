@@ -13,30 +13,30 @@ const UploadPet = () => {
   const { user } = useUser();
   const [petInfo, setPetInfo] = useState(
     {
-      name: "Max",
-      age: 4,
-      adoption_fees: 800,
-      specie: "Dog",
-      breed: "Labrador Retriever",
-      size: "Medium",
-      contact: "max.shelter@example.com",
+      name: "",
+      age: 1,
+      adoption_fees: 1,
+      specie: "Other",
+      breed: "",
+      size: "",
+      contact: "",
       gender: "Male",
-      location: "Austin, TX",
-      days_in_care: 45,
+      location: "",
+      days_in_care: 1,
       personality_and_traits: [
-        "Friendly and playful",
-        "High energy, loves fetch",
-        "Good with other dogs",
-        "Eager to please and trainable"
+        "",
+        "",
+        "",
+        ""
       ],
       good_with: [],//new
       not_good_with: [], //new
-      hair_length: "Short",
-      color: "Golden",
-      health_info: ["Neutered", "Fully vaccinated", "Microchipped"],
-      my_dream: "To play in a big yard and cuddle with my forever family every night.",
-      bio: "Hi, I'm Max! I'm a loyal and energetic Lab mix who loves to run, play, and be your best friend.",
-      rescue_story: "Found as a stray during a thunderstorm, Max was taken in and has been thriving ever since. He's ready to find a loving home."
+      hair_length: "",
+      color: "",
+      health_info: [],
+      my_dream: "",
+      bio: "",
+      rescue_story: ""
     }
   );
   
@@ -376,7 +376,7 @@ const UploadPet = () => {
 
 
             {/* Health Info */}
-            <label className="block text-sm text-gray-700 mb-1">Health Info:</label>
+            <label className="block text-sm text-gray-700 mb-1">Health Info: (comma sperated)</label>
             <input
               type="text"
               name="health_info"

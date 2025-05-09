@@ -10,39 +10,39 @@ import React, { useReducer, useState } from "react";
 
 const initialState = {
   shelter_info: [
-    "Happy Tails Animal Rescue", // Shelter Name
-    "Jane", // Director First Name
-    "Doe", // Director Last Name
-    "Executive Director", // Title
-    "Non-Profit" // Type of Organization
+    "", // Shelter Name
+    "", // Director First Name
+    "", // Director Last Name
+    "", // Title
+    "" // Type of Organization
   ],
   physical_address: [
-    "1234 Bark St.", // Address
-    "Pawsville", // City
-    "98765", // Zip
-    "555-123-4567", // Phone
-    "101" // Phone Ext
+    "", // Address
+    "", // City
+    "", // Zip
+    "", // Phone
+    "" // Phone Ext
   ],
   mailing_address: [
-    "PO Box 789", // Address
-    "Pawsville", // City
-    "CA", // State
-    "98765" // Zip
+    "", // Address
+    "", // City
+    "", // State
+    "" // Zip
   ],
   adoption_ambassador: [
-    "Emily", // First Name
-    "Smith", // Last Name
-    "555-987-6543", // Phone
-    "202", // Phone Ext
-    "emily@happytails.org", // Email
-    "emily@happytails.org", // Verify Email
+    "", // First Name
+    "", // Last Name
+    "", // Phone
+    "", // Phone Ext
+    "", // Email
+    "", // Verify Email
   ],
   veterinarian_info: [
-    "Dr. John Vetman", // Vet Name
-    "555-321-4321", // Vet Phone
-    "303" // Vet Phone Ext
+    "", // Vet Name
+    "", // Vet Phone
+    "" // Vet Phone Ext
   ],
-  taxId: "12-3456789", // Tax ID
+  taxId: "", // Tax ID
   adoption_contract: "", // Adoption Contract File Id
   adopted: {
     Dogs: true,
@@ -58,26 +58,26 @@ const initialState = {
     Ferrets: true
   },
   adoption_fees: [
-    "500", // Highest Fee
-    "50" // Lowest Fee
+    "", // Highest Fee
+    "" // Lowest Fee
   ],
   current_animals: 23,
-  animal_source: "Owner Surrenders, Strays, Transfers from Shelters",
+  animal_source: "",
   medical_adoption: [
-    "Routine checkups, vaccinations, emergency surgeries", // Medical Care
-    "Mandatory before adoption", // Spay Policy
-    "Yes, all animals are sterilized", // Sterilization
-    "Yes, adopters must sign a contract" // Has Contract
+    "", // Medical Care
+    "", // Spay Policy
+    "", // Sterilization
+    "" // Has Contract
   ],
-  mission: "To rescue, rehabilitate, and rehome animals in need while promoting responsible pet ownership.",
-  adoption_policies: "All adopters must be 21+, provide landlord approval if renting, and undergo a home check.",
-  adoption_process: "Submit application → Interview → Home Visit → Meet & Greet → Finalize Adoption",
-  adoption_link: "https://www.happytails.org/adopt",
+  mission: "T",
+  adoption_policies: "",
+  adoption_process: "",
+  adoption_link: "",
   online_presence: [
-    "https://www.happytails.org", // Website
-    "https://facebook.com/happytailsrescue", // Facebook
-    "https://instagram.com/happytailsrescue", // Instagram
-    "https://twitter.com/happytails" // Other Social
+    "", // Website
+    "", // Facebook
+    "", // Instagram
+    "" // Other Social
   ]
 };
 

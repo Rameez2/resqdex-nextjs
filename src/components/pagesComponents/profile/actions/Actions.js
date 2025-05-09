@@ -25,8 +25,8 @@ const Actions = () => {
         <>
 
             {user.role === "Organization" ?
-                <div>
-                    <ul className="flex flex-wrap text-sm font-medium text-center text-gray-500 border-b border-gray-200">
+                <div >
+                    <ul className="flex flex-wrap text-sm font-medium text-center text-gray-500 border-b border-gray-200" >
                         {['Upload Pet', 'My Pets', 'Other'].map((tab) => (
                             <li key={tab} className="me-2">
                                 <button
@@ -43,8 +43,8 @@ const Actions = () => {
                     {activeTab === 'My Pets' && <MyPets />}
                 </div>
                 :
-                <div>
-                    <ul className="flex flex-wrap text-sm font-medium text-center text-gray-500 border-b border-gray-200">
+                <div >
+                    <ul className="flex flex-wrap text-sm font-medium text-center text-gray-500 border-b border-gray-200" >
                         {['Upload Post', 'My Posts', 'Other'].map((tab) => (
                             <li key={tab} className="me-2">
                                 <button
