@@ -776,9 +776,9 @@ const OrganizationQuestionnaire = ({ onSubmit }) => {
               <p className="text-green-700 mt-1">Used only as a reference </p>
 
             </div>
-            
+
             <div className="p-6 space-y-6">
-            
+
               <div className="grid grid-cols-1 md:grid-cols-1 gap-6">
                 <div className="space-y-2">
                   <label htmlFor="vetName" className="block text-sm font-medium text-gray-700">
@@ -807,17 +807,17 @@ const OrganizationQuestionnaire = ({ onSubmit }) => {
                   />
                 </div>
 
-              <div className="space-y-2">
-                <label htmlFor="vetPhoneExt" className="block text-sm font-medium text-gray-700">
-                  Vet Phone Ext
-                </label>
-                <input
-                  type="text"
-                  id="vetPhoneExt"
-                  placeholder="Extension"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                />
-              </div>
+                <div className="space-y-2">
+                  <label htmlFor="vetPhoneExt" className="block text-sm font-medium text-gray-700">
+                    Vet Phone Ext
+                  </label>
+                  <input
+                    type="text"
+                    id="vetPhoneExt"
+                    placeholder="Extension"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  />
+                </div>
               </div>
 
             </div>
@@ -978,26 +978,36 @@ const OrganizationQuestionnaire = ({ onSubmit }) => {
                       { id: "fish", label: "Fish", icon: Fish, color: "from-cyan-500 to-teal-500" },
                       { id: "ferrets", label: "Ferrets", icon: Users, color: "from-indigo-500 to-blue-600" },
                     ].map((animal) => (
-                      <div
-                        key={animal.id}
-                        className="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-50 transition-colors"
+                      <div key={animal.id} className="relative group">
+                  <input
+                    type="checkbox"
+                    id={animal.id}
+                    checked={animalTypes.includes(animal.id)}
+                    onChange={(e) => handleAnimalTypeChange(animal.id, e.target.checked)}
+                    className="sr-only peer"
+                  />
+                  <label
+                    htmlFor={animal.id}
+                    className="flex items-center justify-between px-4 py-3 bg-white border-2 border-gray-200 rounded-lg cursor-pointer transition-all duration-200 hover:border-blue-300 hover:bg-blue-50 peer-checked:border-blue-500 peer-checked:bg-blue-50 peer-checked:text-blue-700 group-hover:shadow-md"
+                  >
+                    <span className="text-sm font-medium text-gray-700 peer-checked:text-blue-700">{animal.label}</span>
+                    <div className="w-5 h-5 border-2 border-gray-300 rounded bg-white transition-all duration-200 peer-checked:border-blue-500 peer-checked:bg-blue-500 flex items-center justify-center">
+                      <svg
+                        className={`w-3 h-3 text-white transition-opacity duration-200 ${
+                          animalTypes.includes(animal.id) ? "opacity-100" : "opacity-0"
+                        }`}
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
                       >
-                        <div
-                          className={`w-8 h-8 bg-gradient-to-r ${animal.color} rounded-lg flex items-center justify-center`}
-                        >
-                          <animal.icon className="w-4 h-4 text-white" />
-                        </div>
-                        <input
-                          type="checkbox"
-                          id={animal.id}
-                          checked={animalTypes.includes(animal.id)}
-                          onChange={(e) => handleAnimalTypeChange(animal.id, e.target.checked)}
-                          className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
+                        <path
+                          fillRule="evenodd"
+                          d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                          clipRule="evenodd"
                         />
-                        <label htmlFor={animal.id} className="text-sm font-medium text-gray-700">
-                          {animal.label}
-                        </label>
-                      </div>
+                      </svg>
+                    </div>
+                  </label>
+                </div>
                     ))}
                   </div>
                 </div>
