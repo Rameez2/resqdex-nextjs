@@ -1043,7 +1043,7 @@ const OrganizationQuestionnaire = ({ onSubmit }) => {
 
                   <div className="space-y-2">
                     <label htmlFor="medicalCare" className="block text-xs text-gray-600">
-                      Standard Medical Care
+                     Please describe each protocol if it varies from species or age of animals 
                     </label>
                     <textarea
                       id="medicalCare"
@@ -1089,7 +1089,7 @@ const OrganizationQuestionnaire = ({ onSubmit }) => {
 
                   <div className="space-y-2">
                     <label htmlFor="sterilizationApproach" className="block text-xs text-gray-600">
-                      Sterilization Approach
+                      Briefly describe your sterilization approach. If there are different protocols for adults vs. young pets, describe them separately
                     </label>
                     <textarea
                       id="sterilizationApproach"
@@ -1164,6 +1164,10 @@ const OrganizationQuestionnaire = ({ onSubmit }) => {
                     <label htmlFor="adoptionPolicies" className="block text-sm font-medium text-gray-700">
                       Adoption Policies
                     </label>
+                                        <label htmlFor="sterilizationApproach" className="block text-xs text-gray-600">
+                      How would you describe your adoption process for potential adopters?
+                      </label>
+              
                     <textarea
                       id="adoptionPolicies"
                       rows={4}
@@ -1209,7 +1213,7 @@ const OrganizationQuestionnaire = ({ onSubmit }) => {
                 </div>
                 Online Presence
               </h2>
-              <p className="text-gray-600 mt-1">Help people find you online</p>
+              <p className="text-gray-600 mt-1">Where can your organization be found?</p>
             </div>
             <div className="p-6 space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
