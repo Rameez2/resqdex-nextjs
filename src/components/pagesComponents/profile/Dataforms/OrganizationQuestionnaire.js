@@ -2,11 +2,12 @@ import ButtonSpinner from "@/components/ui/buttonSpinner";
 import Toast from "@/components/ui/Toast";
 import { useUser } from "@/context/userContext";
 import { storage } from "@/lib/appwrite/appwrite";
-import { updateRecord } from "@/lib/appwrite/dataForms";
 import { updateOrgForm } from "@/lib/appwrite/org-from";
 import withAuth from "@/lib/middlewares/withAuth";
 import { ID } from "appwrite";
 import React, { useReducer, useState } from "react";
+import { MapPin, Mail, Globe, Users, Heart, FileText, Shield, Dog, Cat, Bird, Fish, Rabbit } from "lucide-react"
+
 
 const initialState = {
   shelter_info: [
@@ -69,7 +70,7 @@ const initialState = {
     "", // Sterilization
     "" // Has Contract
   ],
-  mission: "T",
+  mission: "",
   adoption_policies: "",
   adoption_process: "",
   adoption_link: "",
@@ -111,7 +112,7 @@ const orgReducer = (state, action) => {
       newAdoptionAmbassador[1] = state.shelter_info[2]; // Last Name
       // newAdoptionAmbassador[2] = state.shelter_info[2]; // Phone
       // newAdoptionAmbassador[3] = state.shelter_info[3]; // Phone Ext
-      
+
       // Dynamically set the email field (assuming the email is based on the First Name)
       // You can change this to any logic or field if needed
       // newAdoptionAmbassador[4] = `${state.shelter_info[0].toLowerCase()}@example.com`; // Email
@@ -152,6 +153,23 @@ const OrganizationQuestionnaire = ({ onSubmit }) => {
   const { loading, user, setUser } = useUser();
   const [adoptionContractFile, setAdoptionContractFile] = useState(null);
 
+  // /////////////////// DESIGN
+  const [hideFromPublic, setHideFromPublic] = useState(false)
+  const [sameAsAddress, setSameAsAddress] = useState(false)
+  const [animalTypes, setAnimalTypes] = useState([])
+  const [spayedNeutered, setSpayedNeutered] = useState("")
+  const [adoptionContract, setAdoptionContract] = useState("")
+
+  const handleAnimalTypeChange = (type, checked) => {
+    if (checked) {
+      setAnimalTypes([...animalTypes, type])
+    } else {
+      setAnimalTypes(animalTypes.filter((t) => t !== type))
+    }
+  }
+  ///////////// DESIGN
+
+
   const handleChange = (field, value, index = null) => {
     dispatch({ field, value, index });
   };
@@ -189,9 +207,9 @@ const OrganizationQuestionnaire = ({ onSubmit }) => {
           adoptedArray.push(animal);
         }
       });
-    // Remove the checkbox state from the form data before passing it to the backend
-    const { checkboxChecked, ...formDataWithoutCheckbox } = formData; // Destructure and remove checkboxChecked
-    const { checkboxCheckedAmbassador, ...NewformDataWithoutCheckbox } = formDataWithoutCheckbox; // Destructure and remove checkboxChecked
+      // Remove the checkbox state from the form data before passing it to the backend
+      const { checkboxChecked, ...formDataWithoutCheckbox } = formData; // Destructure and remove checkboxChecked
+      const { checkboxCheckedAmbassador, ...NewformDataWithoutCheckbox } = formDataWithoutCheckbox; // Destructure and remove checkboxChecked
 
       const updatedFormData = {
         ...NewformDataWithoutCheckbox,
@@ -220,7 +238,7 @@ const OrganizationQuestionnaire = ({ onSubmit }) => {
   const handleAmbassaborCheckboxChange = () => {
     dispatch({ field: "checkboxCheckedAmbassador", value: !formData.checkboxCheckedAmbassador });
   };
-  
+
 
 
   if (loading) return <h1 className="text-center text-xl font-bold">Loading...</h1>;
@@ -228,507 +246,1025 @@ const OrganizationQuestionnaire = ({ onSubmit }) => {
     return <h1 className="text-center text-red-600 font-bold">New application can only be submitted after rejection.</h1>;
 
   return (
-    <form onSubmit={handleSubmit} className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md space-y-6">
-      <div className="mb-4">
-        <h2 className="text-lg font-semibold text-gray-700">
-          Required fields are shown in <span className="text-red-600 font-bold">red</span>,<br />
-          Info in <span className="bg-green-100 text-green-800 px-1 rounded">green boxes</span> will not be seen by public.
-        </h2>
-      </div>
-      {/* Shelter Info */}
-      <h2 className="text-2xl font-semibold text-gray-800 border-b pb-2">Shelter / Rescue Information</h2>
-
-      <div className="grid grid-cols-2 gap-6">
-        {/* Shelter/Rescue Name */}
-        <div className="flex flex-col col-span-2 sm:col-span-1">
-          <label className="text-red-500">Shelter/Rescue Name</label>
-          <input
-            type="text"
-            className="border p-2 rounded-md"
-            value={formData.shelter_info[0]}
-            onChange={(e) => handleChange("shelter_info", e.target.value, 0)}
-          />
-        </div>
-
-        {/* Director First + Last Name */}
-        <div className="flex flex-col col-span-2 sm:col-span-1">
-          <label className="text-red-500">Director/Manager Name</label>
-          <div className="flex gap-2">
-            <input
-              type="text"
-              placeholder="First"
-              className="flex-1 border p-2 rounded-md"
-              value={formData.shelter_info[1]}
-              onChange={(e) => handleChange("shelter_info", e.target.value, 1)}
-            />
-            <input
-              type="text"
-              placeholder="Last"
-              className="flex-1 border p-2 rounded-md"
-              value={formData.shelter_info[2]}
-              onChange={(e) => handleChange("shelter_info", e.target.value, 2)}
-            />
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-8 px-4">
+      <div className="max-w-4xl mx-auto">
+        <div className="text-center mb-8">
+          <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full mb-4">
+            <Heart className="w-8 h-8 text-white" />
+          </div>
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">Shelter / Rescue Information</h1>
+          <p className="text-gray-600">Help us connect pets with loving families</p>
+          <div className="flex flex-col items-center justify-center gap-2 mt-4">
+            <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-red-50 text-red-600 border border-red-200">
+              Required fields are shown in red
+            </span>
+            <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-50 text-green-700 border border-green-200">
+              Info in green boxes will not be seen by public
+            </span>
           </div>
         </div>
 
-        {/* Title */}
-        <div className="flex flex-col col-span-2 sm:col-span-1">
-          <label className="text-red-500">Title</label>
-          <input
-            type="text"
-            className="border p-2 rounded-md"
-            value={formData.shelter_info[3]}
-            onChange={(e) => handleChange("shelter_info", e.target.value, 3)}
-          />
-        </div>
+        <form className="space-y-8">
+          {/* Basic Information */}
+          <div className="bg-white rounded-lg shadow-sm border border-gray-200">
+            <div className="p-6 border-b border-gray-200">
+              <h2 className="text-xl font-semibold text-gray-900 flex items-center gap-2">
+                <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-lg flex items-center justify-center">
+                  <Users className="w-5 h-5 text-white" />
+                </div>
+                Basic Information
+              </h2>
+              <p className="text-gray-600 mt-1">Tell us about your organization</p>
+            </div>
+            <div className="p-6 space-y-6">
+              <div className="flex items-center space-x-2 mb-4">
+                <input
+                  type="checkbox"
+                  id="hideFromPublic"
+                  checked={hideFromPublic}
+                  onChange={(e) => setHideFromPublic(e.target.checked)}
+                  className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
+                />
+                <label htmlFor="hideFromPublic" className="text-sm text-gray-700">
+                  Hide name from public
+                </label>
+              </div>
 
-        {/* Type of Organization */}
-        <div className="flex flex-col col-span-2 sm:col-span-1">
-          <label className="text-red-500">Type of Organization</label>
-          <select
-            className="border p-2 rounded-md"
-            value={formData.shelter_info[4]}
-            onChange={(e) => handleChange("shelter_info", e.target.value, 4)}
-          >
-            <option value="">-- Select --</option>
-            <option>Rescue Group</option>
-            <option>Private Animal Shelter</option>
-            <option>Municipal Animal Shelter</option>
-            <option>Veterinary Facility</option>
-            <option>Other</option>
-          </select>
-        </div>
-      </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-2">
+                  <label htmlFor="shelterName" className="block text-sm font-medium text-red-600">
+                    General Shelter/Rescue Name *
+                  </label>
+                  <input
+                    type="text"
+                    id="shelterName"
+                    placeholder="Enter organization name"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label htmlFor="orgType" className="block text-sm font-medium text-red-600">
+                    Type of Organization *
+                  </label>
+                  <select className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                    <option value="">Select type</option>
+                    <option value="rescue">Rescue Group</option>
+                    <option value="shelter">Animal Shelter</option>
+                    <option value="sanctuary">Animal Sanctuary</option>
+                  </select>
+                </div>
+              </div>
 
-      {/* Physical Address */}
-      <h3 className="text-lg font-semibold mt-6">Physical Address</h3>
-      <div className="grid grid-cols-2 gap-6">
-        {/* Address */}
-        <div className="flex flex-col col-span-2 sm:col-span-1">
-          <label className="text-red-500">Address</label>
-          <input
-            type="text"
-            className="border p-2 rounded-md"
-            value={formData.physical_address[0]}
-            onChange={(e) => handleChange("physical_address", e.target.value, 0)}
-          />
-        </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-2">
+                  <label htmlFor="directorName" className="block text-sm font-medium text-gray-700">
+                    Director/Manager Name
+                  </label>
+                  <input
+                    type="text"
+                    id="directorName"
+                    placeholder="Full name"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label htmlFor="title" className="block text-sm font-medium text-gray-700">
+                    Title
+                  </label>
+                  <input
+                    type="text"
+                    id="title"
+                    placeholder="Job title"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  />
+                </div>
+              </div>
 
-        {/* City */}
-        <div className="flex flex-col col-span-2 sm:col-span-1">
-          <label className="text-red-500">City</label>
-          <input
-            type="text"
-            className="border p-2 rounded-md"
-            value={formData.physical_address[1]}
-            onChange={(e) => handleChange("physical_address", e.target.value, 1)}
-          />
-        </div>
-
-        {/* Zip */}
-        <div className="flex flex-col col-span-2 sm:col-span-1">
-          <label className="text-red-500">Zip/Postal Code</label>
-          <input
-            type="text"
-            className="border p-2 rounded-md"
-            value={formData.physical_address[2]}
-            onChange={(e) => handleChange("physical_address", e.target.value, 2)}
-          />
-        </div>
-
-        {/* Phone + Ext */}
-        <div className="flex flex-col col-span-2 sm:col-span-1">
-          <label className="text-red-500">Phone</label>
-          <div className="flex gap-2">
-            <input
-              type="text"
-              placeholder="Phone"
-              className="flex-1 border p-2 rounded-md"
-              value={formData.physical_address[3]}
-              onChange={(e) => handleChange("physical_address", e.target.value, 3)}
-            />
-            <input
-              type="text"
-              placeholder="Ext"
-              className="w-24 border p-2 rounded-md"
-              value={formData.physical_address[4]}
-              onChange={(e) => handleChange("physical_address", e.target.value, 4)}
-            />
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-2">
+                  <label htmlFor="email" className="block text-sm font-medium text-red-600">
+                    Email *
+                  </label>
+                  <input
+                    type="email"
+                    id="email"
+                    placeholder="contact@organization.com"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label htmlFor="verifyEmail" className="block text-sm font-medium text-red-600">
+                    Verify Email *
+                  </label>
+                  <input
+                    type="email"
+                    id="verifyEmail"
+                    placeholder="Confirm email address"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  />
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
+
+          {/* Hours Section */}
+          <div className="bg-white rounded-lg shadow-sm border border-gray-200">
+            <div className="p-6 border-b border-gray-200">
+              <h2 className="text-xl font-semibold text-gray-900 flex items-center gap-2">
+                <div className="w-8 h-8 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-lg flex items-center justify-center">
+                  <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                    />
+                  </svg>
+                </div>
+                Hours (visible to public)
+              </h2>
+              <p className="text-gray-600 mt-1">
+                Open and close hours; if you are not open on a day, please leave the fields blank
+              </p>
+            </div>
+            <div className="p-6">
+              <div className="space-y-4">
+                {["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"].map((day) => (
+                  <div key={day} className="grid grid-cols-1 md:grid-cols-4 gap-4 items-center">
+                    <div className="md:col-span-1">
+                      <label className="block text-sm font-medium text-gray-700">{day}</label>
+                    </div>
+                    <div className="md:col-span-1">
+                      <select className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white">
+                        <option value="">Opening Time</option>
+                        <option value="closed">Closed</option>
+                        <option value="6:00">6:00 AM</option>
+                        <option value="6:30">6:30 AM</option>
+                        <option value="7:00">7:00 AM</option>
+                        <option value="7:30">7:30 AM</option>
+                        <option value="8:00">8:00 AM</option>
+                        <option value="8:30">8:30 AM</option>
+                        <option value="9:00">9:00 AM</option>
+                        <option value="9:30">9:30 AM</option>
+                        <option value="10:00">10:00 AM</option>
+                        <option value="10:30">10:30 AM</option>
+                        <option value="11:00">11:00 AM</option>
+                        <option value="11:30">11:30 AM</option>
+                        <option value="12:00">12:00 PM</option>
+                        <option value="12:30">12:30 PM</option>
+                        <option value="13:00">1:00 PM</option>
+                        <option value="13:30">1:30 PM</option>
+                        <option value="14:00">2:00 PM</option>
+                        <option value="14:30">2:30 PM</option>
+                        <option value="15:00">3:00 PM</option>
+                        <option value="15:30">3:30 PM</option>
+                        <option value="16:00">4:00 PM</option>
+                        <option value="16:30">4:30 PM</option>
+                        <option value="17:00">5:00 PM</option>
+                        <option value="17:30">5:30 PM</option>
+                        <option value="18:00">6:00 PM</option>
+                      </select>
+                    </div>
+                    <div className="md:col-span-1 flex items-center justify-center">
+                      <span className="text-gray-500 text-sm">to</span>
+                    </div>
+                    <div className="md:col-span-1">
+                      <select className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white">
+                        <option value="">Closing Time</option>
+                        <option value="closed">Closed</option>
+                        <option value="12:00">12:00 PM</option>
+                        <option value="12:30">12:30 PM</option>
+                        <option value="13:00">1:00 PM</option>
+                        <option value="13:30">1:30 PM</option>
+                        <option value="14:00">2:00 PM</option>
+                        <option value="14:30">2:30 PM</option>
+                        <option value="15:00">3:00 PM</option>
+                        <option value="15:30">3:30 PM</option>
+                        <option value="16:00">4:00 PM</option>
+                        <option value="16:30">4:30 PM</option>
+                        <option value="17:00">5:00 PM</option>
+                        <option value="17:30">5:30 PM</option>
+                        <option value="18:00">6:00 PM</option>
+                        <option value="18:30">6:30 PM</option>
+                        <option value="19:00">7:00 PM</option>
+                        <option value="19:30">7:30 PM</option>
+                        <option value="20:00">8:00 PM</option>
+                        <option value="20:30">8:30 PM</option>
+                        <option value="21:00">9:00 PM</option>
+                        <option value="21:30">9:30 PM</option>
+                        <option value="22:00">10:00 PM</option>
+                        <option value="22:30">10:30 PM</option>
+                        <option value="23:00">11:00 PM</option>
+                      </select>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <div className="mt-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
+                <p className="text-sm text-blue-800">
+                  <strong>Tip:</strong> These hours will be displayed publicly to help visitors know when they can visit
+                  your facility. Leave both fields blank for days when you're closed.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Organization Address */}
+          <div className="bg-white rounded-lg shadow-sm border border-gray-200">
+            <div className="p-6 border-b border-gray-200">
+              <h2 className="text-xl font-semibold text-gray-900 flex items-center gap-2">
+                <div className="w-8 h-8 bg-gradient-to-r from-green-500 to-emerald-500 rounded-lg flex items-center justify-center">
+                  <MapPin className="w-5 h-5 text-white" />
+                </div>
+                Organization Address
+              </h2>
+              <p className="text-gray-600 mt-1">Physical location of your organization</p>
+            </div>
+            <div className="p-6 space-y-6">
+              <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
+                <p className="text-sm text-blue-800">
+                  <strong>Public:</strong> Will be shown on map in the address | Check box to have map go to city center
+                </p>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="md:col-span-2 space-y-2">
+                  <label htmlFor="address" className="block text-sm font-medium text-gray-700">
+                    Address
+                  </label>
+                  <input
+                    type="text"
+                    id="address"
+                    placeholder="Street address"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label htmlFor="city" className="block text-sm font-medium text-gray-700">
+                    City
+                  </label>
+                  <input
+                    type="text"
+                    id="city"
+                    placeholder="City"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-2">
+                  <label htmlFor="zip" className="block text-sm font-medium text-gray-700">
+                    Zip/Postal Code
+                  </label>
+                  <input
+                    type="text"
+                    id="zip"
+                    placeholder="ZIP"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label htmlFor="city" className="block text-sm font-medium text-gray-700">
+                    Country
+                  </label>
+                  <input
+                    type="text"
+                    id="country"
+                    placeholder="Country"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  />
+                </div>
+
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-2">
+                  <label htmlFor="phone" className="block text-sm font-medium text-gray-700">
+                    Phone
+                  </label>
+                  <input
+                    type="tel"
+                    id="phone"
+                    placeholder="Phone number"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label htmlFor="ext" className="block text-sm font-medium text-gray-700">
+                    Ext
+                  </label>
+                  <input
+                    type="text"
+                    id="ext"
+                    placeholder="Extension"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  />
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          {/* Mailing Address */}
+          <div className="bg-green-50 rounded-lg shadow-sm border border-green-200">
+            <div className="p-6 border-b border-green-200">
+              <h2 className="text-xl font-semibold text-gray-900 flex items-center gap-2">
+                <div className="w-8 h-8 bg-gradient-to-r from-green-600 to-teal-600 rounded-lg flex items-center justify-center">
+                  <Mail className="w-5 h-5 text-white" />
+                </div>
+                Mailing Address
+              </h2>
+              <p className="text-green-700 mt-1">Address for correspondence (not seen by public)</p>
+            </div>
+            <div className="p-6 space-y-6">
+              <div className="flex items-center space-x-2">
+                <input
+                  type="checkbox"
+                  id="sameAsAddress"
+                  checked={sameAsAddress}
+                  onChange={(e) => setSameAsAddress(e.target.checked)}
+                  className="w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500"
+                />
+                <label htmlFor="sameAsAddress" className="text-sm text-gray-700">
+                  All info same as Address above
+                </label>
+              </div>
+
+              {!sameAsAddress && (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="space-y-2">
+                    <label htmlFor="mailingAddress" className="block text-sm font-medium text-gray-700">
+                      Address
+                    </label>
+                    <input
+                      type="text"
+                      id="mailingAddress"
+                      placeholder="Mailing address"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <label htmlFor="mailingCity" className="block text-sm font-medium text-gray-700">
+                      City
+                    </label>
+                    <input
+                      type="text"
+                      id="mailingCity"
+                      placeholder="City"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <label htmlFor="mailingZip" className="block text-sm font-medium text-gray-700">
+                      Zip/Postal Code
+                    </label>
+                    <input
+                      type="text"
+                      id="mailingZip"
+                      placeholder="ZIP"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <label htmlFor="mailingState" className="block text-sm font-medium text-gray-700">
+                      State/Country
+                    </label>
+                    <input
+                      type="text"
+                      id="mailingState"
+                      placeholder="State/Country"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                    />
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Adoption Ambassador */}
+          <div className="bg-green-50 rounded-lg shadow-sm border border-green-200">
+            <div className="p-6 border-b border-green-200">
+              <h2 className="text-xl font-semibold text-gray-900 flex items-center gap-2">
+                <div className="w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
+                  <Users className="w-5 h-5 text-white" />
+                </div>
+                Adoption Ambassador
+              </h2>
+              <p className="text-green-700 mt-1">The person who posts pets to the site for adopters to see</p>
+            </div>
+            <div className="p-6 space-y-6">
+              <div className="bg-green-100 p-4 rounded-lg border border-green-200">
+                <p className="text-sm text-green-800 font-medium">All info same as "Main Shelter/Rescue Contact"</p>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-2">
+                  <label htmlFor="ambassadorFirst" className="block text-sm font-medium text-gray-700">
+                    First Name
+                  </label>
+                  <input
+                    type="text"
+                    id="ambassadorFirst"
+                    placeholder="First name"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label htmlFor="ambassadorLast" className="block text-sm font-medium text-gray-700">
+                    Last Name
+                  </label>
+                  <input
+                    type="text"
+                    id="ambassadorLast"
+                    placeholder="Last name"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-2">
+                  <label htmlFor="ambassadorPhone" className="block text-sm font-medium text-gray-700">
+                    Phone
+                  </label>
+                  <input
+                    type="tel"
+                    id="ambassadorPhone"
+                    placeholder="Phone number"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label htmlFor="ambassadorExt" className="block text-sm font-medium text-gray-700">
+                    Phone Ext
+                  </label>
+                  <input
+                    type="text"
+                    id="ambassadorExt"
+                    placeholder="Extension"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-2">
+                  <label htmlFor="ambassadorEmail" className="block text-sm font-medium text-gray-700">
+                    Email
+                  </label>
+                  <input
+                    type="email"
+                    id="ambassadorEmail"
+                    placeholder="Email address"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label htmlFor="ambassadorVerifyEmail" className="block text-sm font-medium text-gray-700">
+                    Verify Email
+                  </label>
+                  <input
+                    type="email"
+                    id="ambassadorVerifyEmail"
+                    placeholder="Confirm email"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                  />
+                </div>
+              </div>
+
+              <span>Will be used by person to log in</span>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-2">
+                  <label htmlFor="ambassadorEmail" className="block text-sm font-medium text-gray-700">
+                    Password
+                  </label>
+                  <input
+                    type="password"
+                    id="password"
+                    placeholder="Password"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label htmlFor="ambassadorVerifyEmail" className="block text-sm font-medium text-gray-700">
+                    Confirm Password
+                  </label>
+                  <input
+                    type="password"
+                    id="password"
+                    placeholder="Confirm Password"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                  />
+                </div>
+                <span>Password must be at least 6 characters long, contain 1 capital, 1 lowercase, 1 number, and 1 special character</span>
+              </div>
+
+
+            </div>
+          </div>
+
+          {/* Veterinarian Information */}
+          <div className="bg-green-50 rounded-lg shadow-sm border border-green-200">
+            <div className="p-6 border-b border-gray-200">
+              <h2 className="text-xl font-semibold text-gray-900 flex items-center gap-2">
+                <div className="w-8 h-8 bg-gradient-to-r from-red-500 to-orange-500 rounded-lg flex items-center justify-center">
+                  <Shield className="w-5 h-5 text-white" />
+                </div>
+                Veterinarian Information
+              </h2>
+              <p className="text-green-700 mt-1">Used only as a reference </p>
+
+            </div>
+            
+            <div className="p-6 space-y-6">
+            
+              <div className="grid grid-cols-1 md:grid-cols-1 gap-6">
+                <div className="space-y-2">
+                  <label htmlFor="vetName" className="block text-sm font-medium text-gray-700">
+                    Vet Name
+                  </label>
+                  <input
+                    type="text"
+                    id="vetName"
+                    placeholder="Veterinarian name"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 md:grid-cols-2 gap-6">
+
+                <div className="space-y-2">
+                  <label htmlFor="vetPhone" className="block text-sm font-medium text-gray-700">
+                    Vet Phone
+                  </label>
+                  <input
+                    type="tel"
+                    id="vetPhone"
+                    placeholder="Phone number"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  />
+                </div>
+
+              <div className="space-y-2">
+                <label htmlFor="vetPhoneExt" className="block text-sm font-medium text-gray-700">
+                  Vet Phone Ext
+                </label>
+                <input
+                  type="text"
+                  id="vetPhoneExt"
+                  placeholder="Extension"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                />
+              </div>
+              </div>
+
+            </div>
+          </div>
+
+
+          {/* Organization Qualification */}
+          <div className="bg-white rounded-lg shadow-sm border border-gray-200">
+            <div className="p-6 border-b border-gray-200">
+              <h2 className="text-xl font-semibold text-gray-900 flex items-center gap-2">
+                <div className="w-8 h-8 bg-gradient-to-r from-emerald-500 to-green-500 rounded-lg flex items-center justify-center">
+                  <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                    />
+                  </svg>
+                </div>
+                Organization Qualification
+              </h2>
+              <p className="text-gray-600 mt-1">Verify your organization's status and credentials</p>
+            </div>
+            <div className="p-6 space-y-6">
+              <div className="space-y-4">
+                <div className="space-y-3">
+                  <label className="block text-sm font-medium text-red-600">
+                    Does your organization qualify as any of the following? (You may be asked to provide supporting
+                    documentation):
+                  </label>
+
+                  <div className="bg-gray-50 p-4 rounded-lg">
+                    <ul className="space-y-2 text-sm text-gray-700">
+                      <li className="flex items-center space-x-2">
+                        <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                        <span>Federal 501(c)(3) non-profit</span>
+                      </li>
+                      <li className="flex items-center space-x-2">
+                        <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                        <span>State tax-exempt non-profit</span>
+                      </li>
+                      <li className="flex items-center space-x-2">
+                        <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                        <span>Revenue Canada non-profit</span>
+                      </li>
+                      <li className="flex items-center space-x-2">
+                        <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                        <span>Governmental, Municipal, or Tribal Agency</span>
+                      </li>
+                    </ul>
+                  </div>
+
+                  <div className="flex items-center space-x-6">
+                    <div className="flex items-center space-x-2">
+                      <input
+                        type="radio"
+                        id="qualification-yes"
+                        name="organizationQualification"
+                        value="yes"
+                        className="w-4 h-4 text-green-600 bg-gray-100 border-gray-300 focus:ring-green-500"
+                      />
+                      <label htmlFor="qualification-yes" className="text-sm font-medium text-green-600">
+                        Yes
+                      </label>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <input
+                        type="radio"
+                        id="qualification-no"
+                        name="organizationQualification"
+                        value="no"
+                        className="w-4 h-4 text-red-600 bg-gray-100 border-gray-300 focus:ring-red-500"
+                      />
+                      <label htmlFor="qualification-no" className="text-sm font-medium text-red-600">
+                        No
+                      </label>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <label htmlFor="taxIdNumber" className="block text-sm font-medium text-gray-700">
+                    Tax ID Number
+                  </label>
+                  <input
+                    type="text"
+                    id="taxIdNumber"
+                    placeholder="Enter your Tax ID Number"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-gray-50"
+                  />
+                  <p className="text-xs text-gray-500">
+                    Please provide your organization's Tax ID or EIN number for verification purposes.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* About Your Organization */}
+          <div className="bg-white rounded-lg shadow-sm border border-gray-200">
+            <div className="p-6 border-b border-gray-200">
+              <h2 className="text-xl font-semibold text-gray-900 flex items-center gap-2">
+                <div className="w-8 h-8 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-lg flex items-center justify-center">
+                  <FileText className="w-5 h-5 text-white" />
+                </div>
+                About Your Organization
+              </h2>
+              <p className="text-gray-600 mt-1">Tell us more about your mission and operations</p>
+            </div>
+            <div className="p-6 space-y-6">
+              <div className="space-y-4">
+                <div className="space-y-2">
+                  <label className="block text-sm font-medium text-gray-700">Adoption Fee Range</label>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <label htmlFor="highestFee" className="block text-xs text-gray-600">
+                        Highest Adoption Fee
+                      </label>
+                      <input
+                        type="text"
+                        id="highestFee"
+                        placeholder="$"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <label htmlFor="lowestFee" className="block text-xs text-gray-600">
+                        Lowest Adoption Fee
+                      </label>
+                      <input
+                        type="text"
+                        id="lowestFee"
+                        placeholder="$"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <hr className="border-gray-200" />
+
+                <div className="space-y-4">
+                  <label className="block text-sm font-medium text-gray-700">
+                    Types of Animals You Have Adopted Out
+                  </label>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {[
+                      { id: "dogs", label: "Dogs", icon: Dog, color: "from-amber-500 to-orange-500" },
+                      { id: "cats", label: "Cats", icon: Cat, color: "from-purple-500 to-pink-500" },
+                      { id: "horses", label: "Horses", icon: Users, color: "from-amber-600 to-yellow-600" },
+                      { id: "reptiles", label: "Reptiles", icon: Shield, color: "from-green-600 to-emerald-600" },
+                      { id: "pocketpets", label: "Pocket pets", icon: Heart, color: "from-pink-500 to-rose-500" },
+                      { id: "rabbits", label: "Rabbits", icon: Rabbit, color: "from-gray-500 to-slate-600" },
+                      { id: "farm", label: "Farm animals", icon: Users, color: "from-yellow-500 to-amber-500" },
+                      { id: "birds", label: "Birds", icon: Bird, color: "from-sky-500 to-blue-500" },
+                      { id: "exotics", label: "Exotics", icon: Heart, color: "from-violet-500 to-purple-500" },
+                      { id: "fish", label: "Fish", icon: Fish, color: "from-cyan-500 to-teal-500" },
+                      { id: "ferrets", label: "Ferrets", icon: Users, color: "from-indigo-500 to-blue-600" },
+                    ].map((animal) => (
+                      <div
+                        key={animal.id}
+                        className="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-50 transition-colors"
+                      >
+                        <div
+                          className={`w-8 h-8 bg-gradient-to-r ${animal.color} rounded-lg flex items-center justify-center`}
+                        >
+                          <animal.icon className="w-4 h-4 text-white" />
+                        </div>
+                        <input
+                          type="checkbox"
+                          id={animal.id}
+                          checked={animalTypes.includes(animal.id)}
+                          onChange={(e) => handleAnimalTypeChange(animal.id, e.target.checked)}
+                          className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
+                        />
+                        <label htmlFor={animal.id} className="text-sm font-medium text-gray-700">
+                          {animal.label}
+                        </label>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <label htmlFor="currentAnimals" className="block text-sm font-medium text-gray-700">
+                    Current Animals Available
+                  </label>
+                  <input
+                    type="number"
+                    id="currentAnimals"
+                    placeholder="Number of animals"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <label htmlFor="animalAcquisition" className="block text-sm font-medium text-gray-700">
+                    How do you acquire animals?
+                  </label>
+                  <textarea
+                    id="animalAcquisition"
+                    rows={3}
+                    placeholder="Describe how you acquire animals..."
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  />
+                </div>
+
+                <hr className="border-gray-200" />
+
+                <div className="space-y-4">
+                  <label className="block text-sm font-medium text-gray-700">Medical Care and Adoption</label>
+
+                  <div className="space-y-2">
+                    <label htmlFor="medicalCare" className="block text-xs text-gray-600">
+                      Standard Medical Care
+                    </label>
+                    <textarea
+                      id="medicalCare"
+                      rows={3}
+                      placeholder="Describe standard medical care provided..."
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    />
+                  </div>
+
+                  <div className="space-y-3">
+                    <label className="block text-xs font-medium text-gray-700">Are all animals spayed/neutered?</label>
+                    <div className="space-y-2">
+                      <div className="flex items-center space-x-2">
+                        <input
+                          type="radio"
+                          id="yes-always"
+                          name="spayedNeutered"
+                          value="yes-always"
+                          checked={spayedNeutered === "yes-always"}
+                          onChange={(e) => setSpayedNeutered(e.target.value)}
+                          className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500"
+                        />
+                        <label htmlFor="yes-always" className="text-sm text-gray-700">
+                          Yes, always
+                        </label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <input
+                          type="radio"
+                          id="spay-no"
+                          name="spayedNeutered"
+                          value="no"
+                          checked={spayedNeutered === "no"}
+                          onChange={(e) => setSpayedNeutered(e.target.value)}
+                          className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500"
+                        />
+                        <label htmlFor="spay-no" className="text-sm text-gray-700">
+                          No
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <label htmlFor="sterilizationApproach" className="block text-xs text-gray-600">
+                      Sterilization Approach
+                    </label>
+                    <textarea
+                      id="sterilizationApproach"
+                      rows={3}
+                      placeholder="Describe your sterilization approach..."
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    />
+                  </div>
+
+                  <div className="space-y-3">
+                    <label className="block text-xs font-medium text-red-600">
+                      Do you have an adoption contract? (PDF) *
+                    </label>
+                    <div className="space-y-2">
+                      <div className="flex items-center space-x-2">
+                        <input
+                          type="radio"
+                          id="contract-yes"
+                          name="adoptionContract"
+                          value="yes"
+                          checked={adoptionContract === "yes"}
+                          onChange={(e) => setAdoptionContract(e.target.value)}
+                          className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500"
+                        />
+                        <label htmlFor="contract-yes" className="text-sm text-gray-700">
+                          Yes
+                        </label>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <input
+                          type="radio"
+                          id="contract-no"
+                          name="adoptionContract"
+                          value="no"
+                          checked={adoptionContract === "no"}
+                          onChange={(e) => setAdoptionContract(e.target.value)}
+                          className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500"
+                        />
+                        <label htmlFor="contract-no" className="text-sm text-gray-700">
+                          No
+                        </label>
+                      </div>
+                    </div>
+                    {adoptionContract === "yes" && (
+                      <div className="mt-2">
+                        <input
+                          type="file"
+                          accept=".pdf"
+                          className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                        />
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                <hr className="border-gray-200" />
+
+                <div className="space-y-4">
+                  <div className="space-y-2">
+                    <label htmlFor="missionStatement" className="block text-sm font-medium text-gray-700">
+                      Mission Statement
+                    </label>
+                    <textarea
+                      id="missionStatement"
+                      rows={4}
+                      placeholder="Describe your organization's mission..."
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <label htmlFor="adoptionPolicies" className="block text-sm font-medium text-gray-700">
+                      Adoption Policies
+                    </label>
+                    <textarea
+                      id="adoptionPolicies"
+                      rows={4}
+                      placeholder="Describe your adoption policies..."
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <label htmlFor="adoptionProcess" className="block text-sm font-medium text-gray-700">
+                      Adoption Process
+                    </label>
+                    <textarea
+                      id="adoptionProcess"
+                      rows={4}
+                      placeholder="Describe your adoption process..."
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <label htmlFor="onlineLink" className="block text-sm font-medium text-gray-700">
+                      Online Adoption Application Link
+                    </label>
+                    <input
+                      type="url"
+                      id="onlineLink"
+                      placeholder="https://"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Online Presence */}
+          <div className="bg-white rounded-lg shadow-sm border border-gray-200">
+            <div className="p-6 border-b border-gray-200">
+              <h2 className="text-xl font-semibold text-gray-900 flex items-center gap-2">
+                <div className="w-8 h-8 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-lg flex items-center justify-center">
+                  <Globe className="w-5 h-5 text-white" />
+                </div>
+                Online Presence
+              </h2>
+              <p className="text-gray-600 mt-1">Help people find you online</p>
+            </div>
+            <div className="p-6 space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-2">
+                  <label htmlFor="website" className="block text-sm font-medium text-gray-700">
+                    Website
+                  </label>
+                  <input
+                    type="url"
+                    id="website"
+                    placeholder="https://yourwebsite.com"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label htmlFor="facebook" className="block text-sm font-medium text-gray-700">
+                    Facebook
+                  </label>
+                  <input
+                    type="url"
+                    id="facebook"
+                    placeholder="Facebook page URL"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  />
+                </div>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-2">
+                  <label htmlFor="instagram" className="block text-sm font-medium text-gray-700">
+                    Instagram
+                  </label>
+                  <input
+                    type="text"
+                    id="instagram"
+                    placeholder="Instagram handle"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label htmlFor="otherSocial" className="block text-sm font-medium text-gray-700">
+                    Other Social
+                  </label>
+                  <input
+                    type="text"
+                    id="otherSocial"
+                    placeholder="Other social media"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Submit Button */}
+          <div className="flex justify-center pt-6">
+            <button
+              type="submit"
+              className="w-full md:w-auto px-12 py-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-medium rounded-lg shadow-sm transition-all duration-200 transform hover:scale-105"
+            >
+              Submit Application
+            </button>
+          </div>
+        </form>
       </div>
-
-
-      {/* Mailing Address */}
-      <h3 className="text-lg font-semibold mt-6">Mailing Address (not seen by public)</h3>
-<label>
-  <input
-    type="checkbox"
-    checked={formData.checkboxChecked}
-    onChange={handleCheckboxChange} // Toggle the checkbox
-  />
-  All info same as address above
-</label>
-
-      <div className="grid grid-cols-2 gap-6 bg-[#67cf7f] p-5 rounded-lg">
-        {/* Mailing Address */}
-        <div className="flex flex-col col-span-2 sm:col-span-1">
-          <label>Address</label>
-
-          <input
-            type="text"
-            className="border p-2 rounded-md"
-            value={formData.mailing_address[0]}
-            onChange={(e) => handleChange("mailing_address", e.target.value, 0)}
-          />
-        </div>
-
-        {/* City */}
-        <div className="flex flex-col col-span-2 sm:col-span-1">
-          <label>City</label>
-          <input
-            type="text"
-            className="border p-2 rounded-md"
-            value={formData.mailing_address[1]}
-            onChange={(e) => handleChange("mailing_address", e.target.value, 1)}
-          />
-        </div>
-
-        {/* State */}
-        <div className="flex flex-col col-span-2 sm:col-span-1">
-          <label>State</label>
-          <input
-            type="text"
-            className="border p-2 rounded-md"
-            value={formData.mailing_address[2]}
-            onChange={(e) => handleChange("mailing_address", e.target.value, 2)}
-          />
-        </div>
-
-        {/* Zip */}
-        <div className="flex flex-col col-span-2 sm:col-span-1">
-          <label>Zip/Postal Code</label>
-          <input
-            type="text"
-            className="border p-2 rounded-md"
-            value={formData.mailing_address[3]}
-            onChange={(e) => handleChange("mailing_address", e.target.value, 3)}
-          />
-        </div>
-      </div>
-
-
-      {/* Adoption Ambassador */}
-      <h3 className="text-lg font-semibold mt-6">Adoption Ambassador</h3>
-      <label>
-  <input
-    type="checkbox"
-    checked={formData.checkboxCheckedAmbassador}
-    onChange={handleAmbassaborCheckboxChange} // Toggle the checkbox
-  />
-  All info same as address above
-</label>
-
-      <div className="grid grid-cols-2 gap-6 bg-[#67cf7f] p-5 rounded-lg">
-        {/* First Name */}
-        <div className="flex flex-col">
-          {/* <label>First Name</label> */}
-          <input
-            type="text"
-            className="border p-2 rounded-md"
-            placeholder="First Name"
-            value={formData.adoption_ambassador[0]}
-            onChange={(e) => handleChange("adoption_ambassador", e.target.value, 0)}
-          />
-        </div>
-
-        {/* Last Name */}
-        <div className="flex flex-col">
-          {/* <label>Last Name</label> */}
-          <input
-            type="text"
-            placeholder="Last Name"
-            className="border p-2 rounded-md"
-            value={formData.adoption_ambassador[1]}
-            onChange={(e) => handleChange("adoption_ambassador", e.target.value, 1)}
-          />
-        </div>
-
-        {/* Phone */}
-        <div className="flex flex-col">
-          {/* <label>Phone</label> */}
-          <input
-            type="text"
-            placeholder="Phone"
-            className="border p-2 rounded-md"
-            value={formData.adoption_ambassador[2]}
-            onChange={(e) => handleChange("adoption_ambassador", e.target.value, 2)}
-          />
-        </div>
-
-        {/* Phone Ext */}
-        <div className="flex flex-col">
-          {/* <label>Phone Ext</label> */}
-          <input
-            type="text"
-            placeholder="Phone Ext"
-            className="border p-2 rounded-md"
-            value={formData.adoption_ambassador[3]}
-            onChange={(e) => handleChange("adoption_ambassador", e.target.value, 3)}
-          />
-        </div>
-
-        {/* Email */}
-        <div className="flex flex-col col-span-2 sm:col-span-1">
-          {/* <label>Email</label> */}
-          <input
-            type="email"
-            placeholder="Email"
-            className="border p-2 rounded-md"
-            value={formData.adoption_ambassador[4]}
-            onChange={(e) => handleChange("adoption_ambassador", e.target.value, 4)}
-          />
-        </div>
-
-        {/* Verify Email */}
-        <div className="flex flex-col col-span-2 sm:col-span-1">
-          {/* <label>Verify Email</label> */}
-          <input
-            type="email"
-            placeholder="Verify Email"
-            className="border p-2 rounded-md"
-            value={formData.adoption_ambassador[5]}
-            onChange={(e) => handleChange("adoption_ambassador", e.target.value, 5)}
-          />
-        </div>
-      </div>
-
-
-      {/* Veterinarian Info */}
-      <h3 className="text-lg font-semibold mt-6">Veterinarian Information</h3>
-      <div className="grid grid-cols-2 gap-6">
-        {/* Vet Name */}
-        <div className="flex flex-col">
-          <label>Vet Name</label>
-          <input
-            type="text"
-            className="border p-2 rounded-md"
-            value={formData.veterinarian_info[0]}
-            onChange={(e) => handleChange("veterinarian_info", e.target.value, 0)}
-          />
-        </div>
-
-        {/* Vet Phone */}
-        <div className="flex flex-col">
-          <label>Vet Phone</label>
-          <input
-            type="text"
-            className="border p-2 rounded-md"
-            value={formData.veterinarian_info[1]}
-            onChange={(e) => handleChange("veterinarian_info", e.target.value, 1)}
-          />
-        </div>
-
-        {/* Vet Phone Ext */}
-        <div className="flex flex-col col-span-2 sm:col-span-1">
-          <label>Vet Phone Ext</label>
-          <input
-            type="text"
-            className="border p-2 rounded-md"
-            value={formData.veterinarian_info[2]}
-            onChange={(e) => handleChange("veterinarian_info", e.target.value, 2)}
-          />
-        </div>
-      </div>
-
-
-      {/* About Organization */}
-      <h3 className="text-lg font-semibold mt-6">About Your Organization</h3>
-      <div className="grid grid-cols-2 gap-6">
-        {/* 501(c)(3) Non-profit */}
-
-        <div className="flex flex-col">
-          <label>If your organization is a 501(c)(3) nonprofit, please provide your Tax ID number.</label>
-          <input
-            type="text"
-            className="border p-2 rounded-md"
-            value={formData.taxId}
-            onChange={(e) => handleChange("taxId", e.target.value, 1)}
-          />
-        </div>
-      </div>
-
-
-      {/* Fees and current animals */}
-
-      <h4 className="text-md font-semibold mt-4">Adoption Fee Range</h4>
-
-
-      <div className="flex flex-col">
-        <label>Highest Adoption Fee</label>
-        <input
-          type="number"
-          value={formData.adoption_fees[0]}
-          onChange={(e) => handleChange("adoption_fees", parseInt(e.target.value) || 0, 0)}
-          className="border p-2 rounded-md"
-        />
-      </div>
-
-      <div className="flex flex-col">
-        <label>Lowest Adoption Fee</label>
-        <input
-          type="number"
-          value={formData.adoption_fees[1]}
-          onChange={(e) => handleChange("adoption_fees", parseInt(e.target.value) || 0, 1)}
-          className="border p-2 rounded-md"
-        />
-      </div>
-
-      {/* Adopted Animals */}
-      <h4 className="text-md font-semibold mt-4">Types of Animals You Have Adopted Out</h4>
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {Object.keys(formData.adopted).map((type) => (
-          <label key={type} className="flex items-center space-x-2">
-            <input
-              type="checkbox"
-              checked={formData.adopted[type]}
-              onChange={(e) =>
-                handleChange("adopted", {
-                  ...formData.adopted,
-                  [type]: e.target.checked,
-                })
-              }
-              className="w-5 h-5"
-            />
-            <span>{type}</span>
-          </label>
-        ))}
-      </div>
-
-
-
-
-
-      <div className="flex flex-col">
-        <label>Current Animals Available</label>
-        <input
-          type="number"
-          value={formData.current_animals}
-          onChange={(e) => handleChange("current_animals", parseInt(e.target.value) || 0)}
-          className="border p-2 rounded-md"
-        />
-      </div>
-
-      <div className="flex flex-col">
-        <label>How do you acquire animals?</label>
-        <textarea
-          className="border p-2 rounded-md"
-          value={formData.animal_source}
-          onChange={(e) => handleChange("animal_source", e.target.value)}
-        />
-      </div>
-
-      {/* Medical */}
-      <h3 className="text-lg font-semibold mt-6">Medical Care and Adoption</h3>
-
-      <div className="flex flex-col">
-        <label>Standard Medical Care</label>
-        <textarea
-          className="border p-2 rounded-md"
-          value={formData.medical_adoption[0]}
-          onChange={(e) => handleChange("medical_adoption", e.target.value, 0)}
-        />
-      </div>
-
-      <div className="flex flex-col">
-        <label>Are all animals spayed/neutered?</label>
-        <select
-          className="border p-2 rounded-md"
-          value={formData.medical_adoption[1]}
-          onChange={(e) => handleChange("medical_adoption", e.target.value, 1)}
-        >
-          <option>Yes, always</option>
-          <option>No, some exceptions</option>
-          <option>No, adopters responsible</option>
-          <option>Not applicable</option>
-        </select>
-      </div>
-
-      <div className="flex flex-col">
-        <label>Sterilization Approach</label>
-        <textarea
-          className="border p-2 rounded-md"
-          value={formData.medical_adoption[2]}
-          onChange={(e) => handleChange("medical_adoption", e.target.value, 2)}
-        />
-      </div>
-
-      {/* Adoption Contract */}
-
-
-      <div className="flex flex-col">
-        <label className="text-red-500">Do you have an adoption contract? (PDF)</label>
-        <input
-          type="file"
-          accept="application/pdf"
-          // onChange={async (e) => {
-          //   const file = e.target.files[0];
-          //   if (file) {
-          //     const fileId = await uploadFile(file);
-          //     if (fileId) {
-          //       dispatch({ field: "adoption_contract", value: fileId });
-          //     }
-          //   }
-          // }}
-          onChange={(e) => setAdoptionContractFile(e.target.files[0])}
-          className="border p-2 rounded-md"
-        />
-      </div>
-
-
-      {/* Adoptions policies & mission statement */}
-      <h4 className="text-md font-semibold mt-4">Mission statement, Adoptions policies & Adoption process</h4>
-      {[
-        { label: "Mission Statement", field: "mission" },
-        { label: "Adoption Policies", field: "adoption_policies" },
-        { label: "Adoption Process", field: "adoption_process" },
-        { label: "Online Adoption Application Link", field: "adoption_link" }
-      ].map(({ label, field }) => (
-        <div className="flex flex-col" key={field}>
-          <label>{label}</label>
-          <input
-            type={field.includes("Link") ? "url" : "text"}
-            className="border p-2 rounded-md"
-            value={formData[field]}
-            onChange={(e) => handleChange(field, e.target.value)}
-          />
-        </div>
-      ))}
-      {/* Online Presence */}
-      <h3 className="text-lg font-semibold mt-6">Online Presence</h3>
-
-      {["Website", "Facebook", "Instagram", "Other Social"].map((label, i) => (
-        <div className="flex flex-col" key={label}>
-          <label>{label}</label>
-          <input
-            type="url"
-            className="border p-2 rounded-md"
-            value={formData.online_presence[i]}
-            onChange={(e) => handleChange("online_presence", e.target.value, i)}
-          />
-        </div>
-      ))}
-
-      <button
-        type="submit"
-        disabled={formLoading}
-        className="w-full bg-blue-600 text-white py-2 px-4 rounded-md font-semibold hover:bg-blue-700"
-      >
-        {formLoading ? <ButtonSpinner /> : "Submit"}
-      </button>
-
-      {showToast && <Toast message="Organization info updated!" />}
-    </form>
+    </div>
   );
 };
 

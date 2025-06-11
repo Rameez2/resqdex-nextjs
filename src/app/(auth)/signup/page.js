@@ -58,6 +58,7 @@ function SignUpForm() {
         const newUser = await registerUser(formData.name, formData.email, formData.password, formData.role);
         setToast({ message: "Sign Up success!", type: "success" });
         setUser(newUser);
+        
         return;
       }
       throw new Error("OTP DOES NOT MATCH");
@@ -195,12 +196,12 @@ function SignUpForm() {
 
                 <div className="space-y-2">
                   <label htmlFor="otp" className="block text-sm font-medium text-black">
-                    Enter OTP
+                    Enter verification code 
                   </label>
                   <input
                     id="otp"
                     type="text"
-                    placeholder="OTP code"
+                    placeholder="verification code"
                     value={userOTP}
                     onChange={(e) => setUserOTP(e.target.value)}
                     className="w-full rounded-md border border-[#d8dadc] px-4 py-3 text-black outline-none focus:border-primary focus:ring-1 focus:ring-primary"
@@ -220,7 +221,7 @@ function SignUpForm() {
                       Loading...
                     </>
                   ) : (
-                    'Verify OTP'
+                    'Verify Code'
                   )}
                 </button>
               </>

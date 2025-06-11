@@ -23,12 +23,15 @@ const Nav = () => {
     <div className="border-b border-primary">
       {/* Header */}
       <header className="container h-[70px] mx-auto px-4 py-4 flex items-center justify-between gap-2">
-      <div className="relative w-[120px] h-auto">
-  <img src="/logo.png" alt="Logo" className="absolute top-[-34px] left-0 w-full h-auto" />
-</div>
+        <div className="relative w-[150px] h-auto">
+          <Link href="/">
+
+            <img src="/logo.png" alt="Logo" className="absolute top-[-34px] left-0 w-full h-auto" />
+          </Link>
+        </div>
 
         <nav className="hidden md:flex items-center space-x-8 font-bold whitespace-nowrap">
-          <Link href="/" className="text-[#000000] hover:text-primary">
+          {/* <Link href="/" className="text-[#000000] hover:text-primary">
             Home
           </Link>
           <Link href="/about-us" className="text-[#000000] hover:text-primary whitespace-nowrap">
@@ -39,7 +42,25 @@ const Nav = () => {
           </Link>
           <Link href="contact-us" className="text-[#000000] hover:text-primary whitespace-nowrap">
             Contact Us
+          </Link> */}
+          <Link href="/" className="text-[#000000] hover:text-primary">
+            Find Pets
           </Link>
+          <Link href="/" className="text-[#000000] hover:text-primary">
+            Adopt
+          </Link>
+          <Link href="/" className="text-[#000000] hover:text-primary">
+            Rescue Hub
+          </Link>
+          <Link href="/" className="text-[#000000] hover:text-primary">
+            Get Involved
+          </Link>
+          <Link href="/" className="text-[#000000] hover:text-primary">
+            Resources
+          </Link>
+
+
+
         </nav>
         <div className="flex items-center space-x-4">
           {loading ? 'loading...' : user ?
@@ -64,12 +85,12 @@ const Nav = () => {
                       </Link>
                       : ''
               }
-              {user.role === "Adopter" && 
+              {user.role === "Adopter" &&
                 <Link href="/favorites" title="Favorites">
-                <Heart className="w-9 h-9 text-primary" />
-              </Link>
+                  <Heart className="w-9 h-9 text-primary" />
+                </Link>
               }
-              
+
               <Link href="/messages">
                 <MessageSquare className="w-9 h-9 text-primary" />
               </Link>

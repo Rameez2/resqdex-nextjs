@@ -13,7 +13,7 @@ const authRouteProtect = (WrappedComponent) => {
     useEffect(() => {
       if (!loading && user) {
         setRedirecting(true);  // Set state before redirecting to avoid re-rendering issues
-        router.push("/");
+        router.push("/profile");
       }
     }, [user, loading, router]);
 
