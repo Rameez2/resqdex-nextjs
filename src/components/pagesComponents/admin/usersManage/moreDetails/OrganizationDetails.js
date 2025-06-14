@@ -4,6 +4,7 @@ import { X } from 'lucide-react';
 import ButtonSpinner from '@/components/ui/buttonSpinner';
 import Toast from '@/components/ui/Toast';
 import { storage } from '@/lib/appwrite/appwrite';
+import OrgDetailsComp from './OrgDetailsComp';
 
 const OrganizationDetails = ({ user, setSelectedMoreInfo }) => {
   const [statusLoading, setStatusLoading] = useState(null);
@@ -72,7 +73,7 @@ const OrganizationDetails = ({ user, setSelectedMoreInfo }) => {
         </div>
 
         <h1 className="text-[#e17716] text-4xl font-bold text-center mb-2">Organization Details</h1>
-
+{/* 
         <div className="grid md:grid-cols-2 gap-8">
           <div>
             <h2 className={sectionTitle}>Shelter Info</h2>
@@ -189,8 +190,8 @@ const OrganizationDetails = ({ user, setSelectedMoreInfo }) => {
               ))}
             </ul>
           </div>
-        </div>
-
+        </div> */}
+        <OrgDetailsComp orgData={Info}/>
         <div className={buttonContainerClasses}>
           <button
             onClick={() => changeStatus("Approved")}
