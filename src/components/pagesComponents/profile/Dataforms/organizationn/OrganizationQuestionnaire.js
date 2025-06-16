@@ -1,12 +1,8 @@
-import ButtonSpinner from "@/components/ui/buttonSpinner";
-import Toast from "@/components/ui/Toast";
 import { useUser } from "@/context/userContext";
-import { storage } from "@/lib/appwrite/appwrite";
 import { updateOrgForm } from "@/lib/appwrite/org-from";
 import withAuth from "@/lib/middlewares/withAuth";
-import { ID } from "appwrite";
-import React, { useReducer, useState } from "react";
-import { MapPin, Mail, Globe, Users, Heart, FileText, Shield, Dog, Cat, Bird, Fish, Rabbit } from "lucide-react"
+import { useState } from "react";
+import { Heart, FileText} from "lucide-react"
 import OrgBasicInfo from "./orgComponents/OrgBasicInfo";
 import OrgHours from "./orgComponents/orgHours";
 import OrgAddress from "./orgComponents/OrgAddress";
@@ -18,7 +14,6 @@ import NumOfPets from "./orgComponents/aboutOrg/NumOfPets";
 import AdoptionFeeRange from "./orgComponents/aboutOrg/AdoptionFeeRange";
 import AnimalsAdoptedOut from "./orgComponents/aboutOrg/AnimalsAdoptedOut";
 import OrgMedicalCare from "./orgComponents/aboutOrg/OrgMedicalCare";
-import AdoptContract from "./orgComponents/aboutOrg/adoptContract";
 import AdoptionContract from "./orgComponents/aboutOrg/AdoptionContract";
 import MissionStatement from "./orgComponents/aboutOrg/MissionStatement";
 import AdoptionPolicies from "./orgComponents/aboutOrg/AdoptionPolicies";

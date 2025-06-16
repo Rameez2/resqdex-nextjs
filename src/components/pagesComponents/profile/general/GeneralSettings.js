@@ -10,7 +10,7 @@ import { useUser } from "@/context/userContext"
 import { updateUserData } from "@/lib/appwrite/user"
 import Toast from "@/components/ui/Toast"
 import ButtonSpinner from "@/components/ui/buttonSpinner"
-import AdopterQuestionnaire from "../Dataforms/AdopterQuestionnaire"
+import AdopterQuestionnaire from "../Dataforms/adopterr/AdopterQuestionnaire"
 
 export default function GeneralSettings() {
   const router = useRouter();
