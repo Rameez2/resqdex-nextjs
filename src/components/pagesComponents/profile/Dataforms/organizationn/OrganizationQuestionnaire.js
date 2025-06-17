@@ -20,6 +20,7 @@ import AdoptionPolicies from "./orgComponents/aboutOrg/AdoptionPolicies";
 import AdoptionProcess from "./orgComponents/aboutOrg/AdoptionProcess";
 import OnlineAdoptApplicationLink from "./orgComponents/aboutOrg/OnlineAdoptApplicationLink";
 import OnlinePresence from "./orgComponents/aboutOrg/OnlinePresence";
+import ButtonSpinner from "@/components/ui/buttonSpinner";
 
 
 const initialState = {
@@ -47,7 +48,8 @@ const initialState = {
     "62704", // Zip
     "USA", // Country
     "217-555-0198", // Phone
-    "101" // Phone Ext
+    "101", // Phone Ext
+    "" // Fax
   ],
   mailing_address: [
     "P.O. Box 456", // Address
@@ -108,31 +110,24 @@ const initialState = {
 };
 
 
-
-
-
-
 const OrganizationQuestionnaire = () => {
   const [formData, setFormData] = useState(initialState);
   const { loading, user, setUser } = useUser();
-  // const [adoptionContractFile, setAdoptionContractFile] = useState(null);
-
-  // /////////////////// DESIGN ////////////
-  const [sameAsAddress, setSameAsAddress] = useState(false);
-  ///////////// DESIGN OVER ///////////
-
+  const [submitLoading,setSubmitLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      setSubmitLoading(true);
       console.log('form data', formData);
 
       await updateOrgForm(user.$id, user.organizationData.$id, formData);
       setUser({ ...user, status: "Pending" });
-      alert("SUBMIT")
     } catch (error) {
-      console.log(error);
-      
+      console.log(error);      
+    }
+    finally {
+      setSubmitLoading(false);
     }
   };
 
@@ -185,10 +180,10 @@ const OrganizationQuestionnaire = () => {
           <OrgHours data={formData.hours} onChange={(newHours) => updateSection("hours", newHours)} />
 
           <OrgAddress data={formData.physical_address} onChange={handlePhysicalAddressChange} />
-          <OrgMailAddress mailingAddress={formData.mailing_address} onChange={(updatedAddress) => setFormData(prev => ({ ...prev, mailing_address: updatedAddress }))} />
+          <OrgMailAddress mailingAddress={formData.mailing_address} sameData={formData.physical_address} onChange={(updatedAddress) => setFormData(prev => ({ ...prev, mailing_address: updatedAddress }))} />
 
           {/* <OrgAdoptAmbassador /> */}
-          <OrgAdoptAmbassador data={formData.adoption_ambassador} onChange={(newData) => updateSection("adoption_ambassador", newData)} />
+          <OrgAdoptAmbassador data={formData.adoption_ambassador} sameData={formData.basic_info} onChange={(newData) => updateSection("adoption_ambassador", newData)} />
 
           <OrgVetInfo data={formData.veterinarian_info} onChange={(newData) => updateSection("veterinarian_info", newData)} />
 
@@ -258,6 +253,7 @@ const OrganizationQuestionnaire = () => {
               type="submit"
               className="w-full md:w-auto px-12 py-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-medium rounded-lg shadow-sm transition-all duration-200 transform hover:scale-105"
             >
+            {submitLoading && <ButtonSpinner/>}
               Submit Application
             </button>
           </div>

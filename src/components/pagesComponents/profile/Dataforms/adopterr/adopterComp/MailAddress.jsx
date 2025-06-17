@@ -1,6 +1,14 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
-const MailAddress = ({ data, onChange }) => {
+const MailAddress = ({ data, sameData, onChange }) => {
+
+    const [sameAs,setSameAs] = useState(false);
+
+    useEffect(() => {
+        if(sameAs) {
+            onChange(sameData);
+        }
+    }, [sameAs]);
 
     const update = (index, value) => {
         const updated = [...data];
@@ -17,6 +25,7 @@ const MailAddress = ({ data, onChange }) => {
                         type="checkbox"
                         id="sameAddress"
                         className="w-4 h-4 text-[#8a0e10] rounded focus:ring-[#8a0e10]"
+                        onChange={() => setSameAs(!sameAs)}
                     />
                     <label htmlFor="sameAddress" className="text-sm text-gray-700">
                         Mailing address is the same as current address

@@ -82,7 +82,7 @@ useEffect(() => {
           <div className="px-6 py-6">
             <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
               <div className="flex items-center gap-4">
-                <div className="bg-[#8a0e10] p-3 rounded-full flex-shrink-0">
+                <div className="bg-primary p-3 rounded-full flex-shrink-0">
                   <Eye className="h-6 w-6 text-white" />
                 </div>
                 <div>
@@ -96,11 +96,11 @@ useEffect(() => {
                   Under Review
                 </span>
                 <div className="flex gap-2">
-                  <button className="flex items-center gap-2 px-4 py-2 bg-[#8a0e10] text-white rounded-md hover:bg-[#6b0b0d] transition-colors text-sm">
+                  <button className="flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-md hover:bg-[#6b0b0d] transition-colors text-sm">
                     <Download className="h-4 w-4" />
                     Export PDF
                   </button>
-                  <button className="flex items-center gap-2 px-4 py-2 border border-[#8a0e10] text-[#8a0e10] rounded-md hover:bg-[#8a0e10] hover:text-white transition-colors text-sm">
+                  <button className="flex items-center gap-2 px-4 py-2 border border-primary text-primary rounded-md hover:bg-primary hover:text-white transition-colors text-sm">
                     <Mail className="h-4 w-4" />
                     Contact
                   </button>
@@ -116,7 +116,7 @@ useEffect(() => {
           <div className="xl:col-span-3 space-y-6">
             {/* Personal Information */}
             <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-              <div className="bg-[#8a0e10] px-6 py-4">
+              <div className="bg-primary px-6 py-4">
                 <div className="flex items-center gap-3">
                   <User className="h-5 w-5 text-white" />
                   <h2 className="text-lg font-semibold text-white">Personal Information</h2>
@@ -150,7 +150,7 @@ useEffect(() => {
 
             {/* Address Information */}
             <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-              <div className="bg-[#8a0e10] px-6 py-4">
+              <div className="bg-primary px-6 py-4">
                 <div className="flex items-center gap-3">
                   <Home className="h-5 w-5 text-white" />
                   <h2 className="text-lg font-semibold text-white">Address Information</h2>
@@ -209,7 +209,7 @@ useEffect(() => {
 
             {/* Household Information */}
             <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-              <div className="bg-[#8a0e10] px-6 py-4">
+              <div className="bg-primary px-6 py-4">
                 <div className="flex items-center gap-3">
                   <Home className="h-5 w-5 text-white" />
                   <h2 className="text-lg font-semibold text-white">Household Information</h2>
@@ -269,7 +269,7 @@ useEffect(() => {
 
             {/* Experience with Pets */}
             <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-              <div className="bg-[#8a0e10] px-6 py-4">
+              <div className="bg-primary px-6 py-4">
                 <div className="flex items-center gap-3">
                   <PawPrint className="h-5 w-5 text-white" />
                   <h2 className="text-lg font-semibold text-white">Experience with Pets</h2>
@@ -315,7 +315,7 @@ useEffect(() => {
 
             {/* Pet Preferences & Expectations */}
             <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-              <div className="bg-[#8a0e10] px-6 py-4">
+              <div className="bg-primary px-6 py-4">
                 <div className="flex items-center gap-3">
                   <Heart className="h-5 w-5 text-white" />
                   <h2 className="text-lg font-semibold text-white">Pet Preferences & Expectations</h2>
@@ -359,7 +359,7 @@ useEffect(() => {
 
             {/* Emergency & Commitment */}
             <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-              <div className="bg-[#8a0e10] px-6 py-4">
+              <div className="bg-primary px-6 py-4">
                 <div className="flex items-center gap-3">
                   <Shield className="h-5 w-5 text-white" />
                   <h2 className="text-lg font-semibold text-white">Emergency & Commitment</h2>
@@ -425,7 +425,7 @@ useEffect(() => {
 
             {/* Lifestyle & Schedule */}
             <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-              <div className="bg-[#8a0e10] px-4 py-4">
+              <div className="bg-primary px-4 py-4">
                 <div className="flex items-center gap-3">
                   <Calendar className="h-5 w-5 text-white" />
                   <h3 className="text-lg font-semibold text-white">Lifestyle & Schedule</h3>
@@ -461,7 +461,7 @@ useEffect(() => {
 
             {/* Financial Responsibility */}
             <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-              <div className="bg-[#8a0e10] px-4 py-4">
+              <div className="bg-primary px-4 py-4">
                 <div className="flex items-center gap-3">
                   <DollarSign className="h-5 w-5 text-white" />
                   <h3 className="text-lg font-semibold text-white">Financial Responsibility</h3>

@@ -1,8 +1,9 @@
-import React from "react";
+import { useState } from "react";
 import { Users } from "lucide-react";
 
 export default function OrgBasicInfo({ data, onChange }) {
-  const [hideFromPublic, setHideFromPublic] = React.useState(false);
+  const [hideFromPublic, setHideFromPublic] = useState(false);
+  const [confirmEmail,setConfirmEmail] = useState('');
 
   const update = (index, value) => {
     const updated = [...data];
@@ -27,7 +28,7 @@ export default function OrgBasicInfo({ data, onChange }) {
             type="checkbox"
             id="hideFromPublic"
             checked={hideFromPublic}
-            onChange={(e) => {setHideFromPublic(e.target.checked);update(5,hideFromPublic ? "no" : "yes")}}
+            onChange={(e) => {setHideFromPublic(e.target.checked);update(6,hideFromPublic ? "no" : "yes")}}
             className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
           />
           <label htmlFor="hideFromPublic" className="text-sm text-gray-700">
@@ -122,13 +123,18 @@ export default function OrgBasicInfo({ data, onChange }) {
             <input
               type="email"
               id="verifyEmail"
-              value={data[4]}
-              readOnly
+              value={confirmEmail}
+              onChange={(e) => setConfirmEmail(e.target.value)}
               placeholder="Confirm email address"
-              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm bg-gray-100 text-gray-500 cursor-not-allowed"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             />
           </div>
         </div>
+        {(data[4] !== confirmEmail) && <p className="block text-sm font-medium text-red-600 text-center">
+  Email and Confirm Email do not match.
+</p> }
+
+
       </div>
     </div>
   );

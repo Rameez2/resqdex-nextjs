@@ -71,17 +71,17 @@ const OrgAddress = ({ data, onChange }) => {
             />
           </div>
           <div className="space-y-2">
-            <label htmlFor="country" className="block text-sm font-medium text-gray-700">
-              Country
-            </label>
-            <input
-              type="text"
-              id="country"
-              placeholder="Country"
+            <label className="block text-sm font-medium text-gray-700 mb-2">State</label>
+            <select className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#8a0e10] focus:border-transparent"
               value={data[3] || ""}
-              onChange={e => handleAddressChange(3, e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500"
-            />
+              onChange={(e) => handleAddressChange(3, e.target.value)}
+            >
+              <option value="">Select your state</option>
+              <option value="ca">California</option>
+              <option value="ny">New York</option>
+              <option value="tx">Texas</option>
+              <option value="fl">Florida</option>
+            </select>
           </div>
         </div>
 
@@ -113,6 +113,21 @@ const OrgAddress = ({ data, onChange }) => {
             />
           </div>
         </div>
+
+        <div className="space-y-2">
+          <label htmlFor="fax" className="block text-sm font-medium text-gray-700">
+            Fax
+          </label>
+          <input
+            type="text"
+            id="fax"
+            placeholder="Fax"
+            value={data[6] || ""}
+            onChange={e => handleAddressChange(6, e.target.value)}
+            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+
       </div>
     </div>
   );

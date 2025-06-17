@@ -1,7 +1,11 @@
 import { Home } from "lucide-react";
+import { useState } from "react";
 
 
 const HouseHoldInfo = ({ data, onChange }) => {
+
+    const [isAllergic,setIsAllergic] = useState(false);
+
     const update = (index, value) => {
         const updated = [...data];
         updated[index] = value;
@@ -85,13 +89,32 @@ const HouseHoldInfo = ({ data, onChange }) => {
                             <label className="block text-sm font-medium text-gray-700 mb-2">
                                 Is anyone allergic to animals? Please explain
                             </label>
+
+                            <div className="flex gap-4">
+                                <label className="flex items-center">
+                                    <input type="radio" name="agree" value="yes" className="w-4 h-4 text-[#8a0e10] mr-2"
+                                        onChange={() =>{ update(4, "");;setIsAllergic(true)}}
+                                    />
+                                    <span className="text-gray-700">Yes</span>
+                                </label>
+                                <label className="flex items-center">
+                                    <input type="radio" name="agree" value="no" className="w-4 h-4 text-[#8a0e10] mr-2"
+                                        onChange={(e) => {update(4, e.target.value);setIsAllergic(false)}}
+                                    />
+                                    <span className="text-gray-700">No</span>
+                                </label>
+                            </div>
+                            {isAllergic ? 
                             <textarea
                                 placeholder="Describe any allergies or sensitivities"
                                 rows="3"
                                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#8a0e10] focus:border-transparent resize-none"
                                 value={data[4] || ""}
                                 onChange={(e) => update(4, e.target.value)}
-                            ></textarea>
+                            ></textarea> :
+                                <></>
+                            }
+
                         </div>
                         <div className="md:col-span-2">
                             <label className="block text-sm font-medium text-gray-700 mb-2">

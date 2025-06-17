@@ -1,7 +1,20 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Users } from "lucide-react";
 
-const OrgAdoptAmbassador = ({ data, onChange }) => {
+const OrgAdoptAmbassador = ({ data, sameData, onChange }) => {
+
+    const [sameAs, setSameAs] = useState(false);
+    const [confirmEmail, setConfirmEmail] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+
+    useEffect(() => {
+        if (sameAs) {
+            console.log('mail address changed');
+
+            onChange(sameData);
+        }
+    }, [sameAs]);
+
 
     const update = (index, value) => {
         const updated = [...data];
@@ -23,8 +36,17 @@ const OrgAdoptAmbassador = ({ data, onChange }) => {
                     <p className="text-green-700 mt-1">The person who posts pets to the site for adopters to see</p>
                 </div>
                 <div className="p-6 space-y-6">
-                    <div className="bg-green-100 p-4 rounded-lg border border-green-200">
-                        <p className="text-sm text-green-800 font-medium">All info same as "Main Shelter/Rescue Contact"</p>
+
+                    <div className="flex items-center space-x-2">
+                        <input
+                            type="checkbox"
+                            id="adopAmb"
+                            onChange={() => setSameAs(!sameAs)}
+                            className="w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500"
+                        />
+                        <label htmlFor="adopAmb" className="text-sm text-gray-700">
+                            All info same as "Main Shelter/Rescue Contact"
+                        </label>
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -92,18 +114,22 @@ const OrgAdoptAmbassador = ({ data, onChange }) => {
                                 className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
                             />
                         </div>
-                        {/* <div className="space-y-2">
-              <label htmlFor="ambassadorVerifyEmail" className="block text-sm font-medium text-gray-700">Verify Email</label>
-              <input
-                type="email"
-                id="ambassadorVerifyEmail"
-                placeholder="Confirm email"
-                value={data.verifyEmail || ""}
-                onChange={handleChange("verifyEmail")}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
-              />
-            </div> */}
+                        <div className="space-y-2">
+                            <label htmlFor="ambassadorVerifyEmail" className="block text-sm font-medium text-gray-700">Verify Email</label>
+                            <input
+                                type="email"
+                                id="ambassadorVerifyEmail"
+                                placeholder="Confirm email"
+                                value={confirmEmail}
+                                onChange={(e) => setConfirmEmail(e.target.value)}
+                                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                            />
+                        </div>
                     </div>
+
+                    {(data[4] !== confirmEmail) && <p className="block text-sm font-medium text-red-600 text-center">
+                        Email and Confirm Email do not match.
+                    </p>}
 
                     <span>Will be used by person to log in</span>
 
@@ -120,18 +146,21 @@ const OrgAdoptAmbassador = ({ data, onChange }) => {
                                 className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
                             />
                         </div>
-                        {/* <div className="space-y-2">
-              <label htmlFor="ambassadorConfirmPassword" className="block text-sm font-medium text-gray-700">Confirm Password</label>
-              <input
-                type="password"
-                id="ambassadorConfirmPassword"
-                placeholder="Confirm Password"
-                value={data.confirmPassword || ""}
-                onChange={handleChange("confirmPassword")}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
-              />
-            </div> */}
+                        <div className="space-y-2">
+                            <label htmlFor="ambassadorConfirmPassword" className="block text-sm font-medium text-gray-700">Confirm Password</label>
+                            <input
+                                type="password"
+                                id="ambassadorConfirmPassword"
+                                placeholder="Confirm Password"
+                                value={confirmPassword}
+                                onChange={(e) => setConfirmPassword(e.target.value)}
+                                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                            />
+                        </div>
                     </div>
+                    {(data[5] !== confirmPassword) && <p className="block text-sm font-medium text-red-600 text-center">
+                        Password and Confirm Password do not match.
+                    </p>}
                     <span>Password must be at least 6 characters long, contain 1 capital, 1 lowercase, 1 number, and 1 special character</span>
                 </div>
             </div>

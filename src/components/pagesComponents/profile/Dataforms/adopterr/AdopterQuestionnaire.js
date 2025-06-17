@@ -15,6 +15,7 @@ import FinancialResponsibility from "./adopterComp/FinancialResponsibility";
 import PreferenceExpect from "./adopterComp/PreferenceExpect";
 import EmergencyCommitment from "./adopterComp/EmergencyCommitment";
 import { updateRecord } from "@/lib/appwrite/dataForms";
+import ButtonSpinner from "@/components/ui/buttonSpinner";
 
 // ----------------- INITIAL STATE -----------------
 const initialState = {
@@ -102,13 +103,17 @@ const AdopterQuestionnaire = ({ isOpen, onClose, onSubmit }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      setSubmitLoading(true);
       console.log('fornData', formData);
       await updateRecord(user.$id, user.additionalInfo.$id, formData, "adopter");
       user.status = "Pending";
       setUser(user);
-
+      onClose();
     } catch (error) {
       console.log(error);
+    }
+    finally {
+      setSubmitLoading(false);
     }
   };
 
@@ -123,17 +128,24 @@ const AdopterQuestionnaire = ({ isOpen, onClose, onSubmit }) => {
 
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center bg-black bg-opacity-50 p-4">
+    <div className="fixed inset-0 z-50 flex items-center bg-white/60 backdrop-blur-sm p-4">
+<button
+  onClick={onClose}
+  className="absolute top-[11px] right-[30px] text-gray-500 hover:text-gray-700 text-[40px]"
+>
+  &times;
+</button>
+
       {/* Modal Container with Scrollable Content */}
       <div className="relative bg-white w-[80%] mr-auto ml-auto p-6 rounded-lg shadow-lg max-h-[80vh] overflow-y-auto">
 
         {/* Close Button */}
-        <button
+        {/* <button
           onClick={onClose}
           className="absolute top-3 right-3 text-gray-500 hover:text-gray-700 text-2xl"
         >
           &times;
-        </button>
+        </button> */}
 
         {/* MODEL STARTS */}
 
@@ -142,7 +154,7 @@ const AdopterQuestionnaire = ({ isOpen, onClose, onSubmit }) => {
             {/* Header */}
             <div className="text-center mb-8">
               <div className="flex items-center justify-center gap-3 mb-4">
-                <Heart className="h-8 w-8 text-[#8a0e10]" />
+                <Heart className="h-8 w-8 text-primary" />
                 <h1 className="text-3xl font-bold text-gray-900">Pet Adoption Application</h1>
               </div>
               <p className="text-gray-600 max-w-xl mx-auto">
@@ -154,7 +166,7 @@ const AdopterQuestionnaire = ({ isOpen, onClose, onSubmit }) => {
               <PersonalInfo data={formData.personal_info} onChange={(newData) => updateSection('personal_info', newData)} />
               {/* Address Information */}
               <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-                <div className="bg-[#8a0e10] p-4">
+                <div className="bg-primary p-4">
                   <div className="flex items-center gap-3">
                     <Home className="h-5 w-5 text-white" />
                     <h2 className="text-lg font-semibold text-white">Address Information</h2>
@@ -164,7 +176,7 @@ const AdopterQuestionnaire = ({ isOpen, onClose, onSubmit }) => {
                   <div className="space-y-6">
                     <AddressInfo data={formData.address} onChange={(newData) => updateSection('address', newData)} />
 
-                    <MailAddress data={formData.mail_address} onChange={(newData) => updateSection('mail_address', newData)}/>
+                    <MailAddress data={formData.mail_address} sameData={formData.address} onChange={(newData) => updateSection('mail_address', newData)}/>
                   </div>
                 </div>
               </div>
@@ -185,9 +197,10 @@ const AdopterQuestionnaire = ({ isOpen, onClose, onSubmit }) => {
               <div className="flex justify-center pt-6">
                 <button
                   type="submit"
-                  className="px-8 py-3 bg-[#8a0e10] text-white font-medium rounded-md hover:bg-[#6b0b0d] transition-colors duration-200 flex items-center gap-2"
+                  className="px-8 py-3 bg-primary text-white font-medium rounded-md hover:bg-[#6b0b0d] transition-colors duration-200 flex items-center gap-2"
                 >
                   <Heart className="h-5 w-5" />
+                  {submitLoading && <ButtonSpinner/> }
                   Submit Application
                 </button>
               </div>

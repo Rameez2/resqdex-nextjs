@@ -1,6 +1,17 @@
 import { Mail } from "lucide-react";
+import { useEffect, useState } from "react";
 
-const OrgMailAddress = ({ mailingAddress, onChange }) => {
+const OrgMailAddress = ({ mailingAddress, sameData, onChange }) => {
+
+  const [sameAs, setSameAs] = useState(false);
+
+  useEffect(() => {
+    if (sameAs) {
+      console.log('mail address changed');
+
+      onChange(sameData);
+    }
+  }, [sameAs]);
 
   const handleChange = (index, value) => {
     const updated = [...mailingAddress];
@@ -20,11 +31,11 @@ const OrgMailAddress = ({ mailingAddress, onChange }) => {
         <p className="text-green-700 mt-1">Address for correspondence (not seen by public)</p>
       </div>
       <div className="p-6 space-y-6">
-              <div className="flex items-center space-x-2">
+        <div className="flex items-center space-x-2">
           <input
             type="checkbox"
             id="sameAsAddress"
-            // onChange={(e) => handleCheckboxChange(e.target.checked)}
+            onChange={() => setSameAs(!sameAs)}
             className="w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500"
           />
           <label htmlFor="sameAsAddress" className="text-sm text-gray-700">
@@ -72,17 +83,17 @@ const OrgMailAddress = ({ mailingAddress, onChange }) => {
             />
           </div>
           <div className="space-y-2">
-            <label htmlFor="mailingState" className="block text-sm font-medium text-gray-700">
-              State/Country
-            </label>
-            <input
-              type="text"
-              id="mailingState"
-              placeholder="State/Country"
+            <label className="block text-sm font-medium text-gray-700 mb-2">State</label>
+            <select className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#8a0e10] focus:border-transparent"
               value={mailingAddress[3] || ""}
-              onChange={(e) => handleChange(3, e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
-            />
+              onChange={(e) => update(3, e.target.value)}
+            >
+              <option value="">Select your state</option>
+              <option value="ca">California</option>
+              <option value="ny">New York</option>
+              <option value="tx">Texas</option>
+              <option value="fl">Florida</option>
+            </select>
           </div>
         </div>
       </div>
