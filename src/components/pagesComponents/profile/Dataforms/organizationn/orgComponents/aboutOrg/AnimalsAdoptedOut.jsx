@@ -13,7 +13,7 @@ const AnimalsAdoptedOut = ({ data, onChange }) => {
 
     return (
         <div className="space-y-4">
-            <label className="block text-sm font-medium text-gray-700">
+            <label className="block text-sm font-medium text-red-600">
                 Types of Animals You Have Adopted Out
             </label>
 
@@ -38,16 +38,29 @@ const AnimalsAdoptedOut = ({ data, onChange }) => {
                             checked={data[index]}
                             onChange={(e) => update(index, e.target.checked)}
                             className="sr-only peer"
+                            
                         />
                         <label
                             htmlFor={animal.id}
-                            className="flex items-center justify-between px-4 py-3 bg-white border-2 border-gray-200 rounded-lg cursor-pointer transition-all duration-200 hover:border-blue-300 hover:bg-blue-50 peer-checked:border-blue-500 peer-checked:bg-blue-50 peer-checked:text-blue-700 group-hover:shadow-md"
+                            className="flex flex-col items-start justify-between px-4 py-3 bg-white border-2 border-gray-200 rounded-lg cursor-pointer transition-all duration-200 hover:border-blue-300 hover:bg-blue-50 peer-checked:border-blue-500 peer-checked:bg-blue-50 peer-checked:text-blue-700 group-hover:shadow-md"
                         >
-                            <span className="text-sm font-medium text-gray-700 peer-checked:text-blue-700">{animal.label}</span>
-
+                            <span className="text-sm font-medium text-gray-700 peer-checked:text-blue-700">
+                                {animal.label}
+                            </span>
+                            {animal.id === "farm" && (
+                                <span className="text-xs text-gray-500 mt-1">
+                                    Farm Animals (like cows, goats, pigs, sheep)
+                                </span>
+                            )}
+                            {animal.id === "pocketpets" && (
+                                <span className="text-xs text-gray-500 mt-1">
+                                    Pocket Pals (like hamsters, rats, and guinea pigs)
+                                </span>
+                            )}
                         </label>
                     </div>
                 ))}
+
             </div>
 
 

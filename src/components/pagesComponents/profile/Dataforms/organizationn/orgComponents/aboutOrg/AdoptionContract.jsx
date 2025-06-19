@@ -39,6 +39,7 @@ const AdoptionContract = ({data,onChange}) => {
                                 id="contract-yes"
                                 name="adoptionContract"
                                 value="yes"
+                                required
                                 checked={adoptionContract === "yes"}
                                 onChange={(e) => setAdoptionContract(e.target.value)}
                                 className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500"

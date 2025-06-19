@@ -13,7 +13,7 @@ const OnlinePresence = ({data,onChange}) => {
 <>
               {/* Online Presence */}
           <div className="bg-white rounded-lg shadow-sm border border-gray-200">
-            <div className="p-6 border-b border-gray-200">
+            <div className="p-6 border-b border-gray-200 flex items-center flex-col">
               <h2 className="text-xl font-semibold text-gray-900 flex items-center gap-2">
                 <div className="w-8 h-8 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-lg flex items-center justify-center">
                   <Globe className="w-5 h-5 text-white" />

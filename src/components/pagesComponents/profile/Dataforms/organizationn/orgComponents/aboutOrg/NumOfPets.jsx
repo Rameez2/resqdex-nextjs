@@ -8,12 +8,13 @@ const NumOfPets = ({data,onChange}) => {
 
     return (
             <div className="space-y-2">
-                <label htmlFor="numberOfPets" className="block text-xs text-gray-600">
+                <label htmlFor="numberOfPets" className="block text-xs text-red-600">
                     Approximately how many animals does your organization CURRENTLY have for adoption?
                 </label>
                 <input
                     type="text"
                     id="numberOfPets"
+                    required
                     placeholder="1-25"
                     value={data || ""}
                     onChange={(e) => update(e.target.value)}

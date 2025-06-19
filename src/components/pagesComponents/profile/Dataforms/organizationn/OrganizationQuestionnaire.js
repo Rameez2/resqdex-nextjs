@@ -25,13 +25,13 @@ import ButtonSpinner from "@/components/ui/buttonSpinner";
 
 const initialState = {
   basic_info: [
-    "Happy Tails Animal Shelter", // Shelter Name
-    "Emily", // Director First Name
-    "Johnson", // Director Last Name
-    "Executive Director", // Title
-    "emily.johnson@happytails.org", // Organization Email
-    "Non-Profit", // Type of Organization
-    "yes", // hide info from public
+    "", // Shelter Name
+    "", // Director First Name
+    "", // Director Last Name
+    "", // Title
+    "", // Organization Email
+    "", // Type of Organization
+    "", // hide info from public
   ],
   hours: [
     "Closed", // sun
@@ -43,69 +43,69 @@ const initialState = {
     "10:00 AM - 4:00 PM", // sat
   ],
   physical_address: [
-    "1234 Pawprint Lane", // Address
-    "Springfield", // City
-    "62704", // Zip
-    "USA", // Country
-    "217-555-0198", // Phone
-    "101", // Phone Ext
+    "", // Address
+    "", // City
+    "", // Zip
+    "", // Country
+    "", // Phone
+    "", // Phone Ext
     "" // Fax
   ],
   mailing_address: [
-    "P.O. Box 456", // Address
-    "Springfield", // City
-    "IL, USA", // State/Country
-    "62705" // Zip
+    "", // Address
+    "", // City
+    "", // State/Country
+    "" // Zip
   ],
   adoption_ambassador: [
-    "Michael", // First Name
-    "Thompson", // Last Name
-    "217-555-0123", // Phone
-    "202", // Phone Ext
-    "michael.thompson@happytails.org", // Email
-    "securePass123!" // Password
+    "", // First Name
+    "", // Last Name
+    "", // Phone
+    "", // Phone Ext
+    "", // Email
+    "" // Password
   ],
   veterinarian_info: [
-    "Dr. Lisa Green", // Vet Name
-    "217-555-0345", // Vet Phone
-    "301" // Vet Phone Ext
+    "", // Vet Name
+    "", // Vet Phone
+    "" // Vet Phone Ext
   ],
-  taxId: "12-3456789", // Tax ID
+  taxId: "", // Tax ID
   adoption_contract: "", // Adoption Contract File Id
   adopted_out :[
-    true, // Dogs
+    false, // Dogs
     false, // Cats
-    true, // Horses
-    true, // Reptiles
+    false, // Horses
+    false, // Reptiles
     false, // Pocket Pals
-    true, // Rabbits
-    true, // Farm Animals
-    true, // Birds
+    false, // Rabbits
+    false, // Farm Animals
+    false, // Birds
     false, // Exotics
     false, // Fish
-    true, // Ferrets
+    false, // Ferrets
   ],
   adoption_fees: [
     "250", // Highest Fee
     "25" // Lowest Fee
   ],
-  current_animals: "23",
-  animal_source: "Owner Surrenders, Strays, Transfers from other shelters",
+  current_animals: "0",
+  animal_source: "",
   medical_adoption: [
-    "All animals receive full medical screening and necessary vaccinations", // Medical Care
-    "No", // Spay Policy
-    "All animals are sterilized prior to adoption unless medically exempt", // Sterilization
+    "", // Medical Care
+    "", // Spay Policy
+    "", // Sterilization
     // "All adoptions require signed contracts" // Has Contract
   ],
-  mission: "To provide a safe haven for homeless animals and promote compassionate, lifelong adoptions.",
-  adoption_policies: "We require a home visit, reference checks, and meet-and-greet sessions with all adoptions.",
-  adoption_process: "Submit an application, attend an interview, and complete the adoption agreement upon approval.",
-  adoption_link: "https://www.happytails.org/adopt",
+  mission: "",
+  adoption_policies: "",
+  adoption_process: "",
+  adoption_link: "",
   online_presence: [
-    "https://www.happytails.org", // Website
-    "https://facebook.com/happytailshelter", // Facebook
-    "https://instagram.com/happytailshelter", // Instagram
-    "https://twitter.com/happytailsrescue" // Other Social
+    "", // Website
+    "", // Facebook
+    "", // Instagram
+    "" // Other Social
   ]
 };
 
@@ -191,7 +191,7 @@ const OrganizationQuestionnaire = () => {
 
           {/* About Your Organization */}
           <div className="bg-white rounded-lg shadow-sm border border-gray-200">
-            <div className="p-6 border-b border-gray-200">
+            <div className="p-6 border-b border-gray-200 flex items-center flex-col">
               <h2 className="text-xl font-semibold text-gray-900 flex items-center gap-2">
                 <div className="w-8 h-8 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-lg flex items-center justify-center">
                   <FileText className="w-5 h-5 text-white" />

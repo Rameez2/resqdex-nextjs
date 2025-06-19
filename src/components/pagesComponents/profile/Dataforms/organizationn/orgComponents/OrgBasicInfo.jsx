@@ -13,13 +13,13 @@ export default function OrgBasicInfo({ data, onChange }) {
 
   return (
     <div className="bg-white rounded-lg shadow-sm border border-gray-200">
-      <div className="p-6 border-b border-gray-200">
-        <h2 className="text-xl font-semibold text-gray-900 flex items-center gap-2">
-          <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-lg flex items-center justify-center">
-            <Users className="w-5 h-5 text-white" />
-          </div>
-          Basic Information
-        </h2>
+      <div className="p-6 border-b border-gray-200 flex items-center flex-col">
+  <h2 className="text-xl font-semibold text-gray-900 flex items-center gap-2">
+    <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-lg flex items-center justify-center">
+      <Users className="w-5 h-5 text-white" />
+    </div>
+    Basic Information
+  </h2>
         <p className="text-gray-600 mt-1">Tell us about your organization</p>
       </div>
       <div className="p-6 space-y-6">
@@ -44,6 +44,7 @@ export default function OrgBasicInfo({ data, onChange }) {
             <input
               type="text"
               id="shelterName"
+              required
               value={data[0]}
               onChange={(e) => update(0, e.target.value)}
               placeholder="Enter organization name"
@@ -59,6 +60,7 @@ export default function OrgBasicInfo({ data, onChange }) {
               id="orgType"
               value={data[5]}
               onChange={(e) => update(5, e.target.value)}
+              required
               className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             >
               <option value="">Select type</option>
@@ -110,6 +112,7 @@ export default function OrgBasicInfo({ data, onChange }) {
             <input
               type="email"
               id="email"
+              required
               value={data[4]}
               onChange={(e) => update(4, e.target.value)}
               placeholder="contact@organization.com"
@@ -122,6 +125,7 @@ export default function OrgBasicInfo({ data, onChange }) {
             </label>
             <input
               type="email"
+              required
               id="verifyEmail"
               value={confirmEmail}
               onChange={(e) => setConfirmEmail(e.target.value)}

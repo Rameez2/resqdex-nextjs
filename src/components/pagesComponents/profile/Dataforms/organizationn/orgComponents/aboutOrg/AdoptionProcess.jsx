@@ -6,7 +6,7 @@ const AdoptionProcess = ({data,onChange}) => {
     };
     return (
                   <div className="space-y-2">
-                    <label htmlFor="adoptionProcess" className="block text-sm font-medium text-gray-700">
+                    <label htmlFor="adoptionProcess" className="block text-sm font-medium text-red-600">
                       Adoption Process
                     </label>
                     <textarea
@@ -14,6 +14,7 @@ const AdoptionProcess = ({data,onChange}) => {
                       rows={4}
                       placeholder="Describe your adoption process..."
                       value={data || ""}
+                      required
                     onChange={(e) => update(e.target.value)}
                       className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                     />

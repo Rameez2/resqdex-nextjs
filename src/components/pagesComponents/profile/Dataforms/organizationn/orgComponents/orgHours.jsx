@@ -46,7 +46,7 @@ const OrgHours = ({data,onChange}) => {
         <>
                    {/* Hours Section */}
 <div className="bg-white rounded-lg shadow-sm border border-gray-200">
-      <div className="p-6 border-b border-gray-200">
+      <div className="p-6 border-b border-gray-200 flex items-center flex-col">
         <h2 className="text-xl font-semibold text-gray-900 flex items-center gap-2">
           <div className="w-8 h-8 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-lg flex items-center justify-center">
             <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">

@@ -13,7 +13,7 @@ const OrgMedicalCare = ({ data, onChange }) => {
     return (
         <>
             <div className="space-y-4">
-                <label className="block text-sm font-medium text-gray-700">Medical Care and Adoption</label>
+                <label className="block text-sm font-medium text-red-600">Medical Care and Adoption</label>
 
                 <div className="space-y-2">
                     <label htmlFor="medicalCare" className="block text-xs text-gray-600">
@@ -55,6 +55,7 @@ const OrgMedicalCare = ({ data, onChange }) => {
                                 id="someexceptions"
                                 name="someexceptions"
                                 value="No ,there are some exceptions"
+                                
                                 checked={spayedNeutered === 2}
                                 onChange={(e) => {setSpayedNeutered(2);
                                     update(1, e.target.value)

@@ -9,12 +9,13 @@ const MissionStatement = ({ data, onChange }) => {
 
     return (
         <div className="space-y-2">
-            <label htmlFor="missionStatement" className="block text-sm font-medium text-gray-700">
+            <label htmlFor="missionStatement" className="block text-sm font-medium text-red-600">
                 Mission Statement
             </label>
             <textarea
                 id="missionStatement"
                 rows={4}
+                required
                 placeholder="Describe your organization's mission..."
                 value={data || ""}
                 onChange={(e) => update(e.target.value)}
