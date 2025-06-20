@@ -21,10 +21,18 @@ const OrgAddress = ({ data, onChange }) => {
       </div>
 
       <div className="p-6 space-y-6">
-        <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
-          <p className="text-sm text-blue-800">
+        <div className="bg-blue-50 p-4 rounded-lg border border-blue-200 flex gap-2">
+          <input
+            type="checkbox"
+            id="willBePublic"
+              value={data[7] || ""}
+              required
+              onChange={e => handleAddressChange(7, e.target.value)}
+            className="w-4 h-4 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500"
+          />
+          <label htmlFor="willBePublic" className="text-sm text-blue-800 flex gap-2">
             <strong>Public:</strong> Will be shown on map in the address | Check box to have map go to city center
-          </p>
+          </label>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">

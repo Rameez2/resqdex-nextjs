@@ -34,7 +34,7 @@ const initialState = {
     "", // hide info from public
   ],
   hours: [
-    "Closed", // sun
+    "9:00 AM - 6:00 PM", // sun
     "9:00 AM - 6:00 PM", // mon
     "9:00 AM - 6:00 PM", // tue
     "9:00 AM - 6:00 PM", // wed
@@ -49,7 +49,8 @@ const initialState = {
     "", // Country
     "", // Phone
     "", // Phone Ext
-    "" // Fax
+    "", // Fax
+    "" // isPublic 
   ],
   mailing_address: [
     "", // Address

@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Users } from "lucide-react";
 
 export default function OrgBasicInfo({ data, onChange }) {
   const [hideFromPublic, setHideFromPublic] = useState(false);
-  const [confirmEmail,setConfirmEmail] = useState('');
+  const [confirmEmail, setConfirmEmail] = useState('');
+const [inputValue, setInputValue] = useState(`${data[1]} ${data[2]}`.trim());
 
   const update = (index, value) => {
     const updated = [...data];
@@ -11,30 +12,20 @@ export default function OrgBasicInfo({ data, onChange }) {
     onChange(updated); // give updated data to onChange
   };
 
+
   return (
     <div className="bg-white rounded-lg shadow-sm border border-gray-200">
       <div className="p-6 border-b border-gray-200 flex items-center flex-col">
-  <h2 className="text-xl font-semibold text-gray-900 flex items-center gap-2">
-    <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-lg flex items-center justify-center">
-      <Users className="w-5 h-5 text-white" />
-    </div>
-    Basic Information
-  </h2>
+        <h2 className="text-xl font-semibold text-gray-900 flex items-center gap-2">
+          <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-lg flex items-center justify-center">
+            <Users className="w-5 h-5 text-white" />
+          </div>
+          Basic Information
+        </h2>
         <p className="text-gray-600 mt-1">Tell us about your organization</p>
       </div>
       <div className="p-6 space-y-6">
-        <div className="flex items-center space-x-2 mb-4">
-          <input
-            type="checkbox"
-            id="hideFromPublic"
-            checked={hideFromPublic}
-            onChange={(e) => {setHideFromPublic(e.target.checked);update(6,hideFromPublic ? "no" : "yes")}}
-            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
-          />
-          <label htmlFor="hideFromPublic" className="text-sm text-gray-700">
-            Hide name from public
-          </label>
-        </div>
+
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="space-y-2">
@@ -76,18 +67,34 @@ export default function OrgBasicInfo({ data, onChange }) {
             <label htmlFor="directorName" className="block text-sm font-medium text-gray-700">
               Director/Manager Name
             </label>
-            <input
-              type="text"
-              id="directorName"
-              value={`${data[1]} ${data[2]}`}
-              onChange={(e) => {
-                const [first, ...last] = e.target.value.split(" ");
-                update(1, first || "");
-                update(2, last.join(" ") || "");
-              }}
-              placeholder="Full name"
-              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-            />
+<input
+  type="text"
+  id="directorName"
+  value={inputValue}
+  placeholder="Enter Director/Manager name"
+  onChange={(e) => {
+    const newValue = e.target.value;
+    setInputValue(newValue);
+
+    const [first, ...last] = newValue.split(" ");
+    update(1, first || "");
+    update(2, last.join(" ") || "");
+  }}
+  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+/>
+
+            <div className="flex items-center space-x-2 mb-4">
+              <input
+                type="checkbox"
+                id="hideFromPublic"
+                checked={hideFromPublic}
+                onChange={(e) => { setHideFromPublic(e.target.checked); update(6, hideFromPublic ? "no" : "yes") }}
+                className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
+              />
+              <label htmlFor="hideFromPublic" className="text-sm text-gray-700">
+                Hide name from public
+              </label>
+            </div>
           </div>
           <div className="space-y-2">
             <label htmlFor="title" className="block text-sm font-medium text-gray-700">
@@ -135,8 +142,8 @@ export default function OrgBasicInfo({ data, onChange }) {
           </div>
         </div>
         {(data[4] !== confirmEmail) && <p className="block text-sm font-medium text-red-600 text-center">
-  Email and Confirm Email do not match.
-</p> }
+          Email and Confirm Email do not match.
+        </p>}
 
 
       </div>
