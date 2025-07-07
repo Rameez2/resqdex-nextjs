@@ -1,23 +1,23 @@
 'use client'
 
 import { account } from '@/lib/appwrite/appwrite';
-import { useSearchParams } from 'next/navigation'
-import { useState } from 'react'
-
+import { useState, useEffect } from 'react';
 
 const ResetPassword = () => {
-  const searchParams = useSearchParams();
-  const userId = searchParams.get('userId');
-  const secret = searchParams.get('secret');
-
+  const [userId, setUserId] = useState(null);
+  const [secret, setSecret] = useState(null);
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [status, setStatus] = useState('');
   const [loading, setLoading] = useState(false);
 
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    setUserId(params.get('userId'));
+    setSecret(params.get('secret'));
+  }, []);
+
   async function handleResetPassword() {
-    // console.log(userId,secret);
-    
     if (!newPassword || !confirmPassword) {
       setStatus('Please fill in both password fields.');
       return;
@@ -25,6 +25,11 @@ const ResetPassword = () => {
 
     if (newPassword !== confirmPassword) {
       setStatus('Passwords do not match.');
+      return;
+    }
+
+    if (!userId || !secret) {
+      setStatus('Missing reset credentials.');
       return;
     }
 
@@ -69,7 +74,9 @@ const ResetPassword = () => {
         </button>
 
         {status && (
-          <p className="mt-4 text-center text-sm text-red-600">{status}</p>
+          <p className={`mt-4 text-center text-sm ${status.startsWith('✅') ? 'text-green-600' : 'text-red-600'}`}>
+            {status}
+          </p>
         )}
       </div>
     </div>

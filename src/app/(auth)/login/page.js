@@ -85,9 +85,6 @@ function LoginUpForm() {
             </div>
           </div>
 
-          {/* <ForgetPassword/> */}
-
-
           <div className="text-right">
             <button
               type="button"
