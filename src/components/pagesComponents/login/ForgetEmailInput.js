@@ -15,7 +15,7 @@ const ForgetEmailInput = ({ onClose }) => {
     try {
       setLoading(true)
       setMessage("")
-      await account.createRecovery(email, process.evn.NEXT_PUBLIC_PASSWORD_RESET_URL)
+      await account.createRecovery(email, process.env.NEXT_PUBLIC_PASSWORD_RESET_URL)
     //   await account.createRecovery(email, "http://localhost:3000/reset-password")
       setMessage("✅ Recovery email sent!")
     } catch (err) {
