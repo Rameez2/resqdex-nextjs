@@ -10,12 +10,14 @@ import { logOutUser } from "@/lib/appwrite/auth"
 import { useUser } from "@/context/userContext"
 import Actions from "@/components/pagesComponents/profile/actions/Actions";
 import { useRouter } from "next/navigation";
+import DelAccModel from "@/components/pagesComponents/profile/deleteAccount/DelAccModel"
 
 
 function SidebarNavigation() {
   const router = useRouter();
 
   const [activeTab,setActiveTab] = useState('general');
+  const [isOpen,setIsOpen] = useState(false);
 
   const {setUser} = useUser();
 
@@ -31,6 +33,9 @@ function SidebarNavigation() {
 
   return (
     <div className="flex h-[90vh]">
+
+    {isOpen && <DelAccModel setIsOpen={setIsOpen}/>}
+    
       {/* Sidebar */}
       <div className="w-60 border-r border-primary bg-white flex flex-col">
         {/* Logo */}
@@ -75,7 +80,7 @@ function SidebarNavigation() {
         <div className="px-6 mb-4">
           <Link href="#" className="flex items-center text-[#f93737] hover:underline">
             <Trash2 className="w-5 h-5 mr-3" />
-            <span>Delete Account</span>
+            <span onClick={() => setIsOpen(true)}>Delete Account</span>
           </Link>
         </div>
 

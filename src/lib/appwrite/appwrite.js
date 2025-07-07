@@ -10,4 +10,4 @@ const account = new Account(client);
 const databases = new Databases(client);
 const storage = new Storage(client);
 
-export { account, databases, storage, client };
+export { account, databases,storage, client };
