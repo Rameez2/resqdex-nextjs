@@ -110,24 +110,42 @@ export default function AdoptionPipeline() {
   })
 
   const [dragOver, setDragOver] = useState(null)
+  const [draggedFrom, setDraggedFrom] = useState(null)
+  const [isDragging, setIsDragging] = useState(false)
+  const [showToast, setShowToast] = useState(false)
+
+  // Define stage order and valid transitions
+  const stageOrder = ["intake", "evaluation", "ready", "applications", "meetgreet"]
+
+  function getStageIndex(stage) {
+    return stageOrder.indexOf(stage)
+  }
+
+  function isValidMove(fromStage, toStage) {
+    const fromIndex = getStageIndex(fromStage)
+    const toIndex = getStageIndex(toStage)
+
+    // Can only move to the next stage (forward by 1)
+    return toIndex === fromIndex + 1
+  }
+
+  function showInvalidMoveToast() {
+    setShowToast(true)
+    setTimeout(() => setShowToast(false), 4000)
+  }
 
   function createDragImage(element) {
-    // Create a canvas to draw the drag image
     const canvas = document.createElement("canvas")
     const ctx = canvas.getContext("2d")
 
-    // Set canvas size to match the element
-    const rect = element.getBoundingClientRect()
-    canvas.width = rect.width
-    canvas.height = rect.height
+    canvas.width = 200
+    canvas.height = 60
 
-    // Create a simple drag preview
     ctx.fillStyle = "#ffffff"
     ctx.fillRect(0, 0, canvas.width, canvas.height)
     ctx.strokeStyle = "#e5e7eb"
     ctx.strokeRect(0, 0, canvas.width, canvas.height)
 
-    // Add some text
     ctx.fillStyle = "#374151"
     ctx.font = "14px system-ui"
     ctx.fillText("Moving...", 10, 30)
@@ -136,23 +154,22 @@ export default function AdoptionPipeline() {
   }
 
   function handleDragStart(e, animal, fromStage) {
-    // Create custom drag image
+    setDraggedFrom(fromStage)
+    setIsDragging(true)
+
     const dragImage = createDragImage(e.currentTarget)
-
-    // Set the custom drag image
     e.dataTransfer.setDragImage(dragImage, dragImage.width / 2, dragImage.height / 2)
-
-    // Set drag data
     e.dataTransfer.setData("text", JSON.stringify({ animal, fromStage }))
     e.dataTransfer.effectAllowed = "move"
 
-    // Add dragging class to original element
     e.currentTarget.style.opacity = "0.5"
   }
 
   function handleDragEnd(e) {
-    // Reset original element opacity
     e.currentTarget.style.opacity = "1"
+    setDraggedFrom(null)
+    setIsDragging(false)
+    setDragOver(null) // Clear any drag over states
   }
 
   function handleDragOver(e) {
@@ -160,7 +177,10 @@ export default function AdoptionPipeline() {
   }
 
   function handleDragEnter(e, stage) {
-    setDragOver(stage)
+    // Only highlight if it's a valid move
+    if (draggedFrom && isValidMove(draggedFrom, stage)) {
+      setDragOver(stage)
+    }
   }
 
   function handleDragLeave() {
@@ -173,6 +193,14 @@ export default function AdoptionPipeline() {
 
     const data = JSON.parse(e.dataTransfer.getData("text"))
     const { animal, fromStage } = data
+
+    // Check if move is valid
+    if (!isValidMove(fromStage, toStage)) {
+      showInvalidMoveToast()
+      return // Invalid move, show toast and do nothing
+    }
+
+
 
     if (fromStage === toStage) return
 
@@ -220,8 +248,70 @@ export default function AdoptionPipeline() {
     )
   }
 
+  function DropZone({ stage, title, emoji, count, borderColor, bgColor, children }) {
+    const isValidTarget = draggedFrom && isValidMove(draggedFrom, stage)
+    const isDropTarget = dragOver === stage && isValidTarget
+
+    return (
+      <div
+        className={`bg-gray-50 rounded-xl p-4 border-l-4 ${borderColor} min-h-96 transition-all ${
+          isDropTarget ? "bg-blue-50 ring-2 ring-blue-300" : ""
+        }`}
+        onDragOver={handleDragOver}
+        onDragEnter={(e) => handleDragEnter(e, stage)}
+        onDragLeave={handleDragLeave}
+        onDrop={(e) => handleDrop(e, stage)}
+      >
+        <div className="flex items-center space-x-2 mb-4">
+          <span className="text-sm font-medium text-gray-700">
+            {emoji} {title}
+          </span>
+          <span className={`${bgColor} text-xs font-medium px-2 py-1 rounded-full`}>{count}</span>
+        </div>
+        <div className="space-y-3">{children}</div>
+        <div
+          className={`mt-4 p-4 border-2 border-dashed rounded-lg text-center transition-colors ${
+            isDropTarget ? "border-blue-400 bg-blue-100" : "border-gray-300"
+          }`}
+        >
+          <p className="text-sm text-gray-500">{isDropTarget ? "Drop here!" : "Drop animals here"}</p>
+        </div>
+      </div>
+    )
+  }
+
+  function Toast() {
+    if (!showToast) return null
+
+    return (
+      <div className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50">
+        <div className="bg-red-500 text-white px-6 py-3 rounded-lg shadow-lg flex items-center space-x-3">
+          <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+            <path
+              fillRule="evenodd"
+              d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+              clipRule="evenodd"
+            />
+          </svg>
+          <span className="font-medium">Cannot move backward, cards must move forward in order</span>
+          <button onClick={() => setShowToast(false)} className="ml-2 text-white hover:text-gray-200">
+            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+              <path
+                fillRule="evenodd"
+                d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                clipRule="evenodd"
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className="min-h-screen bg-gray-50 p-6">
+      <Toast />
+
       {/* Header */}
       <div className="flex items-center justify-between mb-8">
         <div className="flex items-center space-x-4">
@@ -286,141 +376,74 @@ export default function AdoptionPipeline() {
             </div>
             <h2 className="text-xl font-bold text-gray-900">Interactive Adoption Pipeline</h2>
           </div>
-          <p className="text-sm text-gray-500">Drag animals between stages • Real-time updates</p>
+          <p className="text-sm text-gray-500">Drag animals to next stage only • Sequential workflow</p>
         </div>
 
         <div className="grid grid-cols-5 gap-4">
-          {/* Intake */}
-          <div
-            className={`bg-gray-50 rounded-xl p-4 border-l-4 border-blue-400 min-h-96 ${dragOver === "intake" ? "bg-blue-50 ring-2 ring-blue-300" : ""}`}
-            onDragOver={handleDragOver}
-            onDragEnter={(e) => handleDragEnter(e, "intake")}
-            onDragLeave={handleDragLeave}
-            onDrop={(e) => handleDrop(e, "intake")}
+          <DropZone
+            stage="intake"
+            title="Intake"
+            emoji="🏠"
+            count={stages.intake.length}
+            borderColor="border-blue-400"
+            bgColor="bg-blue-100 text-blue-800"
           >
-            <div className="flex items-center space-x-2 mb-4">
-              <span className="text-sm font-medium text-gray-700">🏠 Intake</span>
-              <span className="bg-blue-100 text-blue-800 text-xs font-medium px-2 py-1 rounded-full">
-                {stages.intake.length}
-              </span>
-            </div>
-            <div className="space-y-3">
-              {stages.intake.map((animal) => (
-                <AnimalCard key={animal.id} animal={animal} stage="intake" />
-              ))}
-            </div>
-            <div
-              className={`mt-4 p-4 border-2 border-dashed rounded-lg text-center ${dragOver === "intake" ? "border-blue-400 bg-blue-100" : "border-gray-300"}`}
-            >
-              <p className="text-sm text-gray-500">{dragOver === "intake" ? "Drop here!" : "Drop animals here"}</p>
-            </div>
-          </div>
+            {stages.intake.map((animal) => (
+              <AnimalCard key={animal.id} animal={animal} stage="intake" />
+            ))}
+          </DropZone>
 
-          {/* Evaluation */}
-          <div
-            className={`bg-gray-50 rounded-xl p-4 border-l-4 border-orange-400 min-h-96 ${dragOver === "evaluation" ? "bg-blue-50 ring-2 ring-blue-300" : ""}`}
-            onDragOver={handleDragOver}
-            onDragEnter={(e) => handleDragEnter(e, "evaluation")}
-            onDragLeave={handleDragLeave}
-            onDrop={(e) => handleDrop(e, "evaluation")}
+          <DropZone
+            stage="evaluation"
+            title="Evaluation"
+            emoji="🏥"
+            count={stages.evaluation.length}
+            borderColor="border-orange-400"
+            bgColor="bg-orange-100 text-orange-800"
           >
-            <div className="flex items-center space-x-2 mb-4">
-              <span className="text-sm font-medium text-gray-700">🏥 Evaluation</span>
-              <span className="bg-orange-100 text-orange-800 text-xs font-medium px-2 py-1 rounded-full">
-                {stages.evaluation.length}
-              </span>
-            </div>
-            <div className="space-y-3">
-              {stages.evaluation.map((animal) => (
-                <AnimalCard key={animal.id} animal={animal} stage="evaluation" />
-              ))}
-            </div>
-            <div
-              className={`mt-4 p-4 border-2 border-dashed rounded-lg text-center ${dragOver === "evaluation" ? "border-blue-400 bg-blue-100" : "border-gray-300"}`}
-            >
-              <p className="text-sm text-gray-500">{dragOver === "evaluation" ? "Drop here!" : "Drop animals here"}</p>
-            </div>
-          </div>
+            {stages.evaluation.map((animal) => (
+              <AnimalCard key={animal.id} animal={animal} stage="evaluation" />
+            ))}
+          </DropZone>
 
-          {/* Ready */}
-          <div
-            className={`bg-gray-50 rounded-xl p-4 border-l-4 border-green-400 min-h-96 ${dragOver === "ready" ? "bg-blue-50 ring-2 ring-blue-300" : ""}`}
-            onDragOver={handleDragOver}
-            onDragEnter={(e) => handleDragEnter(e, "ready")}
-            onDragLeave={handleDragLeave}
-            onDrop={(e) => handleDrop(e, "ready")}
+          <DropZone
+            stage="ready"
+            title="Ready"
+            emoji="✅"
+            count={stages.ready.length}
+            borderColor="border-green-400"
+            bgColor="bg-green-100 text-green-800"
           >
-            <div className="flex items-center space-x-2 mb-4">
-              <span className="text-sm font-medium text-gray-700">✅ Ready</span>
-              <span className="bg-green-100 text-green-800 text-xs font-medium px-2 py-1 rounded-full">
-                {stages.ready.length}
-              </span>
-            </div>
-            <div className="space-y-3">
-              {stages.ready.map((animal) => (
-                <AnimalCard key={animal.id} animal={animal} stage="ready" />
-              ))}
-            </div>
-            <div
-              className={`mt-4 p-4 border-2 border-dashed rounded-lg text-center ${dragOver === "ready" ? "border-blue-400 bg-blue-100" : "border-gray-300"}`}
-            >
-              <p className="text-sm text-gray-500">{dragOver === "ready" ? "Drop here!" : "Drop animals here"}</p>
-            </div>
-          </div>
+            {stages.ready.map((animal) => (
+              <AnimalCard key={animal.id} animal={animal} stage="ready" />
+            ))}
+          </DropZone>
 
-          {/* Applications */}
-          <div
-            className={`bg-gray-50 rounded-xl p-4 border-l-4 border-purple-400 min-h-96 ${dragOver === "applications" ? "bg-blue-50 ring-2 ring-blue-300" : ""}`}
-            onDragOver={handleDragOver}
-            onDragEnter={(e) => handleDragEnter(e, "applications")}
-            onDragLeave={handleDragLeave}
-            onDrop={(e) => handleDrop(e, "applications")}
+          <DropZone
+            stage="applications"
+            title="Applications"
+            emoji="📝"
+            count={stages.applications.length}
+            borderColor="border-purple-400"
+            bgColor="bg-purple-100 text-purple-800"
           >
-            <div className="flex items-center space-x-2 mb-4">
-              <span className="text-sm font-medium text-gray-700">📝 Applications</span>
-              <span className="bg-purple-100 text-purple-800 text-xs font-medium px-2 py-1 rounded-full">
-                {stages.applications.length}
-              </span>
-            </div>
-            <div className="space-y-3">
-              {stages.applications.map((animal) => (
-                <AnimalCard key={animal.id} animal={animal} stage="applications" />
-              ))}
-            </div>
-            <div
-              className={`mt-4 p-4 border-2 border-dashed rounded-lg text-center ${dragOver === "applications" ? "border-blue-400 bg-blue-100" : "border-gray-300"}`}
-            >
-              <p className="text-sm text-gray-500">
-                {dragOver === "applications" ? "Drop here!" : "Drop animals here"}
-              </p>
-            </div>
-          </div>
+            {stages.applications.map((animal) => (
+              <AnimalCard key={animal.id} animal={animal} stage="applications" />
+            ))}
+          </DropZone>
 
-          {/* Meet & Greet */}
-          <div
-            className={`bg-gray-50 rounded-xl p-4 border-l-4 border-yellow-400 min-h-96 ${dragOver === "meetgreet" ? "bg-blue-50 ring-2 ring-blue-300" : ""}`}
-            onDragOver={handleDragOver}
-            onDragEnter={(e) => handleDragEnter(e, "meetgreet")}
-            onDragLeave={handleDragLeave}
-            onDrop={(e) => handleDrop(e, "meetgreet")}
+          <DropZone
+            stage="meetgreet"
+            title="Meet & Greet"
+            emoji="🤝"
+            count={stages.meetgreet.length}
+            borderColor="border-yellow-400"
+            bgColor="bg-yellow-100 text-yellow-800"
           >
-            <div className="flex items-center space-x-2 mb-4">
-              <span className="text-sm font-medium text-gray-700">🤝 Meet & Greet</span>
-              <span className="bg-yellow-100 text-yellow-800 text-xs font-medium px-2 py-1 rounded-full">
-                {stages.meetgreet.length}
-              </span>
-            </div>
-            <div className="space-y-3">
-              {stages.meetgreet.map((animal) => (
-                <AnimalCard key={animal.id} animal={animal} stage="meetgreet" />
-              ))}
-            </div>
-            <div
-              className={`mt-4 p-4 border-2 border-dashed rounded-lg text-center ${dragOver === "meetgreet" ? "border-blue-400 bg-blue-100" : "border-gray-300"}`}
-            >
-              <p className="text-sm text-gray-500">{dragOver === "meetgreet" ? "Drop here!" : "Drop animals here"}</p>
-            </div>
-          </div>
+            {stages.meetgreet.map((animal) => (
+              <AnimalCard key={animal.id} animal={animal} stage="meetgreet" />
+            ))}
+          </DropZone>
         </div>
       </div>
     </div>
