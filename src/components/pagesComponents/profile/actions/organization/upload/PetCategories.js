@@ -6,7 +6,7 @@ const PetCategories = ({ handleChange, petInfo }) => {
     return (
         <>
             <div className="flex-1 min-w-[160px] max-w-sm">
-                <label className="block text-sm text-gray-700 mb-1">Specie:</label>
+                <label className="block text-sm text-gray-700 mb-1">Species:</label>
                 <select
                     name="specie"
                     value={petInfo.specie}

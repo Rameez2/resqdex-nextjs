@@ -40,6 +40,7 @@ useEffect(() => {
       setToast({ message: `Status change to ${newStatus}`, type: "success" });
 
       console.log('Status changed successfully!');
+      setSelectedMoreInfo(false)
     } catch (err) {
       console.error("Error updating status:", err);
       setToast({ message: error.message, type: "error" });

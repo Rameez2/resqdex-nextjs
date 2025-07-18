@@ -39,6 +39,7 @@ const OrganizationDetails = ({ user, setSelectedMoreInfo }) => {
       setStatusLoading(newStatus);
       await changeUserStatus(user.$id, newStatus);
       setToast({ message: `Status changed to ${newStatus}`, type: "success" });
+      setSelectedMoreInfo(false)
     } catch (err) {
       console.error("Error updating status:", err);
       setToast({ message: err.message || "Something went wrong", type: "error" });
