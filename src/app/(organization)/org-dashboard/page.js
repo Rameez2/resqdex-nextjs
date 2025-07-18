@@ -20,7 +20,9 @@ import {
   Activity,
 } from "lucide-react"
 import Dashboard from "@/components/pagesComponents/organization/Dashboard"
-import AdoptionPipeline from "@/components/pagesComponents/organization/Animals/AdoptionPipeline"
+import AdoptionPipeline from "@/components/pagesComponents/organization/Animals/adoptionPipeline/AdoptionPipeline"
+import AnimalsDashboard from "@/components/pagesComponents/organization/Animals/AnimalsDashboard"
+import ApplicationRecieved from "@/components/pagesComponents/organization/applications/ApplicationRecieved"
 // right side end
 
 
@@ -151,11 +153,13 @@ export default function Sidebar() {
               <div key={index} className="space-y-1">
 
                 <button
-                  onClick={() => toggleDropdown(section.title)}
+                  // onClick={() => toggleDropdown(section.title)}
                   className={`w-full flex items-center justify-between p-3 rounded-xl hover:bg-slate-700 transition-all duration-200 group ${openDropdowns[section.title] ? "bg-slate-700" : ""
                     }`}
                 >
-                  <div className="flex items-center space-x-3">
+                  <div className="flex items-center space-x-3"
+                  onClick={() => setActiveSidebarItem(section.title)}
+                  >
                     <span className="text-xl">{section.icon}</span>
                     {isOpen && (
                       <span className="font-medium text-slate-100 group-hover:text-white transition-colors"
@@ -166,6 +170,8 @@ export default function Sidebar() {
                   </div>
                   {isOpen && (
                     <svg
+                    // onClick={() => alert("djaksdnbasjk")}
+                    onClick={() => toggleDropdown(section.title)}
                       className={`w-4 h-4 transition-transform duration-200 flex-shrink-0 ${openDropdowns[section.title] ? "rotate-180" : ""
                         }`}
                       fill="none"
@@ -225,7 +231,9 @@ export default function Sidebar() {
 
       
       {activeSidebarItem === "Overview" && <Dashboard />}
+      {activeSidebarItem === "Animals" && <AnimalsDashboard/>}
       {activeSidebarItem === "Adoption Pipeline" && <AdoptionPipeline/>}
+      {activeSidebarItem === "New Applications" && <ApplicationRecieved/>}
       
 
 

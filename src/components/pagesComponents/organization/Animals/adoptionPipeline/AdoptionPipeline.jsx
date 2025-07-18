@@ -130,6 +130,7 @@ export default function AdoptionPipeline() {
   }
 
   function showInvalidMoveToast() {
+    if (showToast) return // Don't show if already showing
     setShowToast(true)
     setTimeout(() => setShowToast(false), 4000)
   }
@@ -162,11 +163,19 @@ export default function AdoptionPipeline() {
     e.dataTransfer.setData("text", JSON.stringify({ animal, fromStage }))
     e.dataTransfer.effectAllowed = "move"
 
-    e.currentTarget.style.opacity = "0.5"
+    // Find the parent card and set opacity
+    const card = e.currentTarget.closest(".animal-card")
+    if (card) {
+      card.style.opacity = "0.5"
+    }
   }
 
   function handleDragEnd(e) {
-    e.currentTarget.style.opacity = "1"
+    // Find the parent card and reset opacity
+    const card = e.currentTarget.closest(".animal-card")
+    if (card) {
+      card.style.opacity = "1"
+    }
     setDraggedFrom(null)
     setIsDragging(false)
     setDragOver(null) // Clear any drag over states
@@ -200,8 +209,6 @@ export default function AdoptionPipeline() {
       return // Invalid move, show toast and do nothing
     }
 
-
-
     if (fromStage === toStage) return
 
     setStages((prev) => ({
@@ -216,33 +223,42 @@ export default function AdoptionPipeline() {
       animal.status === "green" ? "bg-green-400" : animal.status === "orange" ? "bg-orange-400" : "bg-red-400"
 
     return (
-      <div
-        draggable
-        onDragStart={(e) => handleDragStart(e, animal, stage)}
-        onDragEnd={handleDragEnd}
-        className="bg-white rounded-lg p-4 shadow-sm border cursor-move hover:shadow-md transition-all relative"
-        style={{
-          userSelect: "none",
-          WebkitUserSelect: "none",
-          touchAction: "none",
-        }}
-      >
+      <div className="animal-card bg-white rounded-lg p-4 shadow-sm border hover:shadow-md transition-all relative">
         <div className={`absolute top-2 right-2 w-2 h-2 ${statusColor} rounded-full`}></div>
-        <div className="flex items-center space-x-3 mb-3">
+
+        {/* Drag Handle */}
+        <div
+          draggable
+          onDragStart={(e) => handleDragStart(e, animal, stage)}
+          onDragEnd={handleDragEnd}
+          className="absolute top-2 left-2 cursor-move text-gray-400 hover:text-gray-600 p-1 rounded hover:bg-gray-100 transition-colors"
+          style={{
+            userSelect: "none",
+            WebkitUserSelect: "none",
+            touchAction: "none",
+          }}
+          title="Drag to move"
+        >
+          ⋮⋮
+        </div>
+
+        <div className="flex items-center space-x-3 mb-3 ml-6">
           <div className={`w-10 h-10 ${animal.bgColor} rounded-lg flex items-center justify-center`}>
-            <span className="text-lg pointer-events-none">{animal.emoji}</span>
+            <span className="text-lg">{animal.emoji}</span>
           </div>
-          <div className="pointer-events-none">
+          <div>
             <h4 className="font-medium text-gray-900">{animal.name}</h4>
             <p className="text-xs text-gray-500">{animal.breed}</p>
           </div>
         </div>
-        <p className="text-xs text-gray-600 mb-3 pointer-events-none">
+        <p className="text-xs text-gray-600 mb-3 ml-6">
           {animal.age ? `Age: ${animal.age} • Arrived: ${animal.arrived}` : animal.info}
         </p>
-        <div className="flex items-center space-x-2 pointer-events-none">
-          <button className="text-xs text-gray-600 hover:text-gray-800">View</button>
-          <button className="bg-green-600 text-white text-xs px-3 py-1 rounded-md hover:bg-green-700">Move →</button>
+        <div className="flex items-center space-x-2 ml-6">
+          <button className="text-xs text-gray-600 hover:text-gray-800 cursor-pointer">View</button>
+          <button className="bg-green-600 text-white text-xs px-3 py-1 rounded-md hover:bg-green-700 cursor-pointer">
+            Move →
+          </button>
         </div>
       </div>
     )
@@ -284,7 +300,7 @@ export default function AdoptionPipeline() {
     if (!showToast) return null
 
     return (
-      <div className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50">
+      <div className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 animate-in slide-in-from-top duration-300">
         <div className="bg-red-500 text-white px-6 py-3 rounded-lg shadow-lg flex items-center space-x-3">
           <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
             <path
