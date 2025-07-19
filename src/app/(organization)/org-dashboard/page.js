@@ -23,6 +23,10 @@ import Dashboard from "@/components/pagesComponents/organization/Dashboard"
 import AdoptionPipeline from "@/components/pagesComponents/organization/Animals/adoptionPipeline/AdoptionPipeline"
 import AnimalsDashboard from "@/components/pagesComponents/organization/Animals/AnimalsDashboard"
 import ApplicationRecieved from "@/components/pagesComponents/organization/applications/ApplicationRecieved"
+import MedicalRecords from "@/components/pagesComponents/organization/Animals/MedicalRecords/MedicalRecords"
+import ApplicationProcessingPipeline from "@/components/pagesComponents/organization/Animals/ApplicationProcessingPipeline/ApplicationProcessingPipeline"
+import NewApplications from "@/components/pagesComponents/organization/applications/NewApplications/NewApplications"
+import ApplicationsInReview from "@/components/pagesComponents/organization/applications/inReview/ApplicationsInReview"
 // right side end
 
 
@@ -233,7 +237,11 @@ export default function Sidebar() {
       {activeSidebarItem === "Overview" && <Dashboard />}
       {activeSidebarItem === "Animals" && <AnimalsDashboard/>}
       {activeSidebarItem === "Adoption Pipeline" && <AdoptionPipeline/>}
-      {activeSidebarItem === "New Applications" && <ApplicationRecieved/>}
+      {activeSidebarItem === "Applications Received" && <ApplicationRecieved/>}
+      {activeSidebarItem === "Medical Records" && <MedicalRecords/>}
+      {activeSidebarItem === "New Applications" && <NewApplications/>}
+      {activeSidebarItem === "In Review" && <ApplicationsInReview/>}
+      
       
 
 

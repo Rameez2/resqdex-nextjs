@@ -107,6 +107,26 @@ export default function AdoptionPipeline() {
         bgColor: "bg-orange-200",
       },
     ],
+    finalization: [
+      {
+        id: "cooper",
+        name: "Cooper",
+        breed: "Border Collie",
+        info: "Paperwork completed • Pickup scheduled Friday",
+        status: "green",
+        emoji: "🐕",
+        bgColor: "bg-orange-200",
+      },
+      {
+        id: "princess",
+        name: "Princess",
+        breed: "Persian",
+        info: "Final paperwork in progress • Adopter contacted",
+        status: "orange",
+        emoji: "🐱",
+        bgColor: "bg-yellow-200",
+      },
+    ],
   })
 
   const [dragOver, setDragOver] = useState(null)
@@ -115,7 +135,7 @@ export default function AdoptionPipeline() {
   const [showToast, setShowToast] = useState(false)
 
   // Define stage order and valid transitions
-  const stageOrder = ["intake", "evaluation", "ready", "applications", "meetgreet"]
+  const stageOrder = ["intake", "evaluation", "ready", "applications", "meetgreet", "finalization"]
 
   function getStageIndex(stage) {
     return stageOrder.indexOf(stage)
@@ -257,7 +277,7 @@ export default function AdoptionPipeline() {
         <div className="flex items-center space-x-2 ml-6">
           <button className="text-xs text-gray-600 hover:text-gray-800 cursor-pointer">View</button>
           <button className="bg-green-600 text-white text-xs px-3 py-1 rounded-md hover:bg-green-700 cursor-pointer">
-            Move →
+            Complete
           </button>
         </div>
       </div>
@@ -395,7 +415,7 @@ export default function AdoptionPipeline() {
           <p className="text-sm text-gray-500">Drag animals to next stage only • Sequential workflow</p>
         </div>
 
-        <div className="grid grid-cols-5 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
           <DropZone
             stage="intake"
             title="Intake"
@@ -458,6 +478,18 @@ export default function AdoptionPipeline() {
           >
             {stages.meetgreet.map((animal) => (
               <AnimalCard key={animal.id} animal={animal} stage="meetgreet" />
+            ))}
+          </DropZone>
+          <DropZone
+            stage="finalization"
+            title="Finalization"
+            emoji="🏠"
+            count={stages.finalization.length}
+            borderColor="border-green-400"
+            bgColor="bg-green-100 text-green-800"
+          >
+            {stages.finalization.map((animal) => (
+              <AnimalCard key={animal.id} animal={animal} stage="finalization" />
             ))}
           </DropZone>
         </div>
