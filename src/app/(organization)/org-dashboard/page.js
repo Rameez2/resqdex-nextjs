@@ -27,6 +27,16 @@ import MedicalRecords from "@/components/pagesComponents/organization/Animals/Me
 import ApplicationProcessingPipeline from "@/components/pagesComponents/organization/Animals/ApplicationProcessingPipeline/ApplicationProcessingPipeline"
 import NewApplications from "@/components/pagesComponents/organization/applications/NewApplications/NewApplications"
 import ApplicationsInReview from "@/components/pagesComponents/organization/applications/inReview/ApplicationsInReview"
+import TransportLogistics from "@/components/pagesComponents/organization/transportAndLogistic/TransportLogistics"
+import FinancialPerformance from "@/components/pagesComponents/organization/AnalyticsAndReports/FinancialPerformance/FinancialPerformance"
+import AvailableDrivers from "@/components/pagesComponents/organization/transportAndLogistic/AvailableDrivers"
+import QuickAddPet from "@/components/pagesComponents/organization/Animals/quickAddPet/QuickAddPet"
+import SuccessMetrics from "@/components/pagesComponents/organization/AnalyticsAndReports/successMetrics/SuccessMetrics"
+import UserActivityLog from "@/components/pagesComponents/organization/AnalyticsAndReports/userActivityLog/UserActivityLog"
+import SupplyExchange from "@/components/pagesComponents/organization/Resources/SupplyExchange"
+import RequestTransport from "@/components/pagesComponents/organization/transportAndLogistic/RequestTransport"
+import ActiveTransport from "@/components/pagesComponents/organization/transportAndLogistic/ActiveTransport"
+import EmergencyRequest from "@/components/pagesComponents/organization/transportAndLogistic/EmergencyRequest"
 // right side end
 
 
@@ -235,13 +245,31 @@ export default function Sidebar() {
 
       
       {activeSidebarItem === "Overview" && <Dashboard />}
+      
       {activeSidebarItem === "Animals" && <AnimalsDashboard/>}
       {activeSidebarItem === "Adoption Pipeline" && <AdoptionPipeline/>}
-      {activeSidebarItem === "Applications Received" && <ApplicationRecieved/>}
       {activeSidebarItem === "Medical Records" && <MedicalRecords/>}
+      {activeSidebarItem === "Quick Add Pet" && <QuickAddPet/>}
+
+      {activeSidebarItem === "Applications Received" && <ApplicationRecieved/>}
       {activeSidebarItem === "New Applications" && <NewApplications/>}
       {activeSidebarItem === "In Review" && <ApplicationsInReview/>}
       
+      {/* Transport */}
+      {activeSidebarItem === "Transport & Logistics" && <TransportLogistics/>}
+      {activeSidebarItem === "Available Drivers" && <AvailableDrivers/>}
+      {activeSidebarItem === "Request Transport" && <RequestTransport/>}
+      {activeSidebarItem === "Active Transports" && <ActiveTransport/>}
+      {activeSidebarItem === "Emergency Requests" && <EmergencyRequest/>}
+      
+
+      {/* Reources */}
+      {activeSidebarItem === "Supply Exchange" && <SupplyExchange/>}
+        
+      {/* Analytical */}
+      {activeSidebarItem === "Success Metrics" && <SuccessMetrics/>}
+      {activeSidebarItem === "Financial Reports" && <FinancialPerformance/>}
+      {activeSidebarItem === "User Activity Logs" && <UserActivityLog/>}
       
 
 
