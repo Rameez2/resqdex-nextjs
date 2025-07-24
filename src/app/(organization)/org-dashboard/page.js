@@ -37,6 +37,25 @@ import SupplyExchange from "@/components/pagesComponents/organization/Resources/
 import RequestTransport from "@/components/pagesComponents/organization/transportAndLogistic/RequestTransport"
 import ActiveTransport from "@/components/pagesComponents/organization/transportAndLogistic/ActiveTransport"
 import EmergencyRequest from "@/components/pagesComponents/organization/transportAndLogistic/EmergencyRequest"
+import PartnerNetwork from "@/components/pagesComponents/organization/Resources/PartnerNetwork"
+import DataExports from "@/components/pagesComponents/organization/AnalyticsAndReports/dataExports/DataExports"
+import FosterNetwork from "@/components/pagesComponents/organization/Resources/FosterNetwork"
+import VolunteerDatabase from "@/components/pagesComponents/organization/Resources/VolunteerDatabase"
+import PerformanceDashboard from "@/components/pagesComponents/organization/AnalyticsAndReports/PerformanceDashboard/PerformanceDashboard"
+import InterviewScheduler from "@/components/pagesComponents/organization/applications/InterviewScheduler/InterviewScheduler"
+import CurrentListings from "@/components/pagesComponents/organization/Animals/CurrentListings"
+import APIKEYS from "@/components/pagesComponents/organization/Organization-Management/APIKEYS"
+import StaffManagement from "@/components/pagesComponents/organization/Organization-Management/StaffManagement"
+import BillingSubscription from "@/components/pagesComponents/organization/Organization-Management/BillingSubscription"
+import AccountSettings from "@/components/pagesComponents/organization/Organization-Management/AccountSettings"
+import UserPermissions from "@/components/pagesComponents/organization/Organization-Management/UserPermissions"
+import OrganizationManagement from "@/components/pagesComponents/organization/Organization-Management/OrganizationManagement"
+import BackupAndData from "@/components/pagesComponents/organization/SystemSettings/BackupAndData"
+import IntegrationSettings from "@/components/pagesComponents/organization/SystemSettings/IntegrationSettings"
+import NotificationSettings from "@/components/pagesComponents/organization/SystemSettings/NotificationSettings"
+import PublicPageEditor from "@/components/pagesComponents/organization/SystemSettings/PublicPageEditor"
+import OrganizationProfile from "@/components/pagesComponents/organization/SystemSettings/OrganizationProfile"
+import SystemSettings from "@/components/pagesComponents/organization/SystemSettings/SystemSettings"
 // right side end
 
 
@@ -130,9 +149,10 @@ export default function Sidebar() {
   return (
     <div className="flex bg-gray-50">
       {/* Sidebar */}
-      <div
-        className={`${isOpen ? "w-80" : "w-16"} sticky top-0 h-screen bg-gradient-to-b from-slate-900 to-slate-800 text-white shadow-2xl transition-all duration-300 ease-in-out flex-shrink-0`}
-      >
+<div
+  className={`${isOpen ? "w-80" : "w-16"} sticky top-0 h-screen overflow-y-auto bg-gradient-to-b from-slate-900 to-slate-800 text-white shadow-2xl transition-all duration-300 ease-in-out flex-shrink-0`}
+>
+
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b border-slate-700">
           {isOpen && (
@@ -247,14 +267,26 @@ export default function Sidebar() {
       {activeSidebarItem === "Overview" && <Dashboard />}
       
       {activeSidebarItem === "Animals" && <AnimalsDashboard/>}
+      {activeSidebarItem === "Current Listings" && <CurrentListings/>}
       {activeSidebarItem === "Adoption Pipeline" && <AdoptionPipeline/>}
       {activeSidebarItem === "Medical Records" && <MedicalRecords/>}
       {activeSidebarItem === "Quick Add Pet" && <QuickAddPet/>}
 
+      {/* Applications */}
       {activeSidebarItem === "Applications Received" && <ApplicationRecieved/>}
       {activeSidebarItem === "New Applications" && <NewApplications/>}
       {activeSidebarItem === "In Review" && <ApplicationsInReview/>}
+      {activeSidebarItem === "Interview Scheduler" && <InterviewScheduler/>}
       
+      {/* Organization Management */}
+
+      {activeSidebarItem === "Organization Management" && <OrganizationManagement/>}
+      {activeSidebarItem === "User Permissions" && <UserPermissions/>}
+      {activeSidebarItem === "Staff Management" && <StaffManagement/>}
+      {activeSidebarItem === "Account Settings" && <AccountSettings/>}
+      {activeSidebarItem === "Billing & Subscription" && <BillingSubscription/>}
+      {activeSidebarItem === "API Keys" && <APIKEYS/>}
+
       {/* Transport */}
       {activeSidebarItem === "Transport & Logistics" && <TransportLogistics/>}
       {activeSidebarItem === "Available Drivers" && <AvailableDrivers/>}
@@ -265,11 +297,26 @@ export default function Sidebar() {
 
       {/* Reources */}
       {activeSidebarItem === "Supply Exchange" && <SupplyExchange/>}
+      {activeSidebarItem === "Partner Network" && <PartnerNetwork/>}
+      {activeSidebarItem === "Foster Network" && <FosterNetwork/>}
+      {activeSidebarItem === "Volunteer Database" && <VolunteerDatabase/>}
+      
         
       {/* Analytical */}
       {activeSidebarItem === "Success Metrics" && <SuccessMetrics/>}
       {activeSidebarItem === "Financial Reports" && <FinancialPerformance/>}
       {activeSidebarItem === "User Activity Logs" && <UserActivityLog/>}
+      {activeSidebarItem === "Data Exports" && <DataExports/>}
+      {activeSidebarItem === "Performance Dashboard" && <PerformanceDashboard/>}
+      
+{/* create this design and name component as [Name] , also dont import elemets like Card etc just use jsx */}
+      {/* System Settings */}
+      {activeSidebarItem === "System Settings" && <SystemSettings/>}
+      {activeSidebarItem === "Organization Profile" && <OrganizationProfile/>}
+      {activeSidebarItem === "Public Page Editor" && <PublicPageEditor/>}
+      {activeSidebarItem === "Notification Settings" && <NotificationSettings/>}
+      {activeSidebarItem === "Integration Settings" && <IntegrationSettings/>}
+      {activeSidebarItem === "Backup & Data" && <BackupAndData/>}
       
 
 
