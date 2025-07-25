@@ -56,6 +56,9 @@ import NotificationSettings from "@/components/pagesComponents/organization/Syst
 import PublicPageEditor from "@/components/pagesComponents/organization/SystemSettings/PublicPageEditor"
 import OrganizationProfile from "@/components/pagesComponents/organization/SystemSettings/OrganizationProfile"
 import SystemSettings from "@/components/pagesComponents/organization/SystemSettings/SystemSettings"
+import Resources from "@/components/pagesComponents/organization/Resources/Resources"
+import AnalyticalReports from "@/components/pagesComponents/organization/AnalyticsAndReports/AnalyticalReports"
+import Applications from "@/components/pagesComponents/organization/applications/Applications"
 // right side end
 
 
@@ -264,7 +267,7 @@ export default function Sidebar() {
       {/* Main Content RIGHT SIDE PDF*/}
 
       
-      {activeSidebarItem === "Overview" && <Dashboard />}
+      {(activeSidebarItem === "Overview" || activeSidebarItem ===  "Dashboard") && <Dashboard />}
       
       {activeSidebarItem === "Animals" && <AnimalsDashboard/>}
       {activeSidebarItem === "Current Listings" && <CurrentListings/>}
@@ -273,6 +276,7 @@ export default function Sidebar() {
       {activeSidebarItem === "Quick Add Pet" && <QuickAddPet/>}
 
       {/* Applications */}
+      {activeSidebarItem === "Applications" && <Applications/>}
       {activeSidebarItem === "Applications Received" && <ApplicationRecieved/>}
       {activeSidebarItem === "New Applications" && <NewApplications/>}
       {activeSidebarItem === "In Review" && <ApplicationsInReview/>}
@@ -296,6 +300,7 @@ export default function Sidebar() {
       
 
       {/* Reources */}
+      {activeSidebarItem === "Resources" && <Resources/>}
       {activeSidebarItem === "Supply Exchange" && <SupplyExchange/>}
       {activeSidebarItem === "Partner Network" && <PartnerNetwork/>}
       {activeSidebarItem === "Foster Network" && <FosterNetwork/>}
@@ -303,6 +308,7 @@ export default function Sidebar() {
       
         
       {/* Analytical */}
+      {activeSidebarItem === "Analytics & Reports" && <AnalyticalReports/>}
       {activeSidebarItem === "Success Metrics" && <SuccessMetrics/>}
       {activeSidebarItem === "Financial Reports" && <FinancialPerformance/>}
       {activeSidebarItem === "User Activity Logs" && <UserActivityLog/>}
